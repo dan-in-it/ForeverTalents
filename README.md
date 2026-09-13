@@ -2,7 +2,7 @@
 
 A static directory of WoW Forever talent calculators, hosted on **[GitHub Pages](https://dan-in-it.github.io/ForeverTalents/)**.
 
-Three class calculators are available: Druid with all 19 Feral Combat talents from the supplied video, Paladin with all 52 talents across Holy, Protection, and Retribution, and Warrior with all 54 talents across Arms, Fury, and Protection. **Druid Balance and Restoration remain unavailable** because their tooltips were not captured. Hunter, Mage, Priest, Rogue, Shaman, and Warlock are marked **Coming soon**.
+Four class calculators are available: Druid with all 19 Feral Combat talents from the supplied video, Paladin with all 52 talents across Holy, Protection, and Retribution, Shaman with all 49 talents across Elemental (16), Enhancement (18), and Restoration (15), and Warrior with all 54 talents across Arms, Fury, and Protection. **Druid Balance and Restoration remain unavailable** because their tooltips were not captured. Hunter, Mage, Priest, Rogue, and Warlock are marked **Coming soon**.
 
 ## Run locally
 
@@ -12,11 +12,13 @@ No installation or build step is needed. From the repository directory:
 python -m http.server 4174
 ```
 
-Open `http://localhost:4174/`. The homepage also works by opening `index.html` directly. All three calculators are self-contained and can be downloaded for offline use.
+Open `http://localhost:4174/`. The homepage also works by opening `index.html` directly. All four calculators are self-contained and can be downloaded for offline use.
 
 The Druid calculator starts with the video's level-38, 29-point Feral build on the first visit. It supports allocation, refunds, prerequisite arrows, undo, reset, local saving, and class-specific `WFD1` build codes. **Load video build** restores the recorded allocation. Tooltip effects are labeled by their recorded rank and timestamp; missing rank values are not extrapolated. Mangle preserves the Bear-form cost and damage displayed for the recorded character.
 
 Run the Druid allocation and reference checks with `node --test tests/druid.test.cjs`. No dependencies are required.
+
+Run the Shaman allocation and build-code checks with `node --test tests/shaman.test.cjs`.
 
 ## Publishing
 
@@ -36,6 +38,8 @@ Do not replace missing Forever data with talents from another version of WoW. Th
 ## Sources and credits
 
 - The Warrior calculator was imported from the supplied, completed `wow-forever-warrior.html`. Its embedded calculator notes explain the reference screenshot, rank-one descriptions, tier rules, and planning assumptions. Its allocation code is preserved.
+- The Shaman calculator transcribes the supplied Forever screenshot, including all 49 talent names, rank limits, positions, and rank-one descriptions. It reuses the Warrior allocation controls, with separate Shaman storage and `WFS1` build codes. Its embedded notes disclose the assumed level 10–60 point budget and five-point tier gates; individual prerequisite links and higher-rank effects are not established by the screenshot.
+- Shaman background artwork was created with the built-in OpenAI Image Gen tool; see [the saved prompt](assets/shaman-artwork.md).
 - The Paladin calculator was imported from the completed `wow-forever-paladin.html`, with an All classes navigation link added. Its notes preserve the source-rank descriptions (including rank-three Vindication), seven prerequisite links, and the assumption that Holy Shock unlocks Divine Precision. Its allocation code is preserved.
 - The Druid calculator is transcribed from `VID20260912121551.mp4` (35 seconds): Feral Combat tooltips at 0:00–0:21, tree overview at 0:03.5, and character level 38 at about 0:28. Its notes include an embedded reference still, recorded-rank handling, and planning assumptions. Four arrows are interpreted as full-rank prerequisites: Savage Fury → Mangle, Sharpened Claws → Primal Fury, Predatory Strikes → Rend and Tear, and Leader of the Pack → Berserk.
 - The Druid forest artwork was created with the built-in OpenAI Image Gen tool and is saved as `assets/druid-moonlit-forest.png`, with a copy embedded in the calculator. The generation prompt is preserved in [the artwork notes](assets/druid-artwork.md).
