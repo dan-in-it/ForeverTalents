@@ -34,7 +34,7 @@ test('directory links to all nine complete calculators',()=>{
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
   assert.equal(Object.keys(source).length,9);
   assert.equal(Object.values(source).flatMap(c=>c.trees.flatMap(t=>t.talents)).length,470);
-  assert.equal((html.match(/class="class-calculator"/g)||[]).length,9);
+  assert.equal((html.match(/class="class-calculator" href="talents\//g)||[]).length,9);
   for(const cls of Object.keys(source)) assert.ok(html.includes(`href="talents/${cls.toLowerCase()}.html"`));
   assert.ok(!/Coming soon|reference-note|Source &amp; credits/.test(html));
 });

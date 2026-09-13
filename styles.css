@@ -77,6 +77,20 @@ h1 { font: 500 clamp(2rem, 3.4vw, 2.875rem)/1.25 Cinzel, Georgia, serif; margin-
 .shaman { --class-color: #80a7df; }
 .warlock { --class-color: #b5a0da; }
 .warrior { --class-color: #c9ac8b; }
+.racial-directory { margin-top: 48px; padding-top: 30px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+.racial-directory .section-heading a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--gold); }
+.racial-directory .section-heading a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.race-alliance { --class-color: #9cbbdf; }
+.race-horde { --class-color: #e6a293; }
+.faction-directory { margin-top: 24px; }
+.faction-directory + .faction-directory { margin-top: 32px; }
+.faction-directory-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid color-mix(in srgb, var(--class-color) 35%, var(--line)); }
+.faction-directory-heading h3 { margin: 0; color: var(--class-color); font: 500 1.125rem/1.4 Cinzel, Georgia, serif; }
+.faction-directory-heading p { margin: 0; color: var(--muted); font-size: .75rem; }
+.race-card-title { align-self: center; }
+.racial-directory-card { grid-template-rows: minmax(48px, auto) 1fr 44px; }
+.race-card-title h4 { margin: 0; color: var(--class-color); font: 500 1.25rem/1.4 Cinzel, Georgia, serif; }
+.race-card-title > span { display: block; margin-top: 3px; font-size: .6875rem; color: var(--muted); }
 .site-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 40px; padding: 26px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; }
 .site-footer p { margin: 0; }
 .site-footer > p:last-child { text-align: right; }
@@ -96,12 +110,11 @@ h1 { font: 500 clamp(2rem, 3.4vw, 2.875rem)/1.25 Cinzel, Georgia, serif; margin-
 
 @media (max-width: 640px) {
   .page { width: calc(100% - 36px); }
-  .site-header { min-height: 88px; gap: 12px; }
+  .site-header { min-height: 88px; gap: 12px; flex-wrap: wrap; padding-block: 18px; }
   .brand { font-size: 1rem; gap: 10px; }
   .brand-mark { width: 28px; }
   .brand small { font-size: .5rem; letter-spacing: .14em; }
-  nav { gap: 14px; font-size: .8125rem; }
-  nav .current { display: none; }
+  nav { gap: 22px; font-size: .8125rem; width: 100%; }
   .intro { padding: 32px 0 26px; display: block; }
   .intro-copy { max-width: 320px; }
   .collection-status { margin-top: 20px; padding: 0; border: 0; display: flex; align-items: baseline; gap: 10px; }
@@ -116,14 +129,16 @@ h1 { font: 500 clamp(2rem, 3.4vw, 2.875rem)/1.25 Cinzel, Georgia, serif; margin-
   .class-card h3 { font-size: 1.125rem; }
   .class-card > p { font-size: .8125rem; }
   .soon { font-size: .75rem; padding: 5px 8px; }
+  .racial-directory { margin-top: 32px; padding-top: 24px; }
+  .faction-directory-heading { display: block; }
+  .faction-directory-heading p { margin-top: 5px; }
+  .race-card-title h4 { font-size: 1.125rem; }
   .site-footer { display: block; }
   .site-footer > p:last-child { text-align: left; margin-top: 14px; }
   .footer-divider { padding: 0 6px; }
 }
 
 @media (max-width: 359px) {
-  .site-header { flex-wrap: wrap; padding-block: 16px; }
-  .site-header nav { width: 100%; }
   .brand small { letter-spacing: .05em; }
   .class-calculator { font-size: .75rem; gap: 4px; }
 }

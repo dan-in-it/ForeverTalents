@@ -18,7 +18,7 @@ All nine classes are available: **470 talents across 27 trees**.
 
 ## Racial abilities
 
-The [racial abilities page](racials.html) lists 40 abilities across ten faction/race entries, including High Order and Windshaper Skyborne. Filter by class or faction, or follow the class-specific Racials link below any calculator. All entries remain readable without JavaScript. Race and ability icons are hosted locally; Skyborne uses illustrative spell icons.
+The homepage groups racial cards under Alliance and Horde, with links to each race. The [racial abilities page](racials.html) lists 40 abilities across ten faction/race entries, including High Order and Windshaper Skyborne. Filter by class or faction, or follow the class-specific Racials link below any calculator. All entries remain readable without JavaScript. Race and ability icons are hosted locally; Skyborne uses illustrative spell icons.
 
 ## Run locally
 
