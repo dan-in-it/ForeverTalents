@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#101111">
+  <meta name="description" content="Explore 40 WoW Forever racial abilities and playable classes, including High Order and Windshaper Skyborne and updated Gnome, Orc, and Tauren racials.">
+  <title>Racial abilities · Forever Talents</title>
+  <link rel="icon" href="assets/talent-tree.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="racials.css">
+  <script src="racials.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#racials">Skip to racial abilities</a>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Forever Talents home">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 9v10M9 29V19h22v10" stroke="currentColor" stroke-width="1.5"/><path d="m20 1 6 6-6 6-6-6Zm-11 24 6 6-6 6-6-6Zm22 0 6 6-6 6-6-6Z" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Forever <b>Talents</b><small>WORLD OF WARCRAFT · FOREVER</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="./#classes">Talent trees</a>
+        <a class="current" href="racials.html" aria-current="page">Racials</a>
+        <a href="https://github.com/dan-in-it/ForeverTalents">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="racials">
+      <section class="intro" aria-labelledby="page-title">
+        <div><p class="eyebrow">RACIAL ABILITIES</p><h1 id="page-title">Know your advantage.</h1><p class="intro-copy">Explore the racial abilities behind your next Forever build.</p></div>
+        <p class="collection-status"><strong>40</strong><span>racial abilities · 10 race entries</span></p>
+      </section>
+      <div class="racial-filters" hidden>
+        <label for="class-filter">Your class<select id="class-filter"><option value="all">All classes</option><option value="druid">Druid</option><option value="hunter">Hunter</option><option value="mage">Mage</option><option value="paladin">Paladin</option><option value="priest">Priest</option><option value="rogue">Rogue</option><option value="shaman">Shaman</option><option value="warlock">Warlock</option><option value="warrior">Warrior</option></select></label>
+        <label for="faction-filter">Faction<select id="faction-filter"><option value="all">Both factions</option><option value="alliance">Alliance</option><option value="horde">Horde</option></select></label>
+        <button id="clear-filters" type="button">Reset filters</button>
+        <p id="filter-summary" role="status" aria-live="polite" aria-atomic="true">10 races · 40 abilities</p>
+      </div>
+    <section class="faction-section alliance" data-faction="alliance" aria-labelledby="alliance-title">
+      <div class="section-heading"><h2 id="alliance-title">Alliance</h2><p class="faction-count">5 races · 20 abilities</p></div>
+      <div class="race-grid">
+      <article class="race-card" id="human" data-classes="warrior hunter mage rogue priest warlock paladin" data-ability-count="4" aria-labelledby="human-title">
+        <header class="race-heading"><img src="assets/racials/race_human_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="human-title">Human</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#human" aria-label="Link to Human (Alliance)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_charm.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Will to Survive</h4><span class="ability-type active">Active</span></div><p>Removes all Stun effects.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_sleep.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Perception</h4><span class="ability-type active">Active</span></div><p>Dramatically increases stealth detection for 20 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_meleedamage.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Sword Specialization</h4><span class="ability-type passive">Passive</span></div><p>Swords increase spell and ability critical chance by 2%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_enchant_shardbrilliantsmall.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>The Human Spirit</h4><span class="ability-type passive">Passive</span></div><p>Spirit increased by 5%.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Mage · Rogue · Priest · Warlock · Paladin</span></p>
+      </article>
+      <article class="race-card" id="dwarf" data-classes="warrior hunter rogue priest paladin shaman" data-ability-count="4" aria-labelledby="dwarf-title">
+        <header class="race-heading"><img src="assets/racials/race_dwarf_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="dwarf-title">Dwarf</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#dwarf" aria-label="Link to Dwarf (Alliance)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/racial_dwarf_findtreasure.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Find Treasure</h4><span class="ability-type active">Active</span></div><p>Allows the dwarf to sense nearby treasure, making it appear on the minimap.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_unholystrength.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Stoneform</h4><span class="ability-type active">Active</span></div><p>Removes all Poison and Disease effects and reduces Physical damage taken for 8 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_hammer_05.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Mace Specialization</h4><span class="ability-type passive">Passive</span></div><p>Maces increase spell and ability critical chance by 1%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_hunter_snipershot.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Big Game Hunter</h4><span class="ability-type passive">Passive</span></div><p>Damage to Beasts increased by 5%.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Rogue · Priest · Paladin · Shaman</span></p>
+      </article>
+      <article class="race-card" id="night-elf" data-classes="warrior hunter rogue priest druid" data-ability-count="4" aria-labelledby="night-elf-title">
+        <header class="race-heading"><img src="assets/racials/race_nightelf_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="night-elf-title">Night Elf</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#night-elf" aria-label="Link to Night Elf (Alliance)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/spell_arcane_starfire.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Elune&#x27;s Light</h4><span class="ability-type active">Active</span></div><p>Increases critical chance by 10% for 15 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_ambush.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Shadowmeld</h4><span class="ability-type active">Active</span></div><p>Activate to slip into the shadows, reducing the chance for enemies to detect your presence. Lasts until cancelled or upon moving. Any threat is restored versus enemies still in combat upon cancellation of this effect.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_racial_shadowmeld.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Quickness</h4><span class="ability-type passive">Passive</span></div><p>1% increased Dodge chance and 2% increased run speed.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_wispsplode.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Wisp Spirit</h4><span class="ability-type passive">Passive</span></div><p>Transform into a wisp upon death, increasing speed by 75% while dead.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Rogue · Priest · Druid</span></p>
+      </article>
+      <article class="race-card" id="gnome" data-classes="warrior mage rogue priest warlock" data-ability-count="4" aria-labelledby="gnome-title">
+        <header class="race-heading"><img src="assets/racials/race_gnome_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="gnome-title">Gnome</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#gnome" aria-label="Link to Gnome (Alliance)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/inv_misc_enggizmos_30.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Eureka!</h4><span class="ability-type active">Active</span></div><p>Your next 3 spells or abilities cost less and deal 10% more damage or healing.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_enchant_essenceeternallarge.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Expansive Mind</h4><span class="ability-type passive">Passive</span></div><p>Increases your maximum resource (Mana, Rage, or Energy).</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_misc_gear_01.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Engineering Specialization</h4><span class="ability-type passive">Passive</span></div><p>Engineering skill increased.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_rogue_trip.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Escape Artist</h4><span class="ability-type active">Active</span></div><p>Escape the effects of any immobilization or movement speed reduction effect.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Mage · Rogue · Priest · Warlock</span></p>
+      </article>
+      <article class="race-card" id="skyborne-alliance" data-classes="warrior hunter mage rogue druid" data-ability-count="4" aria-labelledby="skyborne-alliance-title">
+        <header class="race-heading"><img src="assets/racials/spell_magic_featherfall.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="skyborne-alliance-title">Skyborne (High Order)</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#skyborne-alliance" aria-label="Link to Skyborne (High Order) (Alliance)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/spell_magic_featherfall.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Walk on Air</h4><span class="ability-type active">Active</span></div><p>Glide through the air for 10 seconds while descending.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_wispsplode.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Read Ley Line</h4><span class="ability-type active">Active</span></div><p>Activate a ley line to increase Health and Mana regeneration by 100%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_cyclone.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Wind Blessed</h4><span class="ability-type passive">Passive</span></div><p>Melee, ranged, and spellcasting Haste increased by 1%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_elementalabsorption.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Elemental Insight</h4><span class="ability-type passive">Passive</span></div><p>Deal 5% more damage to Elementals.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Mage · Rogue · Druid</span></p>
+      </article>
+      </div>
+    </section>
+    <section class="faction-section horde" data-faction="horde" aria-labelledby="horde-title">
+      <div class="section-heading"><h2 id="horde-title">Horde</h2><p class="faction-count">5 races · 20 abilities</p></div>
+      <div class="race-grid">
+      <article class="race-card" id="orc" data-classes="warrior hunter mage rogue warlock shaman" data-ability-count="4" aria-labelledby="orc-title">
+        <header class="race-heading"><img src="assets/racials/race_orc_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="orc-title">Orc</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#orc" aria-label="Link to Orc (Horde)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/racial_orc_berserkerstrength.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Blood Fury</h4><span class="ability-type active">Active</span></div><p>Increases Attack Power and Spell Power by 10% for 15 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_antishadow.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Shatter Curse</h4><span class="ability-type active">Active</span></div><p>Immunity to Curses and Banes and reduce Magical damage taken for 8 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_axe_02.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Axe Specialization</h4><span class="ability-type passive">Passive</span></div><p>Axes increase spell and ability critical chance by 1%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_helmet_23.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Hardiness</h4><span class="ability-type passive">Passive</span></div><p>Stun durations decreased by 20%.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Mage · Rogue · Warlock · Shaman</span></p>
+      </article>
+      <article class="race-card" id="undead" data-classes="warrior mage rogue priest warlock paladin" data-ability-count="4" aria-labelledby="undead-title">
+        <header class="race-heading"><img src="assets/racials/race_scourge_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="undead-title">Undead</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#undead" aria-label="Link to Undead (Horde)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_raisedead.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Will of the Forsaken</h4><span class="ability-type active">Active</span></div><p>Removes Charm, Fear, and Sleep effects.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_racial_cannibalize.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Cannibalize</h4><span class="ability-type active">Active</span></div><p>When activated, regenerates 35% of total health and mana over 10 sec. Only works on Humanoid or Undead corpses within 5 yards. Any movement, action, or damage taken while Cannibalizing will cancel the effect.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_demonbreath.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Underwater Breathing</h4><span class="ability-type passive">Passive</span></div><p>Underwater breath lasts 300% longer.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_shadow_lifedrain.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Touch of the Grave</h4><span class="ability-type passive">Passive</span></div><p>Your attacks and harmful spells have a chance to drain life from the target, healing you.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Mage · Rogue · Priest · Warlock · Paladin</span></p>
+      </article>
+      <article class="race-card" id="tauren" data-classes="warrior hunter druid shaman" data-ability-count="4" aria-labelledby="tauren-title">
+        <header class="race-heading"><img src="assets/racials/race_tauren_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="tauren-title">Tauren</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#tauren" aria-label="Link to Tauren (Horde)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/ability_warstomp.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>War Stomp</h4><span class="ability-type active">Active</span></div><p>Stuns up to 5 enemies within 8 yards for 2 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/inv_misc_herb_07.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Cultivation</h4><span class="ability-type passive">Passive</span></div><p>Grow bonus herbs you can gather without Herbalism.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_warstomp.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Plainsrunning</h4><span class="ability-type passive">Passive</span></div><p>Gain increased movement speed the longer you remain moving.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_unyeildingstamina.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Endurance</h4><span class="ability-type passive">Passive</span></div><p>Total Health increased by 5% and Hit Chance increased by 1%.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Druid · Shaman</span></p>
+      </article>
+      <article class="race-card" id="troll" data-classes="warrior hunter mage rogue priest warlock shaman" data-ability-count="4" aria-labelledby="troll-title">
+        <header class="race-heading"><img src="assets/racials/race_troll_male.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="troll-title">Troll</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#troll" aria-label="Link to Troll (Horde)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/ability_racial_shadowmeld.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Walk on Air</h4><span class="ability-type active">Active</span></div><p>Glide downward through the air for 10 sec.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_eyeofthestorm.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Skysight</h4><span class="ability-type active">Active</span></div><p>Receive an Elemental Blessing increasing run speed by 10%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/ability_hunter_swiftstrike.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Wind Blessed</h4><span class="ability-type passive">Passive</span></div><p>1% increased melee, ranged, and spellcasting Haste.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_fire_elementaldevastation.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Elemental Insight</h4><span class="ability-type passive">Passive</span></div><p>Damage to Elementals increased by 5%.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Mage · Rogue · Priest · Warlock · Shaman</span></p>
+      </article>
+      <article class="race-card" id="skyborne-horde" data-classes="warrior hunter rogue druid shaman" data-ability-count="4" aria-labelledby="skyborne-horde-title">
+        <header class="race-heading"><img src="assets/racials/spell_magic_featherfall.jpg" alt="" width="48" height="48" loading="lazy"><div><h3 id="skyborne-horde-title">Skyborne (Windshaper)</h3><p>4 racial abilities</p></div><a class="race-anchor" href="#skyborne-horde" aria-label="Link to Skyborne (Windshaper) (Horde)">#</a></header>
+        <ul class="racial-abilities">
+          <li class="racial-ability">
+            <img src="assets/racials/spell_magic_featherfall.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Walk on Air</h4><span class="ability-type active">Active</span></div><p>Glide through the air for 10 seconds while descending.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_farsight.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Skysight</h4><span class="ability-type active">Active</span></div><p>Gain an Elemental Blessing that increases run speed by 10%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_cyclone.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Wind Blessed</h4><span class="ability-type passive">Passive</span></div><p>Melee, ranged, and spellcasting Haste increased by 1%.</p></div>
+          </li>
+          <li class="racial-ability">
+            <img src="assets/racials/spell_nature_elementalabsorption.jpg" alt="" width="40" height="40" loading="lazy">
+            <div><div class="ability-heading"><h4>Elemental Insight</h4><span class="ability-type passive">Passive</span></div><p>Deal 5% more damage to Elementals.</p></div>
+          </li>
+        </ul>
+        <p class="race-classes"><strong>Playable classes</strong><span>Warrior · Hunter · Rogue · Druid · Shaman</span></p>
+      </article>
+      </div>
+    </section>
+
+      <p class="racial-empty" id="racial-empty" hidden>No races match these filters. Try another class or faction.</p>
+    </main>
+    <footer class="site-footer">
+      <p><span class="footer-brand">Forever Talents</span><span class="footer-divider">/</span>Made for the WoW community.</p>
+      <p>Fan project · Warcraft artwork © Blizzard Entertainment.</p>
+    </footer>
+  </div>
+</body>
+</html>

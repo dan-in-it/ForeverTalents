@@ -1,0 +1,50 @@
+.racial-filters[hidden], .race-card[hidden], .faction-section[hidden], .racial-empty[hidden] { display: none; }
+.racial-filters { display: flex; align-items: end; gap: 20px; flex-wrap: wrap; padding: 20px; margin-bottom: 32px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
+.racial-filters label { display: grid; gap: 7px; color: var(--muted); font-size: .8125rem; }
+.racial-filters select, .racial-filters button { min-height: 44px; padding: 9px 12px; border: 1px solid #575044; border-radius: 3px; background: #101111; color: var(--text); font: inherit; }
+.racial-filters select { min-width: 170px; }
+.racial-filters button { cursor: pointer; color: var(--gold); font-size: .8125rem; }
+.racial-filters button:hover { border-color: var(--gold); }
+.racial-filters :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+#filter-summary { margin: 0 0 10px auto; color: var(--muted); font-size: .8125rem; }
+.faction-section { margin-top: 32px; }
+.alliance { --faction-color: #94baf3; }
+.horde { --faction-color: #e49b8c; }
+.faction-section > .section-heading h2 { color: var(--faction-color); }
+.race-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.race-card { border: 1px solid var(--line); border-top-color: var(--faction-color); border-radius: 4px; background: var(--panel); padding: 24px; scroll-margin-top: 24px; }
+.race-card:target { outline: 2px solid var(--gold); outline-offset: 3px; }
+.race-heading { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.race-heading > img { border: 1px solid #655b48; border-radius: 3px; }
+.race-heading h3 { font: 500 1.125rem/1.5 Cinzel, Georgia, serif; color: var(--faction-color); margin: 0; }
+.race-heading p { color: var(--muted); font-size: .75rem; margin: 3px 0 0; }
+.race-anchor { margin-left: auto; color: var(--muted); padding: 10px; }
+.race-anchor:hover { color: var(--gold); }
+.racial-abilities { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+.racial-ability { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; }
+.racial-ability > img { border: 1px solid #615a4d; border-radius: 3px; }
+.ability-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 10px; }
+.ability-heading h4 { color: var(--gold); font-size: .875rem; font-weight: 600; margin: 0; }
+.ability-type { color: var(--muted); font-size: .625rem; text-transform: uppercase; letter-spacing: .08em; }
+.ability-type.active { color: #bad8b0; }
+.racial-ability p { color: #c7c9c3; font-size: .8125rem; line-height: 1.65; margin: 4px 0 0; }
+.race-classes { margin: 22px 0 0; border-top: 1px solid var(--line); padding-top: 14px; font-size: .75rem; color: var(--muted); }
+.race-classes strong { display: block; color: #ceccc3; font-weight: 600; margin-bottom: 4px; }
+.racial-empty { padding: 32px 20px; color: var(--muted); text-align: center; border: 1px dashed var(--line); }
+@media (max-width: 760px) {
+  .race-grid { grid-template-columns: 1fr; }
+  .race-card { padding: 20px; }
+  .racial-filters { gap: 14px; padding: 16px; }
+  .racial-filters label { flex: 1 1 150px; }
+  .racial-filters select { width: 100%; min-width: 0; }
+  #filter-summary { margin: 0; flex: 1 1 100%; }
+}
+@media (max-width: 640px) {
+  .site-header { flex-wrap: wrap; padding-block: 16px; }
+  .site-header nav { width: 100%; }
+  .site-header nav .current { display: flex; }
+}
+@media (max-width: 380px) {
+  .race-heading { gap: 10px; }
+  .race-heading h3 { font-size: 1rem; }
+}
