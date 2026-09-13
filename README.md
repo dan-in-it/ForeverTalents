@@ -26,6 +26,12 @@ GitHub Pages serves the root of the `main` branch. The `.nojekyll` file disables
 
 All local asset and calculator links are relative so they work under the `/ForeverTalents/` project path.
 
+## Racial abilities
+
+The [racial reference](racials.html) includes all 32 abilities from [nikftw’s Forever calculator](https://nikftw.github.io/forevertalent/), with active/passive labels and playable classes. Filter by class and faction, or open the class-filtered reference from any available calculator. Both Skyborne faction entries are included with racials marked **TBD**, as in the source. All descriptions remain readable without JavaScript; filters require JavaScript. Icons are hosted locally.
+
+Data was captured September 12, 2026 from [`src/data/racials.json` at source revision `8d56de3`](https://github.com/nikftw/forevertalent/blob/8d56de397500960eabdbf2bf1a83299697cee278/src/data/racials.json), checked against the deployed site's data. Ability names, descriptions, active/passive flags, and race/class combinations are preserved, including the source's Troll entries. The source does not specify every numerical value or cooldown; missing values have not been inferred.
+
 ## Add another calculator
 
 1. Add the completed, self-contained HTML file to `talents/`, using a stable lowercase name such as `paladin.html`.
