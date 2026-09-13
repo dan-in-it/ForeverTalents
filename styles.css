@@ -81,6 +81,9 @@ h1 { font: 500 clamp(2rem, 3.4vw, 2.875rem)/1.25 Cinzel, Georgia, serif; margin-
 .hunter { --class-color: #afd18b; }
 .mage { --class-color: #8cc6d8; }
 .paladin { --class-color: #eaaac8; }
+.class-card.available { border-color: #756047; }
+.class-card.available:hover { border-color: var(--gold); background: #272124; }
+.class-card.available > .status { grid-column: 1 / -1; }
 .priest { --class-color: #dedbd0; }
 .rogue { --class-color: #e4d68a; }
 .shaman { --class-color: #80a7df; }

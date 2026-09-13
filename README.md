@@ -2,7 +2,7 @@
 
 A static directory of WoW Forever talent calculators, hosted on **[GitHub Pages](https://dan-in-it.github.io/ForeverTalents/)**.
 
-Warrior is available with all 54 talents across Arms, Fury, and Protection. Druid, Hunter, Mage, Paladin, Priest, Rogue, Shaman, and Warlock are marked **Coming soon**.
+Warrior is available with all 54 talents across Arms, Fury, and Protection. Paladin is available with all 52 talents across Holy, Protection, and Retribution. Druid, Hunter, Mage, Priest, Rogue, Shaman, and Warlock are marked **Coming soon**.
 
 ## Run locally
 
@@ -12,7 +12,7 @@ No installation or build step is needed. From the repository directory:
 python -m http.server 4174
 ```
 
-Open `http://localhost:4174/`. The homepage also works by opening `index.html` directly. The Warrior calculator is self-contained and can be downloaded for offline use.
+Open `http://localhost:4174/`. The homepage also works by opening `index.html` directly. Both calculators are self-contained and can be downloaded for offline use.
 
 ## Publishing
 
@@ -32,6 +32,7 @@ Do not replace missing Forever data with talents from another version of WoW. Th
 ## Sources and credits
 
 - The Warrior calculator was imported from the supplied, completed `wow-forever-warrior.html`. Its embedded calculator notes explain the reference screenshot, rank-one descriptions, tier rules, and planning assumptions. Its allocation code is preserved.
+- The Paladin calculator was imported from the completed `wow-forever-paladin.html`, with an All classes navigation link added. Its notes preserve the source-rank descriptions (including rank-three Vindication), seven prerequisite links, and the assumption that Holy Shock unlocks Divine Precision. Its allocation code is preserved.
 - The homepage's battlefield artwork reuses the Warrior calculator's OpenAI Image Gen background.
 - Warcraft class and ability icons are © Blizzard Entertainment, sourced from the [Wowhead icon CDN](https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg). Icons and the background are hosted locally.
 - Cinzel by Natanael Gama is distributed under the [SIL Open Font License](assets/cinzel-license.txt).
