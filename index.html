@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#101111">
-  <meta name="description" content="WoW Forever talent trees in one place. Plan Warrior and Paladin builds across all three specializations. More class calculators coming soon.">
+  <meta name="description" content="Browse all nine WoW Forever classes. Druid Feral Combat, Paladin, and Warrior calculators are available now, with more talent trees coming soon.">
   <title>Forever Talents · WoW Forever talent trees</title>
-  <link rel="icon" href="assets/classicon_warrior.jpg">
+  <link rel="icon" href="assets/talent-tree.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -31,34 +31,17 @@
           <h1 id="page-title">Choose your class.</h1>
           <p class="intro-copy">Explore the talent trees. Plan your next WoW Forever build.</p>
         </div>
-        <p class="collection-status"><strong>02 <span>/ 09</span></strong><span>class calculators available</span></p>
+        <p class="collection-status"><strong>03 <span>/ 09</span></strong><span>class calculators available</span></p>
       </section>
 
-      <section class="featured" aria-labelledby="warrior-title">
-        <div class="featured-art" aria-hidden="true"></div>
-        <div class="featured-content">
-          <div class="feature-topline"><span class="status live">Available now</span><span class="feature-meta">54 TALENTS · 3 TREES</span></div>
-          <div class="warrior-heading"><img src="assets/classicon_warrior.jpg" alt="" width="56" height="56"><div><p class="eyebrow">THE ART OF WAR</p><h2 id="warrior-title">Warrior</h2></div></div>
-          <p class="feature-description">Steel, fury, and an unbreakable will.<br>Build your path through Arms, Fury, and Protection.</p>
-          <ul class="spec-list" aria-label="Available Warrior talent trees">
-            <li><img src="assets/ability_warrior_savageblow.jpg" alt="" width="26" height="26">Arms</li>
-            <li><img src="assets/ability_warrior_innerrage.jpg" alt="" width="26" height="26">Fury</li>
-            <li><img src="assets/ability_warrior_defensivestance.jpg" alt="" width="26" height="26">Protection</li>
-          </ul>
-          <a class="open-calculator" href="talents/warrior.html">Open Warrior calculator <span aria-hidden="true">→</span></a>
-          <p class="feature-note">Spend points · Save builds · Share build codes</p>
-        </div>
-        <span class="art-caption" aria-hidden="true">WARRIOR / ARMS · FURY · PROTECTION</span>
-      </section>
-
-      <section class="upcoming" aria-labelledby="upcoming-title">
-        <div class="section-heading"><h2 id="upcoming-title">More classes</h2><p>More talent trees on the way.</p></div>
+      <section class="class-directory" aria-labelledby="directory-title">
+        <div class="section-heading"><h2 id="directory-title">All classes</h2><p>Available calculators are highlighted.</p></div>
         <div class="class-grid">
-          <article class="class-card druid" aria-labelledby="druid-title">
+          <article class="class-card druid available-class" aria-labelledby="druid-title">
             <img src="assets/classicon_druid.jpg" alt="" width="48" height="48">
             <h3 id="druid-title">Druid</h3>
-            <p>Balance · Feral Combat · Restoration</p>
-            <span class="status soon">Coming soon</span>
+            <p>Feral Combat · 19 talents<span class="coverage-note">Balance &amp; Restoration coming soon</span></p>
+            <div class="card-footer"><span class="status live">Available now</span><a class="class-calculator" href="talents/druid.html" aria-label="Open Druid calculator">Open calculator <span aria-hidden="true">→</span></a></div>
           </article>
           <article class="class-card hunter" aria-labelledby="hunter-title">
             <img src="assets/classicon_hunter.jpg" alt="" width="48" height="48">
@@ -72,12 +55,12 @@
             <p>Arcane · Fire · Frost</p>
             <span class="status soon">Coming soon</span>
           </article>
-          <a class="class-card paladin available" href="talents/paladin.html" aria-label="Open Paladin calculator">
+          <article class="class-card paladin available-class" aria-labelledby="paladin-title">
             <img src="assets/classicon_paladin.jpg" alt="" width="48" height="48">
             <h3 id="paladin-title">Paladin</h3>
             <p>Holy · Protection · Retribution</p>
-            <span class="status live">Available now</span>
-          </a>
+            <div class="card-footer"><span class="status live">Available now</span><a class="class-calculator" href="talents/paladin.html" aria-label="Open Paladin calculator">Open calculator <span aria-hidden="true">→</span></a></div>
+          </article>
           <article class="class-card priest" aria-labelledby="priest-title">
             <img src="assets/classicon_priest.jpg" alt="" width="48" height="48">
             <h3 id="priest-title">Priest</h3>
@@ -102,9 +85,15 @@
             <p>Affliction · Demonology · Destruction</p>
             <span class="status soon">Coming soon</span>
           </article>
+          <article class="class-card warrior available-class" aria-labelledby="warrior-title">
+            <img src="assets/classicon_warrior.jpg" alt="" width="48" height="48">
+            <h3 id="warrior-title">Warrior</h3>
+            <p>Arms · Fury · Protection</p>
+            <div class="card-footer"><span class="status live">Available now</span><a class="class-calculator" href="talents/warrior.html" aria-label="Open Warrior calculator">Open calculator <span aria-hidden="true">→</span></a></div>
+          </article>
         </div>
       </section>
-      <aside class="reference-note"><span class="note-mark" aria-hidden="true">i</span><p><strong>A growing community reference.</strong> Available calculators are based on supplied talent screenshots. See each calculator’s notes for source details and planning assumptions.</p></aside>
+      <aside class="reference-note"><span class="note-mark" aria-hidden="true">i</span><p><strong>A growing community reference.</strong> Available calculators are based on supplied talent screenshots and video. See each calculator’s notes for source details and planning assumptions.</p></aside>
     </main>
 
     <footer class="site-footer">
