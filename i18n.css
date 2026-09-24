@@ -1,0 +1,8 @@
+/* The language control follows the existing gold/dark palette. */
+[data-language-switch]{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px;padding:8px 0;color:inherit;font:12px/1.5 'Segoe UI',Arial,sans-serif}
+[data-language-switch] button{min-width:44px;min-height:36px;padding:5px 10px;border:1px solid #484237;border-radius:3px;background:#232322;color:#e7e2d8;font:inherit;cursor:pointer}
+[data-language-switch] button[aria-pressed=true]{color:#f1d7a0;border-color:#d6b779}
+[data-language-switch] button:focus-visible{outline:2px solid #f1d7a0;outline-offset:3px}
+[data-language-status]:empty{display:none}
+[data-language-status]{flex-basis:100%;text-align:right}
+@media(pointer:coarse){[data-language-switch] button{min-height:44px}}
