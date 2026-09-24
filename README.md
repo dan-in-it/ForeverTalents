@@ -20,6 +20,14 @@ All nine classes are available: **470 talents across 27 trees**.
 
 The homepage groups racial cards under Alliance and Horde, with links to each race. The [racial abilities page](racials.html) lists 40 abilities across ten faction/race entries, including High Order and Windshaper Skyborne. Filter by class or faction, or follow the class-specific Racials link below any calculator. All entries remain readable without JavaScript. Race and ability icons are hosted locally; Skyborne uses illustrative spell icons.
 
+## Languages / Языки
+
+English is the default. Use **EN / RU** or `?lang=ru` to switch languages; the preference is saved locally. Russian covers the interface, racial abilities, all talent names and every known rank effect. Missing translations fall back to English. Talent mechanics, saved builds and legacy build codes are unchanged.
+
+Русская версия доступна через **EN / RU** или `?lang=ru`. Переключение сохраняет текущий билд и историю отмены. Каждый калькулятор по-прежнему работает как отдельный HTML-файл без интернета.
+
+See [localization architecture and checks](docs/localization/README.md) and [Russian terminology and review notes](docs/localization/ru-glossary.md).
+
 ## Run locally
 
 No installation or build step is needed:

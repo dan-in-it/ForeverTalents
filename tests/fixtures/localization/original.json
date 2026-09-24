@@ -1,0 +1,38 @@
+{
+  "druid": {
+    "scriptSha256": "1db7d594bf3fa28f19385e7fba03d7887fbf480a0c22e540e122bdb4e7b550d0",
+    "layoutSha256": "3da988538e2894249ad2834cdc0ad6ad87bde649b5a9d976a2607af8459bc1f5"
+  },
+  "hunter": {
+    "scriptSha256": "d3a74ea5e1376bcfbe0ed079083fd8f5d3e5a8e2cfab586478ce98b934ea2469",
+    "layoutSha256": "1a710be91474677d97327bb83344c25fc49705e5102a1f457540e6376fc53632"
+  },
+  "mage": {
+    "scriptSha256": "17386fd31a15b3f2d5f0ed3514a94e33b2f59264db7780da650c4635349728c5",
+    "layoutSha256": "58b1580daa8306b4014a8dd00e95b5ad0fca64662e59db4bdbf3d7a01b875f25"
+  },
+  "paladin": {
+    "scriptSha256": "492ee26562a56d8fdcbdb796a67fa5f5694cbeadd676e00e490b6c291c2495cd",
+    "layoutSha256": "4d425c190dc2ee29eaae6fdec7ce2fe71116dcef07e8f1bca3e6a4ebb6350cfe"
+  },
+  "priest": {
+    "scriptSha256": "cb7057ad1683e48dd256358fd7150a2e5a2e548fb198c32d0f5461fd00bd418d",
+    "layoutSha256": "aa8f6b5efb0743ab973e2e132db08b6da1a0543b35120c187dd5b1c2a13e8dee"
+  },
+  "rogue": {
+    "scriptSha256": "7c77ec56baff0a3491e6fd2d2cbc5a5f6312e9e789dcfd978201067359005b6a",
+    "layoutSha256": "8952c6eb0cffceb486f97f64054bb81d5a4c8bdab73986d34a5e33f0425ed906"
+  },
+  "shaman": {
+    "scriptSha256": "8faaf199275ad4da1f29a924b5d541e2922e2f63861602c7b188c4d43c6306ae",
+    "layoutSha256": "76bffffc2bd2a307f6cdc06aa092dafb8a8c30d322779869e168c9b97a98cae8"
+  },
+  "warlock": {
+    "scriptSha256": "b25689a87a460e8df6b1dc774122a13c151506591088b3a9e394d1d5ea5373d0",
+    "layoutSha256": "6778eb8c3a97e06d7ed17bafbf10c958660976b0c0e3babebba2ec92779bced8"
+  },
+  "warrior": {
+    "scriptSha256": "9860528a414f00386d9652a692802b35418bab0c33d86d2fcffffaf3be96082b",
+    "layoutSha256": "ccd51458e28cc74766da21461201c014735e87382563cc1b004b6e5bc6d561e0"
+  }
+}

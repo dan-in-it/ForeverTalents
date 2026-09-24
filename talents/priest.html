@@ -1366,5 +1366,1145 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 -->
+<!-- Localization bundle: source files at repository root; see docs/localization/README.md. -->
+<style data-i18n-bundle="i18n.css">
+/* The language control follows the existing gold/dark palette. */
+[data-language-switch]{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px;padding:8px 0;color:inherit;font:12px/1.5 'Segoe UI',Arial,sans-serif}
+[data-language-switch] button{min-width:44px;min-height:36px;padding:5px 10px;border:1px solid #484237;border-radius:3px;background:#232322;color:#e7e2d8;font:inherit;cursor:pointer}
+[data-language-switch] button[aria-pressed=true]{color:#f1d7a0;border-color:#d6b779}
+[data-language-switch] button:focus-visible{outline:2px solid #f1d7a0;outline-offset:3px}
+[data-language-status]:empty{display:none}
+[data-language-status]{flex-basis:100%;text-align:right}
+@media(pointer:coarse){[data-language-switch] button{min-height:44px}}
+</style>
+<script data-i18n-bundle="i18n.js">
+/* Small display-only localization layer. Talent engines and saves stay in English. */
+(function (root, factory) {
+  const api = factory(root);
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.I18n = api;
+})(globalThis, function (root) {
+  'use strict';
+  const storageKey = 'wowforever.locale';
+  const locales = ['en', 'ru'];
+  const dictionary = new Map();
+  const originals = new WeakMap();
+  let locale = 'en', observer, started = false;
+  const forms = {
+    talent: ['талант', 'таланта', 'талантов'], point: ['очко', 'очка', 'очков'],
+    ability: ['способность', 'способности', 'способностей'], race: ['раса', 'расы', 'рас'],
+    rank: ['ранг', 'ранга', 'рангов']
+  };
+  function plural(n, one, few, many, language = locale) {
+    const value = Math.abs(Number(n));
+    if (language !== 'ru') return value === 1 ? one : many;
+    if (!Number.isInteger(value)) return few;
+    const last = value % 10, hundred = value % 100;
+    return last === 1 && hundred !== 11 ? one : last >= 2 && last <= 4 && (hundred < 12 || hundred > 14) ? few : many;
+  }
+  function count(n, noun, language = locale) {
+    const word = language === 'ru' ? plural(n, ...forms[noun], 'ru') : Number(n) === 1 ? noun : noun === 'ability' ? 'abilities' : noun + 's';
+    return `${n} ${word}`;
+  }
+  function resolveLocale(search = '', storage) {
+    const query = new URLSearchParams(search).get('lang');
+    if (locales.includes(query)) return query;
+    try {
+      const saved = storage?.getItem(storageKey);
+      if (locales.includes(saved)) return saved;
+    } catch { /* Storage may be blocked, including on file: URLs. */ }
+    return 'en';
+  }
+  function register(values) {
+    for (const [en, ru] of Object.entries(values)) if (typeof ru === 'string' && ru) dictionary.set(en, ru);
+  }
+  function registerTalents(source, translated) {
+    for (const talent of source) {
+      const entry = translated[talent.id];
+      if (!entry) continue;
+      for (const key of ['name', 'text', 'meta']) if (talent[key] && entry[key]) dictionary.set(talent[key], entry[key]);
+      talent.rankDescriptions.forEach((value, index) => {
+        if (value && entry.rankDescriptions?.[index]) dictionary.set(value, entry.rankDescriptions[index]);
+      });
+    }
+  }
+  const ru = value => translate(value, 'ru');
+  const rules = [
+    [/^(.+), rank (\d+) of (\d+), (maximum rank|locked|available)$/, (_, name, rank, max, status) => `${ru(name)}, ранг ${rank} из ${max}, ${ { 'maximum rank':'максимальный ранг', locked:'недоступно', available:'доступно' }[status]}`],
+    [/^(.+) · Tier (\d+)$/, (_, name, tier) => `${ru(name)} · Ряд ${tier}`],
+    [/^Rank (\d+) \/ (\d+)$/, (_, rank, max) => `Ранг ${rank} / ${max}`],
+    [/^(AVAILABLE EFFECT|CURRENT EFFECT|NEXT RANK) · RANK (\d+)$/, (_, label, rank) => `${ { 'AVAILABLE EFFECT':'ИЗВЕСТНЫЙ ЭФФЕКТ', 'CURRENT EFFECT':'ТЕКУЩИЙ ЭФФЕКТ', 'NEXT RANK':'СЛЕДУЮЩИЙ РАНГ' }[label]} · РАНГ ${rank}`],
+    [/^Rank (\d+) effect is not available\. Showing rank (\d+)\.$/, (_, rank, known) => `Описание эффекта ранга ${rank} отсутствует. Показан ранг ${known}.`],
+    [/^([\s\S]+)\n\nNEXT RANK · RANK (\d+)\n([\s\S]+)$/, (_, current, rank, next) => `${ru(current)}\n\nСЛЕДУЮЩИЙ РАНГ · РАНГ ${rank}\n${ru(next)}`],
+    [/^(\d+) points?$/, (_, n) => count(n, 'point', 'ru')],
+    [/^(\d+) PTS$/, (_, n) => `${n} ОЧК.`],
+    [/^(\d+) points required in earlier tiers$/, (_, n) => `Требуется вложить ${count(n, 'point', 'ru')} в предыдущие ряды`],
+    [/^Reset (.+)$/, (_, name) => `Сбросить ветку «${ru(name)}»`],
+    [/^(.+) reset\. Undo is available\.$/, (_, name) => `Ветка «${ru(name)}» сброшена. Изменение можно отменить.`],
+    [/^Invalid rank for (.+)\.$/, (_, name) => `Недопустимый ранг таланта «${ru(name)}».`],
+    [/^This build needs level (\d+) or higher\.$/, (_, level) => `Для этого билда требуется уровень ${level} или выше.`],
+    [/^(.+) requires (\d+) points in earlier tiers\.$/, (_, name, n) => `Для таланта «${ru(name)}» требуется вложить ${count(n, 'point', 'ru')} в предыдущие ряды.`],
+    [/^(.+) requires (\d+) ranks in (.+)\.$/, (_, name, rank, parent) => `Для таланта «${ru(name)}» требуется ранг ${rank} таланта «${ru(parent)}».`],
+    [/^Requires (\d+) ranks in (.+)\.$/, (_, rank, name) => `Требуется ранг ${rank} таланта «${ru(name)}».`],
+    [/^Spend (\d+) more points in earlier tiers of this tree\.$/, (_, n) => `Вложите еще ${count(n, 'point', 'ru')} в предыдущие ряды этой ветки.`],
+    [/^(.+) Refund points first\.$/, (_, error) => `${ru(error)} Сначала верните очки талантов.`],
+    [/^Saved build needs attention: ([\s\S]+) The original save is preserved\.$/, (_, error) => {
+      const message = ru(error);
+      return `Не удалось загрузить сохраненный билд: ${message === error ? 'локальное хранилище недоступно или данные повреждены.' : message} Исходное сохранение не изменено.`;
+    }],
+    [/^Paste a valid (.+) build code\.$/, (_, type) => `Вставьте корректный код билда: ${translateCodeType(type)}.`],
+    [/^Paste a valid WFD2 Druid build code or an original WFD1 Feral code\.$/, () => 'Вставьте корректный код билда друида WFD2 или исходный код WFD1 ветки «Сила зверя».'],
+    [/^(\d+) races? · (\d+) abilities(?: · (\d+) racials TBD)?$/, (_, races, abilities, pending) => `${count(races, 'race', 'ru')} · ${count(abilities, 'ability', 'ru')}${pending ? ` · расовые способности пока неизвестны: ${count(pending, 'race', 'ru')}` : ''}`]
+  ];
+  function translateCodeType(type) {
+    return type.replace(/Druid|Hunter|Mage|Paladin|Priest|Rogue|Shaman|Warlock|Warrior/g, value => ru(value)).replace(/ or /g, ' или ');
+  }
+  function translate(value, language = locale) {
+    const source = String(value);
+    if (language !== 'ru' || !source.trim()) return source;
+    const text = source.trim();
+    let translated = dictionary.get(text);
+    if (translated === undefined) {
+      for (const [pattern, render] of rules) {
+        const match = text.match(pattern);
+        if (match) { translated = render(...match); break; }
+      }
+    }
+    if (translated === undefined && text.includes('\n')) {
+      translated = text.split('\n').map(line => translate(line, language)).join('\n');
+    }
+    if (translated === undefined) return source;
+    return source.slice(0, source.indexOf(text)) + translated + source.slice(source.indexOf(text) + text.length);
+  }
+  function update(target, key, get, set) {
+    let entries = originals.get(target);
+    if (!entries) { entries = new Map(); originals.set(target, entries); }
+    const current = get();
+    let entry = entries.get(key);
+    if (!entry || current !== entry.rendered) entry = {source: current};
+    entry.rendered = translate(entry.source);
+    entries.set(key, entry);
+    if (current !== entry.rendered) set(entry.rendered);
+  }
+  function localize(node) {
+    if (node.nodeType === 3) {
+      if (!node.parentElement?.closest('script, style, textarea, code, noscript, [data-i18n-ignore]'))
+        update(node, 'text', () => node.nodeValue, value => { node.nodeValue = value; });
+      return;
+    }
+    if (node.nodeType !== 1 && node.nodeType !== 9) return;
+    if (node.nodeType === 1) {
+      if (node.matches('script, style, textarea, code, noscript, [data-i18n-ignore]')) return;
+      for (const attr of ['aria-label', 'aria-description', 'title', 'alt', 'placeholder']) {
+        if (node.hasAttribute(attr)) update(node, attr, () => node.getAttribute(attr), value => node.setAttribute(attr, value));
+      }
+      if (node.matches('meta[name="description"]')) update(node, 'content', () => node.content, value => { node.content = value; });
+    }
+    for (const child of node.childNodes) localize(child);
+  }
+  function syncLinks() {
+    for (const link of root.document.querySelectorAll('a[href]')) {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || /^(?:[a-z]+:|\/\/)/i.test(href)) continue;
+      const [pathQuery, hash] = href.split('#');
+      const [path, query] = pathQuery.split('?');
+      const params = new URLSearchParams(query);
+      params.set('lang', locale);
+      const next = path + '?' + params + (hash === undefined ? '' : '#' + hash);
+      if (href !== next) link.setAttribute('href', next);
+    }
+  }
+  function refresh() {
+    if (!root.document) return;
+    localize(root.document.documentElement);
+    root.document.documentElement.lang = locale;
+    for (const button of root.document.querySelectorAll('[data-locale]')) button.setAttribute('aria-pressed', String(button.dataset.locale === locale));
+    syncLinks();
+  }
+  function setLocale(next, persist = true) {
+    locale = locales.includes(next) ? next : 'en';
+    let saved = true;
+    if (persist) {
+      try { root.localStorage.setItem(storageKey, locale); } catch { saved = false; }
+      // Preserve class/faction filters, hashes and deployment prefix.
+      try {
+        const url = new URL(root.location.href);
+        url.searchParams.set('lang', locale);
+        root.history.replaceState(null, '', url);
+      } catch { /* file: browsers may disallow history replacement. */ }
+    }
+    refresh();
+    const status = root.document?.querySelector('[data-language-status]');
+    if (status) status.textContent = saved ? '' : translate('Language preference could not be saved.');
+    return locale;
+  }
+  function start() {
+    if (started || !root.document) return;
+    started = true;
+    let storage;
+    try { storage = root.localStorage; } catch {}
+    locale = resolveLocale(root.location.search, storage);
+    const header = root.document.querySelector('.masthead, .site-header');
+    const controls = root.document.createElement('div');
+    controls.setAttribute('data-language-switch', '');
+    controls.setAttribute('role', 'group');
+    controls.setAttribute('aria-label', 'Language');
+    for (const [language, title] of [['en', 'English'], ['ru', 'Russian']]) {
+      const button = root.document.createElement('button');
+      button.type = 'button'; button.dataset.locale = language;
+      button.textContent = language.toUpperCase(); button.title = title;
+      button.addEventListener('click', () => setLocale(language));
+      controls.append(button);
+    }
+    const status = root.document.createElement('span');
+    status.setAttribute('data-language-status', ''); status.setAttribute('role', 'status');
+    controls.append(status);
+    header?.after(controls);
+    refresh();
+    observer = new root.MutationObserver(records => {
+      const nodes = new Set();
+      for (const record of records) {
+        if (record.type === 'childList') for (const node of record.addedNodes) nodes.add(node);
+        else nodes.add(record.target);
+      }
+      for (const node of nodes) if (node.isConnected) localize(node);
+    });
+    observer.observe(root.document.documentElement, {subtree:true, childList:true, characterData:true, attributes:true,
+      attributeFilter:['aria-label', 'aria-description', 'title', 'alt', 'placeholder', 'content']});
+    root.addEventListener('popstate', () => {
+      let storage;
+      try { storage = root.localStorage; } catch {}
+      setLocale(resolveLocale(root.location.search, storage), false);
+    });
+  }
+  return {locales, storageKey, register, registerTalents, translate, plural, count, resolveLocale, setLocale, start, refresh, get locale() { return locale; }};
+});
+</script>
+<script data-i18n-bundle="locales/ru.js">
+/* Russian interface catalog. English source strings are fallback keys. */
+(function (root, data) {
+  if (typeof module === 'object' && module.exports) module.exports = data;
+  else root.I18n.register(data);
+})(globalThis, {
+  "Plan your WoW Forever build with all nine class calculators, 27 talent trees, and 470 talents. Save, share, and use offline.": "Планируйте билд WoW Forever: калькуляторы всех девяти классов, 27 веток и 470 талантов. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Forever Talents · WoW Forever talent trees": "Forever Talents · Ветки талантов WoW Forever",
+  "Skip to talent trees": "Перейти к веткам талантов",
+  "Forever Talents home": "Главная страница Forever Talents",
+  "Main navigation": "Основная навигация",
+  "Talent trees": "Ветки талантов",
+  "Racials": "Расовые способности",
+  "THE CLASS DIRECTORY": "КЛАССЫ",
+  "Choose your class.": "Выберите класс.",
+  "Explore the talent trees. Plan your next WoW Forever build.": "Изучайте ветки талантов. Создайте свой следующий билд WoW Forever.",
+  "class calculators available": "калькуляторов классов доступно",
+  "All classes": "Все классы",
+  "27 talent trees. Find your next build.": "27 веток талантов. Найдите свой следующий билд.",
+  "Druid": "Друид",
+  "Hunter": "Охотник",
+  "Mage": "Маг",
+  "Paladin": "Паладин",
+  "Priest": "Жрец",
+  "Rogue": "Разбойник",
+  "Shaman": "Шаман",
+  "Warlock": "Чернокнижник",
+  "Warrior": "Воин",
+  "Balance": "Баланс",
+  "Feral": "Сила зверя",
+  "Feral Combat": "Сила зверя",
+  "Restoration": "Исцеление",
+  "Beast Mastery": "Повелитель зверей",
+  "Marksmanship": "Стрельба",
+  "Survival": "Выживание",
+  "Arcane": "Тайная магия",
+  "Fire": "Огонь",
+  "Frost": "Лед",
+  "Holy": "Свет",
+  "Protection": "Защита",
+  "Retribution": "Воздаяние",
+  "Discipline": "Послушание",
+  "Shadow": "Тьма",
+  "Shadow Magic": "Тьма",
+  "Assassination": "Ликвидация",
+  "Combat": "Бой",
+  "Subtlety": "Скрытность",
+  "Elemental": "Стихии",
+  "Elemental Combat": "Стихии",
+  "Enhancement": "Совершенствование",
+  "Affliction": "Колдовство",
+  "Demonology": "Демонология",
+  "Destruction": "Разрушение",
+  "Arms": "Оружие",
+  "Fury": "Неистовство",
+  "52 talents across all three trees": "52 таланта в трех ветках",
+  "Available now": "Доступно",
+  "Open calculator": "Открыть калькулятор",
+  "Racial abilities": "Расовые способности",
+  "40 abilities across 10 race entries ·": "40 способностей у 10 вариантов рас ·",
+  "View all racials": "Все расовые способности",
+  "Alliance": "Альянс",
+  "Horde": "Орда",
+  "5 race entries · 20 abilities": "5 вариантов рас · 20 способностей",
+  "Human": "Человек",
+  "Dwarf": "Дворф",
+  "Night Elf": "Ночной эльф",
+  "Gnome": "Гном",
+  "Skyborne (High Order)": "Неборожденный (Высший орден)",
+  "Orc": "Орк",
+  "Undead": "Нежить",
+  "Tauren": "Таурен",
+  "Troll": "Тролль",
+  "Skyborne (Windshaper)": "Неборожденный (Заклинатель ветра)",
+  "4 abilities": "4 способности",
+  "View racials": "Расовые способности",
+  "Made for the WoW community.": "Для сообщества WoW.",
+  "Fan project · Warcraft artwork © Blizzard Entertainment.": "Фанатский проект · Иллюстрации Warcraft © Blizzard Entertainment.",
+  "Explore 40 WoW Forever racial abilities and playable classes, including High Order and Windshaper Skyborne and updated Gnome, Orc, and Tauren racials.": "Изучайте 40 расовых способностей и доступные классы WoW Forever: неборожденные Высшего ордена и Заклинатели ветра, обновленные способности гномов, орков и тауренов.",
+  "Racial abilities · Forever Talents": "Расовые способности · Forever Talents",
+  "Skip to racial abilities": "Перейти к расовым способностям",
+  "RACIAL ABILITIES": "РАСОВЫЕ СПОСОБНОСТИ",
+  "Know your advantage.": "Знайте свои сильные стороны.",
+  "Explore the racial abilities behind your next Forever build.": "Выберите расовые способности для своего следующего билда Forever.",
+  "racial abilities · 10 race entries": "расовых способностей · 10 вариантов рас",
+  "Your class": "Ваш класс",
+  "Faction": "Фракция",
+  "Both factions": "Обе фракции",
+  "Reset filters": "Сбросить фильтры",
+  "10 races · 40 abilities": "10 рас · 40 способностей",
+  "5 races · 20 abilities": "5 рас · 20 способностей",
+  "4 racial abilities": "4 расовые способности",
+  "Will to Survive": "Воля к жизни",
+  "Active": "Активная",
+  "Removes all Stun effects.": "Снимает все эффекты оглушения.",
+  "Perception": "Внимательность",
+  "Dramatically increases stealth detection for 20 sec.": "Значительно улучшает обнаружение незаметности на 20 сек.",
+  "Sword Specialization": "Специализация на мечах",
+  "Passive": "Пассивная",
+  "Swords increase spell and ability critical chance by 2%.": "При использовании мечей вероятность критического эффекта заклинаний и способностей повышается на 2%.",
+  "The Human Spirit": "Человеческий дух",
+  "Spirit increased by 5%.": "Дух повышен на 5%.",
+  "Playable classes": "Доступные классы",
+  "Find Treasure": "Поиск сокровищ",
+  "Allows the dwarf to sense nearby treasure, making it appear on the minimap.": "Позволяет дворфу обнаруживать ближайшие сокровища и отображать их на мини-карте.",
+  "Stoneform": "Каменная форма",
+  "Removes all Poison and Disease effects and reduces Physical damage taken for 8 sec.": "Снимает все эффекты ядов и болезней и снижает получаемый физический урон на 8 сек.",
+  "Mace Specialization": "Специализация на дробящем оружии",
+  "Maces increase spell and ability critical chance by 1%.": "При использовании дробящего оружия вероятность критического эффекта заклинаний и способностей повышается на 1%.",
+  "Big Game Hunter": "Охотник на крупную дичь",
+  "Damage to Beasts increased by 5%.": "Урон по животным увеличен на 5%.",
+  "Elune's Light": "Свет Элуны",
+  "Increases critical chance by 10% for 15 sec.": "Повышает вероятность критического эффекта на 10% на 15 сек.",
+  "Shadowmeld": "Слиться с тенью",
+  "Activate to slip into the shadows, reducing the chance for enemies to detect your presence. Lasts until cancelled or upon moving. Any threat is restored versus enemies still in combat upon cancellation of this effect.": "Позволяет скрыться в тени, снижая вероятность обнаружения вас противниками. Действует до отмены или начала движения. После отмены эффекта угроза восстанавливается по отношению к противникам, которые все еще находятся в бою.",
+  "Quickness": "Расторопность",
+  "1% increased Dodge chance and 2% increased run speed.": "Вероятность уклонения повышена на 1%, а скорость бега — на 2%.",
+  "Wisp Spirit": "Дух огонька",
+  "Transform into a wisp upon death, increasing speed by 75% while dead.": "После смерти превращает в огонька, повышая скорость передвижения на 75% в состоянии духа.",
+  "Eureka!": "Эврика!",
+  "Your next 3 spells or abilities cost less and deal 10% more damage or healing.": "Следующие 3 заклинания или способности требуют меньше ресурсов, а их урон или исцеление усиливаются на 10%.",
+  "Expansive Mind": "Пытливый ум",
+  "Increases your maximum resource (Mana, Rage, or Energy).": "Увеличивает максимальный запас ресурса: маны, ярости или энергии.",
+  "Engineering Specialization": "Специализация на инженерном деле",
+  "Engineering skill increased.": "Навык инженерного дела повышен.",
+  "Escape Artist": "Мастер побега",
+  "Escape the effects of any immobilization or movement speed reduction effect.": "Снимает все эффекты обездвиживания и снижения скорости передвижения.",
+  "Walk on Air": "Воздушная поступь",
+  "Glide through the air for 10 seconds while descending.": "Позволяет планировать в воздухе в течение 10 сек. при спуске.",
+  "Read Ley Line": "Чтение силовых линий",
+  "Activate a ley line to increase Health and Mana regeneration by 100%.": "Активирует силовую линию, повышая скорость восстановления здоровья и маны на 100%.",
+  "Wind Blessed": "Благословение ветра",
+  "Melee, ranged, and spellcasting Haste increased by 1%.": "Скорость атак ближнего и дальнего боя, а также произнесения заклинаний повышена на 1%.",
+  "Elemental Insight": "Познание стихий",
+  "Deal 5% more damage to Elementals.": "Увеличивает урон по элементалям на 5%.",
+  "Blood Fury": "Кровавое неистовство",
+  "Increases Attack Power and Spell Power by 10% for 15 sec.": "Повышает силу атаки и силу заклинаний на 10% на 15 сек.",
+  "Shatter Curse": "Разрушение проклятий",
+  "Immunity to Curses and Banes and reduce Magical damage taken for 8 sec.": "Дает невосприимчивость к проклятиям и заклинаниям категории «Бич» и снижает получаемый магический урон на 8 сек.",
+  "Axe Specialization": "Специализация на топорах",
+  "Axes increase spell and ability critical chance by 1%.": "При использовании топоров вероятность критического эффекта заклинаний и способностей повышается на 1%.",
+  "Hardiness": "Твердость",
+  "Stun durations decreased by 20%.": "Длительность оглушения сокращена на 20%.",
+  "Will of the Forsaken": "Воля Отрекшихся",
+  "Removes Charm, Fear, and Sleep effects.": "Снимает эффекты подчинения, страха и сна.",
+  "Cannibalize": "Каннибализм",
+  "When activated, regenerates 35% of total health and mana over 10 sec. Only works on Humanoid or Undead corpses within 5 yards. Any movement, action, or damage taken while Cannibalizing will cancel the effect.": "Восстанавливает 35% от общего запаса здоровья и маны за 10 сек. Можно использовать только на трупах гуманоидов или нежити в радиусе 5 м. Любое движение, действие или получение урона прерывает «Каннибализм».",
+  "Underwater Breathing": "Подводное дыхание",
+  "Underwater breath lasts 300% longer.": "Позволяет задерживать дыхание под водой на 300% дольше.",
+  "Touch of the Grave": "Могильное касание",
+  "Your attacks and harmful spells have a chance to drain life from the target, healing you.": "Атаки и наносящие вред заклинания могут похитить здоровье цели, исцеляя вас.",
+  "War Stomp": "Громовая поступь",
+  "Stuns up to 5 enemies within 8 yards for 2 sec.": "Оглушает до 5 противников в радиусе 8 м на 2 сек.",
+  "Cultivation": "Проращивание",
+  "Grow bonus herbs you can gather without Herbalism.": "Позволяет выращивать дополнительные травы, которые можно собирать без навыка травничества.",
+  "Plainsrunning": "Бег по равнинам",
+  "Gain increased movement speed the longer you remain moving.": "Чем дольше вы непрерывно движетесь, тем выше скорость передвижения.",
+  "Endurance": "Закалка",
+  "Total Health increased by 5% and Hit Chance increased by 1%.": "Общий запас здоровья увеличен на 5%, а вероятность попадания — на 1%.",
+  "Berserking": "Берсерк",
+  "+10% attack and cast speed for 10 sec.": "+10% к скорости атак и произнесения заклинаний на 10 сек.",
+  "Rapid Regeneration": "Быстрая регенерация",
+  "Regenerate 50% max Health over time.": "Постепенно восстанавливает 50% от максимального запаса здоровья.",
+  "Beast Slaying": "Убийство животных",
+  "+5% damage vs Beasts.": "+5% к урону по животным.",
+  "Regeneration": "Регенерация",
+  "10% of Health regen continues in combat.": "В бою сохраняется 10% скорости восстановления здоровья.",
+  "Skysight": "Небесное зрение",
+  "Gain an Elemental Blessing that increases run speed by 10%.": "Дарует благословение стихий, повышающее скорость бега на 10%.",
+  "No races match these filters. Try another class or faction.": "Нет рас, соответствующих фильтрам. Выберите другой класс или фракцию.",
+  "CLASSIC+ TALENT CALCULATOR": "КАЛЬКУЛЯТОР ТАЛАНТОВ CLASSIC+",
+  "← All classes": "← Все классы",
+  "Works offline": "Работает без интернета",
+  "How to use": "Как пользоваться",
+  "THE WAY OF THE WILD": "ПУТЬ ДИКОЙ ПРИРОДЫ",
+  "Moonlight, claw, and the gift of renewal. Shape your Druid build.": "Лунный свет, острые когти и дар исцеления. Создайте свой билд друида.",
+  "Points spent by specialization": "Распределение очков по специализациям",
+  "Build controls": "Управление билдом",
+  "CHARACTER LEVEL": "УРОВЕНЬ ПЕРСОНАЖА",
+  "Character level": "Уровень персонажа",
+  "POINTS REMAINING": "ОСТАЛОСЬ ОЧКОВ",
+  "spent": "потрачено",
+  "Undo": "Отменить",
+  "Reset all": "Сбросить все",
+  "Build code": "Код билда",
+  "Click": "Щелчок",
+  "add": "добавить",
+  "Right-click": "Правая кнопка",
+  "remove": "убрать",
+  "Shift-click": "Shift + щелчок",
+  "fill rank": "изучить до предела",
+  "Tap a talent to inspect and spend points.": "Коснитесь таланта, чтобы прочитать описание и вложить очки.",
+  "Available": "Доступно",
+  "Maxed": "Изучено",
+  "Locked": "Недоступно",
+  "Build saved on this device": "Билд сохранен на этом устройстве",
+  "Talent details": "Описание таланта",
+  "Close talent details": "Закрыть описание таланта",
+  "Close": "Закрыть",
+  "Remove rank": "Убрать ранг",
+  "Add rank": "Добавить ранг",
+  "Save your build": "Сохранение билда",
+  "Copy this code to keep or share your build. To load a build, paste its code below and select Import.": "Скопируйте код, чтобы сохранить билд или поделиться им. Чтобы загрузить билд, вставьте его код ниже и нажмите «Импортировать билд».",
+  "Import build": "Импортировать билд",
+  "Copy code": "Копировать код",
+  "Spend & refund": "Распределение и возврат очков",
+  "Click a talent to add one rank. Right-click or Alt-click to refund one. Shift-click fills the available ranks. A refund is blocked if it would invalidate a later tier.": "Щелкните по таланту, чтобы добавить ранг. Правая кнопка мыши или Alt + щелчок возвращают один ранг. Shift + щелчок изучает все доступные ранги. Нельзя вернуть очки, если это нарушит требования талантов следующих рядов.",
+  "On touch screens, tap a talent, then use Add rank or Remove rank. With a keyboard, Tab to a talent, press Enter or Space to add, and Minus or Backspace to remove. Escape closes details.": "На сенсорном экране коснитесь таланта и нажмите «Добавить ранг» или «Убрать ранг». С клавиатуры выберите талант клавишей Tab: Enter или пробел добавляют ранг, минус или Backspace убирают его. Escape закрывает описание.",
+  "Builds that stay with you": "Ваши билды всегда с вами",
+  "Your current build saves automatically in this browser when local storage is available. Undo restores the last change, including a reset or import. Build codes transfer allocations between copies of this file.": "Текущий билд автоматически сохраняется в браузере, если доступно локальное хранилище. Кнопка «Отменить» отменяет последнее изменение, включая сброс или импорт. Код билда позволяет перенести распределение очков между копиями этого файла.",
+  "Everything needed to run the calculator is embedded in this HTML file. It needs no server, account, or internet connection.": "Все необходимое для работы калькулятора встроено в этот HTML-файл. Сервер, учетная запись и подключение к интернету не нужны.",
+  "This talent calculator needs JavaScript enabled in your browser.": "Для работы калькулятора талантов включите JavaScript в браузере.",
+  "Arcane · Nature": "Тайная магия · Силы природы",
+  "Shapeshifting · Melee": "Смена облика · Ближний бой",
+  "Healing · Nature": "Исцеление · Силы природы",
+  "CALL OF THE WILD": "ЗОВ ДИКОЙ ПРИРОДЫ",
+  "A steady aim and a faithful companion. Choose your path.": "Верный прицел и преданный питомец. Выберите свой путь.",
+  "Loyal beasts & wild instincts": "Преданные звери и дикие инстинкты",
+  "Precision & ranged power": "Меткость и сила выстрела",
+  "Traps & resourcefulness": "Ловушки и находчивость",
+  "MASTER OF THE ELEMENTS": "ПОВЕЛИТЕЛЬ СТИХИЙ",
+  "Arcane power, roaring flame, and biting frost. Choose your path.": "Тайная магия, бушующее пламя и леденящий холод. Выберите свой путь.",
+  "Arcane power & control": "Тайная магия и контроль",
+  "Flame & searing damage": "Пламя и испепеляющий урон",
+  "Ice & frozen foes": "Лед и замороженные враги",
+  "KEEPER OF THE LIGHT": "ХРАНИТЕЛЬ СВЕТА",
+  "Faith, valor, and righteous purpose. Choose your path.": "Вера, доблесть и праведная цель. Выберите свой путь.",
+  "Sacred healing & divine power": "Святое исцеление и божественная сила",
+  "Unyielding faith & sacred shields": "Непоколебимая вера и священные щиты",
+  "Righteous strikes & holy judgement": "Праведные удары и святое правосудие",
+  "LIGHT AND SHADOW": "СВЕТ И ТЬМА",
+  "Heal your allies. Harness the darkness. Choose your path.": "Исцеляйте союзников. Повелевайте Тьмой. Выберите свой путь.",
+  "Protection & inner strength": "Защита и внутренняя сила",
+  "Light & restorative power": "Свет и сила исцеления",
+  "Darkness & draining magic": "Тьма и похищение жизни",
+  "STRIKE FROM THE SHADOWS": "УДАР ИЗ ТЕНИ",
+  "A sharpened blade and a perfect opening. Choose your path.": "Острый клинок и верный момент. Выберите свой путь.",
+  "Poisons & finishing blows": "Яды и завершающие приемы",
+  "Blades & relentless attacks": "Клинки и неустанные атаки",
+  "Stealth & cunning": "Незаметность и коварство",
+  "CALL OF THE ELEMENTS": "ЗОВ СТИХИЙ",
+  "Flame, storm, and the wisdom of the ancestors. Choose your path.": "Пламя, буря и мудрость предков. Выберите свой путь.",
+  "Lightning, flame & elemental power": "Молнии, пламя и сила стихий",
+  "Spirit weapons & raging storms": "Духовное оружие и яростные бури",
+  "Ancestral wisdom & healing waters": "Мудрость предков и целительные воды",
+  "FORBIDDEN POWER": "ЗАПРЕТНАЯ СИЛА",
+  "Curses, demons, and destructive magic. Choose your path.": "Проклятия, демоны и разрушительная магия. Выберите свой путь.",
+  "Curses & lingering damage": "Проклятия и периодический урон",
+  "Demons & forbidden power": "Демоны и запретная сила",
+  "Shadow & consuming flame": "Тьма и всепожирающее пламя",
+  "THE ART OF WAR": "ИСКУССТВО ВОЙНЫ",
+  "Steel, fury, and an unbreakable will. Choose your path.": "Сталь, ярость и несокрушимая воля. Выберите свой путь.",
+  "Weapon mastery & precise strikes": "Мастерство оружия и точные удары",
+  "Relentless offense & raw power": "Неустанный натиск и грубая сила",
+  "Unyielding defense & control": "Несокрушимая защита и контроль",
+  "START": "НАЧАЛО",
+  "invested": "вложено",
+  "Reset tree": "Сбросить ветку",
+  "Active ability": "Активная способность",
+  "RANK 1 PREVIEW": "ЭФФЕКТ РАНГА 1",
+  "Fully learned": "Полностью изучено",
+  "Available to learn": "Можно изучить",
+  "Max rank": "Максимальный ранг",
+  "Higher-rank values are estimates.": "Значения старших рангов приблизительные.",
+  "Local saving unavailable · use Build code to save": "Локальное сохранение недоступно · сохраните код билда",
+  "Saved build preserved · use Build code to review": "Исходный билд сохранен · откройте «Код билда» для проверки",
+  "Last change undone.": "Последнее изменение отменено.",
+  "All talents reset. Undo is available.": "Все таланты сброшены. Изменение можно отменить.",
+  "Build imported.": "Билд импортирован.",
+  "Build code copied.": "Код билда скопирован.",
+  "Code selected. Press Ctrl+C (or Command+C) to copy.": "Код выделен. Нажмите Ctrl+C (или Command+C), чтобы скопировать его.",
+  "Choose a level from 10 to 60.": "Выберите уровень от 10 до 60.",
+  "This build has the wrong number of talents.": "В этом билде неверное количество талантов.",
+  "Unknown talent.": "Неизвестный талант.",
+  "Maximum rank reached.": "Достигнут максимальный ранг.",
+  "No talent points remaining.": "Не осталось очков талантов.",
+  "Invalid talent change.": "Недопустимое изменение таланта.",
+  "No points to refund.": "Нет очков для возврата.",
+  "Invalid effect rank.": "Недопустимый ранг эффекта.",
+  "This code has the wrong talent layout.": "Порядок талантов в этом коде не соответствует калькулятору.",
+  "Language": "Язык",
+  "English": "Английский",
+  "Russian": "Русский",
+  "Language preference could not be saved.": "Не удалось сохранить выбранный язык.",
+  "Open Druid calculator": "Открыть калькулятор друида",
+  "Druid Talents · WoW Forever": "Таланты друида · WoW Forever",
+  "WoW Forever Druid talent calculator": "Калькулятор талантов друида WoW Forever",
+  "Druid talents": "Таланты друида",
+  "Druid talent trees": "Ветки талантов друида",
+  "Explore Druid racial abilities →": "Расовые способности друида →",
+  "YOUR DRUID": "ВАШ ДРУИД",
+  "DRUID BUILD CODE": "КОД БИЛДА ДРУИДА",
+  "THE DRUID'S HANDBOOK": "РУКОВОДСТВО ДРУИДА",
+  "Plan your WoW Forever Druid build with 52 talents across all three trees. Save, share, and use offline.": "Планируйте билд друида WoW Forever: 52 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Hunter calculator": "Открыть калькулятор охотника",
+  "Hunter Talents · WoW Forever": "Таланты охотника · WoW Forever",
+  "WoW Forever Hunter talent calculator": "Калькулятор талантов охотника WoW Forever",
+  "Hunter talents": "Таланты охотника",
+  "Hunter talent trees": "Ветки талантов охотника",
+  "Explore Hunter racial abilities →": "Расовые способности охотника →",
+  "YOUR HUNTER": "ВАШ ОХОТНИК",
+  "HUNTER BUILD CODE": "КОД БИЛДА ОХОТНИКА",
+  "THE HUNTER'S HANDBOOK": "РУКОВОДСТВО ОХОТНИКА",
+  "Plan your WoW Forever Hunter build with 50 talents across all three trees. Save, share, and use offline.": "Планируйте билд охотника WoW Forever: 50 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Mage calculator": "Открыть калькулятор мага",
+  "Mage Talents · WoW Forever": "Таланты мага · WoW Forever",
+  "WoW Forever Mage talent calculator": "Калькулятор талантов мага WoW Forever",
+  "Mage talents": "Таланты мага",
+  "Mage talent trees": "Ветки талантов мага",
+  "Explore Mage racial abilities →": "Расовые способности мага →",
+  "YOUR MAGE": "ВАШ МАГ",
+  "MAGE BUILD CODE": "КОД БИЛДА МАГА",
+  "THE MAGE'S HANDBOOK": "РУКОВОДСТВО МАГА",
+  "Plan your WoW Forever Mage build with 54 talents across all three trees. Save, share, and use offline.": "Планируйте билд мага WoW Forever: 54 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Paladin calculator": "Открыть калькулятор паладина",
+  "Paladin Talents · WoW Forever": "Таланты паладина · WoW Forever",
+  "WoW Forever Paladin talent calculator": "Калькулятор талантов паладина WoW Forever",
+  "Paladin talents": "Таланты паладина",
+  "Paladin talent trees": "Ветки талантов паладина",
+  "Explore Paladin racial abilities →": "Расовые способности паладина →",
+  "YOUR PALADIN": "ВАШ ПАЛАДИН",
+  "PALADIN BUILD CODE": "КОД БИЛДА ПАЛАДИНА",
+  "THE PALADIN'S HANDBOOK": "РУКОВОДСТВО ПАЛАДИНА",
+  "Plan your WoW Forever Paladin build with 52 talents across all three trees. Save, share, and use offline.": "Планируйте билд паладина WoW Forever: 52 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Priest calculator": "Открыть калькулятор жреца",
+  "Priest Talents · WoW Forever": "Таланты жреца · WoW Forever",
+  "WoW Forever Priest talent calculator": "Калькулятор талантов жреца WoW Forever",
+  "Priest talents": "Таланты жреца",
+  "Priest talent trees": "Ветки талантов жреца",
+  "Explore Priest racial abilities →": "Расовые способности жреца →",
+  "YOUR PRIEST": "ВАШ ЖРЕЦ",
+  "PRIEST BUILD CODE": "КОД БИЛДА ЖРЕЦА",
+  "THE PRIEST'S HANDBOOK": "РУКОВОДСТВО ЖРЕЦА",
+  "Plan your WoW Forever Priest build with 53 talents across all three trees. Save, share, and use offline.": "Планируйте билд жреца WoW Forever: 53 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Rogue calculator": "Открыть калькулятор разбойника",
+  "Rogue Talents · WoW Forever": "Таланты разбойника · WoW Forever",
+  "WoW Forever Rogue talent calculator": "Калькулятор талантов разбойника WoW Forever",
+  "Rogue talents": "Таланты разбойника",
+  "Rogue talent trees": "Ветки талантов разбойника",
+  "Explore Rogue racial abilities →": "Расовые способности разбойника →",
+  "YOUR ROGUE": "ВАШ РАЗБОЙНИК",
+  "ROGUE BUILD CODE": "КОД БИЛДА РАЗБОЙНИКА",
+  "THE ROGUE'S HANDBOOK": "РУКОВОДСТВО РАЗБОЙНИКА",
+  "Plan your WoW Forever Rogue build with 53 talents across all three trees. Save, share, and use offline.": "Планируйте билд разбойника WoW Forever: 53 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Shaman calculator": "Открыть калькулятор шамана",
+  "Shaman Talents · WoW Forever": "Таланты шамана · WoW Forever",
+  "WoW Forever Shaman talent calculator": "Калькулятор талантов шамана WoW Forever",
+  "Shaman talents": "Таланты шамана",
+  "Shaman talent trees": "Ветки талантов шамана",
+  "Explore Shaman racial abilities →": "Расовые способности шамана →",
+  "YOUR SHAMAN": "ВАШ ШАМАН",
+  "SHAMAN BUILD CODE": "КОД БИЛДА ШАМАНА",
+  "THE SHAMAN'S HANDBOOK": "РУКОВОДСТВО ШАМАНА",
+  "Plan your WoW Forever Shaman build with 50 talents across all three trees. Save, share, and use offline.": "Планируйте билд шамана WoW Forever: 50 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Warlock calculator": "Открыть калькулятор чернокнижника",
+  "Warlock Talents · WoW Forever": "Таланты чернокнижника · WoW Forever",
+  "WoW Forever Warlock talent calculator": "Калькулятор талантов чернокнижника WoW Forever",
+  "Warlock talents": "Таланты чернокнижника",
+  "Warlock talent trees": "Ветки талантов чернокнижника",
+  "Explore Warlock racial abilities →": "Расовые способности чернокнижника →",
+  "YOUR WARLOCK": "ВАШ ЧЕРНОКНИЖНИК",
+  "WARLOCK BUILD CODE": "КОД БИЛДА ЧЕРНОКНИЖНИКА",
+  "THE WARLOCK'S HANDBOOK": "РУКОВОДСТВО ЧЕРНОКНИЖНИКА",
+  "Plan your WoW Forever Warlock build with 52 talents across all three trees. Save, share, and use offline.": "Планируйте билд чернокнижника WoW Forever: 52 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Open Warrior calculator": "Открыть калькулятор воина",
+  "Warrior Talents · WoW Forever": "Таланты воина · WoW Forever",
+  "WoW Forever Warrior talent calculator": "Калькулятор талантов воина WoW Forever",
+  "Warrior talents": "Таланты воина",
+  "Warrior talent trees": "Ветки талантов воина",
+  "Explore Warrior racial abilities →": "Расовые способности воина →",
+  "YOUR WARRIOR": "ВАШ ВОИН",
+  "WARRIOR BUILD CODE": "КОД БИЛДА ВОИНА",
+  "THE WARRIOR'S HANDBOOK": "РУКОВОДСТВО ВОИНА",
+  "Plan your WoW Forever Warrior build with 54 talents across all three trees. Save, share, and use offline.": "Планируйте билд воина WoW Forever: 54 талантов в трех ветках. Сохраняйте, делитесь и пользуйтесь без интернета.",
+  "Balance · Feral Combat · Restoration": "Баланс · Сила зверя · Исцеление",
+  "Beast Mastery · Marksmanship · Survival": "Повелитель зверей · Стрельба · Выживание",
+  "Arcane · Fire · Frost": "Тайная магия · Огонь · Лед",
+  "Holy · Protection · Retribution": "Свет · Защита · Воздаяние",
+  "Discipline · Holy · Shadow Magic": "Послушание · Свет · Тьма",
+  "Assassination · Combat · Subtlety": "Ликвидация · Бой · Скрытность",
+  "Elemental Combat · Enhancement · Restoration": "Стихии · Совершенствование · Исцеление",
+  "Affliction · Demonology · Destruction": "Колдовство · Демонология · Разрушение",
+  "Arms · Fury · Protection": "Оружие · Неистовство · Защита",
+  "Will to Survive · Perception · Sword Specialization · The Human Spirit": "Воля к жизни · Внимательность · Специализация на мечах · Человеческий дух",
+  "View Alliance Human racials": "Расовые способности: Человек — Альянс",
+  "Find Treasure · Stoneform · Mace Specialization · Big Game Hunter": "Поиск сокровищ · Каменная форма · Специализация на дробящем оружии · Охотник на крупную дичь",
+  "View Alliance Dwarf racials": "Расовые способности: Дворф — Альянс",
+  "Elune's Light · Shadowmeld · Quickness · Wisp Spirit": "Свет Элуны · Слиться с тенью · Расторопность · Дух огонька",
+  "View Alliance Night Elf racials": "Расовые способности: Ночной эльф — Альянс",
+  "Eureka! · Expansive Mind · Engineering Specialization · Escape Artist": "Эврика! · Пытливый ум · Специализация на инженерном деле · Мастер побега",
+  "View Alliance Gnome racials": "Расовые способности: Гном — Альянс",
+  "Walk on Air · Read Ley Line · Wind Blessed · Elemental Insight": "Воздушная поступь · Чтение силовых линий · Благословение ветра · Познание стихий",
+  "View Alliance Skyborne (High Order) racials": "Расовые способности: Неборожденный (Высший орден) — Альянс",
+  "Blood Fury · Shatter Curse · Axe Specialization · Hardiness": "Кровавое неистовство · Разрушение проклятий · Специализация на топорах · Твердость",
+  "View Horde Orc racials": "Расовые способности: Орк — Орда",
+  "Will of the Forsaken · Cannibalize · Underwater Breathing · Touch of the Grave": "Воля Отрекшихся · Каннибализм · Подводное дыхание · Могильное касание",
+  "View Horde Undead racials": "Расовые способности: Нежить — Орда",
+  "War Stomp · Cultivation · Plainsrunning · Endurance": "Громовая поступь · Проращивание · Бег по равнинам · Закалка",
+  "View Horde Tauren racials": "Расовые способности: Таурен — Орда",
+  "Berserking · Rapid Regeneration · Beast Slaying · Regeneration": "Берсерк · Быстрая регенерация · Убийство животных · Регенерация",
+  "View Horde Troll racials": "Расовые способности: Тролль — Орда",
+  "Walk on Air · Skysight · Wind Blessed · Elemental Insight": "Воздушная поступь · Небесное зрение · Благословение ветра · Познание стихий",
+  "View Horde Skyborne (Windshaper) racials": "Расовые способности: Неборожденный (Заклинатель ветра) — Орда",
+  "Link to Human (Alliance)": "Ссылка: Человек — Альянс",
+  "Warrior · Hunter · Mage · Rogue · Priest · Warlock · Paladin": "Воин · Охотник · Маг · Разбойник · Жрец · Чернокнижник · Паладин",
+  "Link to Dwarf (Alliance)": "Ссылка: Дворф — Альянс",
+  "Warrior · Hunter · Rogue · Priest · Paladin · Shaman": "Воин · Охотник · Разбойник · Жрец · Паладин · Шаман",
+  "Link to Night Elf (Alliance)": "Ссылка: Ночной эльф — Альянс",
+  "Warrior · Hunter · Rogue · Priest · Druid": "Воин · Охотник · Разбойник · Жрец · Друид",
+  "Link to Gnome (Alliance)": "Ссылка: Гном — Альянс",
+  "Warrior · Mage · Rogue · Priest · Warlock": "Воин · Маг · Разбойник · Жрец · Чернокнижник",
+  "Link to Skyborne (High Order) (Alliance)": "Ссылка: Неборожденный (Высший орден) — Альянс",
+  "Warrior · Hunter · Mage · Rogue · Druid": "Воин · Охотник · Маг · Разбойник · Друид",
+  "Link to Orc (Horde)": "Ссылка: Орк — Орда",
+  "Warrior · Hunter · Mage · Rogue · Warlock · Shaman": "Воин · Охотник · Маг · Разбойник · Чернокнижник · Шаман",
+  "Link to Undead (Horde)": "Ссылка: Нежить — Орда",
+  "Warrior · Mage · Rogue · Priest · Warlock · Paladin": "Воин · Маг · Разбойник · Жрец · Чернокнижник · Паладин",
+  "Link to Tauren (Horde)": "Ссылка: Таурен — Орда",
+  "Warrior · Hunter · Druid · Shaman": "Воин · Охотник · Друид · Шаман",
+  "Link to Troll (Horde)": "Ссылка: Тролль — Орда",
+  "Warrior · Hunter · Mage · Rogue · Priest · Warlock · Shaman": "Воин · Охотник · Маг · Разбойник · Жрец · Чернокнижник · Шаман",
+  "Link to Skyborne (Windshaper) (Horde)": "Ссылка: Неборожденный (Заклинатель ветра) — Орда",
+  "Warrior · Hunter · Rogue · Druid · Shaman": "Воин · Охотник · Разбойник · Друид · Шаман",
+  "Druid · WoW Forever": "Друид · WoW Forever",
+  "Hunter · WoW Forever": "Охотник · WoW Forever",
+  "Mage · WoW Forever": "Маг · WoW Forever",
+  "Paladin · WoW Forever": "Паладин · WoW Forever",
+  "Priest · WoW Forever": "Жрец · WoW Forever",
+  "Rogue · WoW Forever": "Разбойник · WoW Forever",
+  "Shaman · WoW Forever": "Шаман · WoW Forever",
+  "Warlock · WoW Forever": "Чернокнижник · WoW Forever",
+  "Warrior · WoW Forever": "Воин · WoW Forever",
+  "Forever": "Forever",
+  "Talents": "Talents",
+  "WORLD OF WARCRAFT · FOREVER": "WORLD OF WARCRAFT · FOREVER",
+  "GitHub": "GitHub",
+  "Forever Talents": "Forever Talents",
+  "WOW": "WOW",
+  "FOREVER": "FOREVER"
+});
+</script>
+<script data-i18n-bundle="locales/ru-priest.js">
+/* Russian talent text, keyed by stable talent ID. No gameplay fields. */
+(function (root, data) {
+  if (typeof module === 'object' && module.exports) module.exports = data;
+  else root.I18n.registerTalents(TALENTS, data);
+})(globalThis, {
+  "t0_0": {
+    "name": "Сила Света",
+    "text": "«Кара» и «Исповедь» наносят на 2% больше урона целям под действием вашего «Священного огня».",
+    "rankDescriptions": [
+      "«Кара» и «Исповедь» наносят на 2% больше урона целям под действием вашего «Священного огня».",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t0_1": {
+    "name": "Специализация на жезлах",
+    "text": "Увеличивает урон от жезлов на 13%.",
+    "rankDescriptions": [
+      "Увеличивает урон от жезлов на 13%.",
+      null
+    ]
+  },
+  "t0_2": {
+    "name": "Близнецы дисциплины",
+    "text": "Увеличивает урон и исцеление от мгновенных заклинаний на 1%.",
+    "rankDescriptions": [
+      "Увеличивает урон и исцеление от мгновенных заклинаний на 1%.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t0_3": {
+    "name": "Молчаливая решимость",
+    "text": "Снижает угрозу от заклинаний Света на 10% и сокращает длительность действующих на вас эффектов оглушения, страха и немоты на 5%.",
+    "rankDescriptions": [
+      "Снижает угрозу от заклинаний Света на 10% и сокращает длительность действующих на вас эффектов оглушения, страха и немоты на 5%.",
+      null,
+      null
+    ]
+  },
+  "t0_4": {
+    "name": "Точность Света",
+    "text": "Повышает вероятность попадания заклинаниями Света на 6%.",
+    "rankDescriptions": [
+      "Повышает вероятность попадания заклинаниями Света на 6%.",
+      null,
+      null
+    ]
+  },
+  "t0_5": {
+    "name": "Улучшенное слово силы: Щит",
+    "text": "Увеличивает количество урона, поглощаемого заклинанием «Слово силы: Щит», на 7%.",
+    "rankDescriptions": [
+      "Увеличивает количество урона, поглощаемого заклинанием «Слово силы: Щит», на 7%.",
+      null,
+      null
+    ]
+  },
+  "t0_6": {
+    "name": "Мученичество",
+    "text": "После получения критического удара в ближнем или дальнем бою с вероятностью 50% дает эффект «Средоточие заклинаний» на 6 сек. Он предотвращает задержку произнесения заклинаний при получении урона и повышает сопротивление эффектам прерывания на 20%.",
+    "rankDescriptions": [
+      "После получения критического удара в ближнем или дальнем бою с вероятностью 50% дает эффект «Средоточие заклинаний» на 6 сек. Он предотвращает задержку произнесения заклинаний при получении урона и повышает сопротивление эффектам прерывания на 20%.",
+      null
+    ]
+  },
+  "t0_7": {
+    "name": "Подвижность мысли",
+    "text": "Снижает затраты маны на «Кару», «Священный огонь» и мгновенные заклинания на 3%.",
+    "rankDescriptions": [
+      "Снижает затраты маны на «Кару», «Священный огонь» и мгновенные заклинания на 3%.",
+      null,
+      null
+    ]
+  },
+  "t0_8": {
+    "name": "Внутреннее сосредоточение",
+    "text": "При активации снижает затраты маны на следующее заклинание на 100% и повышает вероятность его критического эффекта на 25%, если такой эффект возможен.",
+    "rankDescriptions": [
+      "При активации снижает затраты маны на следующее заклинание на 100% и повышает вероятность его критического эффекта на 25%, если такой эффект возможен."
+    ],
+    "meta": "Мгновенно · 3 мин. — восстановление"
+  },
+  "t0_9": {
+    "name": "Медитация",
+    "text": "Позволяет сохранять 17% скорости восполнения маны во время произнесения заклинаний.",
+    "rankDescriptions": [
+      "Позволяет сохранять 17% скорости восполнения маны во время произнесения заклинаний.",
+      null,
+      null
+    ]
+  },
+  "t0_10": {
+    "name": "Улучшенный внутренний огонь",
+    "text": "Увеличивает прибавку к броне от «Внутреннего огня» на 15% и количество его зарядов на 4.",
+    "rankDescriptions": [
+      "Увеличивает прибавку к броне от «Внутреннего огня» на 15% и количество его зарядов на 4.",
+      null,
+      null
+    ]
+  },
+  "t0_11": {
+    "name": "Сила мысли",
+    "text": "Повышает общий показатель интеллекта на 3%.",
+    "rankDescriptions": [
+      "Повышает общий показатель интеллекта на 3%.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t0_12": {
+    "name": "Оберег души",
+    "text": "Сокращает время восстановления «Слова силы: Щит» на 4 сек. и снижает затраты маны на него на 15%.",
+    "rankDescriptions": [
+      "Сокращает время восстановления «Слова силы: Щит» на 4 сек. и снижает затраты маны на него на 15%."
+    ]
+  },
+  "t0_13": {
+    "name": "Улучшенное сожжение маны",
+    "text": "Сокращает время произнесения «Сожжения маны» на 0.5 сек.",
+    "rankDescriptions": [
+      "Сокращает время произнесения «Сожжения маны» на 0.5 сек.",
+      null
+    ]
+  },
+  "t0_14": {
+    "name": "Исповедь",
+    "text": "Направляет на цель поток священного света, нанося противнику 96 ед. урона от светлой магии или восстанавливая союзнику 233 ед. здоровья мгновенно и каждые 1 сек. в течение 2 сек.",
+    "rankDescriptions": [
+      "Направляет на цель поток священного света, нанося противнику 96 ед. урона от светлой магии или восстанавливая союзнику 233 ед. здоровья мгновенно и каждые 1 сек. в течение 2 сек."
+    ],
+    "meta": "100 ед. маны · Противник: 36 м — дальность / Союзник: 40 м — дальность · Поддерживаемое · 12 сек. — восстановление"
+  },
+  "t0_15": {
+    "name": "Обновленная надежда",
+    "text": "Повышает вероятность критического исцеления от «Быстрого исцеления», «Связующего исцеления», «Малого исцеления», «Исцеления», «Великого исцеления» и «Исповеди» на 2% при применении к целям с «Ослабленной душой» и сокращает оставшуюся длительность «Ослабленной души» на цели на 1 сек.",
+    "rankDescriptions": [
+      "Повышает вероятность критического исцеления от «Быстрого исцеления», «Связующего исцеления», «Малого исцеления», «Исцеления», «Великого исцеления» и «Исповеди» на 2% при применении к целям с «Ослабленной душой» и сокращает оставшуюся длительность «Ослабленной души» на цели на 1 сек.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t0_16": {
+    "name": "Божественное покровительство",
+    "text": "Критическое исцеление создает на цели щит, поглощающий урон в размере 5% от восстановленного здоровья. Длительность — 12 сек.",
+    "rankDescriptions": [
+      "Критическое исцеление создает на цели щит, поглощающий урон в размере 5% от восстановленного здоровья. Длительность — 12 сек.",
+      null,
+      null
+    ]
+  },
+  "t0_17": {
+    "name": "Придание сил",
+    "text": "Наполняет цель силой, увеличивая ее урон от заклинаний и исцеление на 20% на 15 сек.",
+    "rankDescriptions": [
+      "Наполняет цель силой, увеличивая ее урон от заклинаний и исцеление на 20% на 15 сек."
+    ],
+    "meta": "173 ед. маны · 30 м — дальность · Мгновенно · 3 мин. — восстановление"
+  },
+  "t1_0": {
+    "name": "Сумеречное сосредоточение",
+    "text": "С вероятностью 23% предотвращает прерывание произнесения любого заклинания при получении урона.",
+    "rankDescriptions": [
+      "С вероятностью 23% предотвращает прерывание произнесения любого заклинания при получении урона.",
+      null,
+      null
+    ]
+  },
+  "t1_1": {
+    "name": "Улучшенное обновление",
+    "text": "Увеличивает исцеление от «Обновления» на 5%.",
+    "rankDescriptions": [
+      "Увеличивает исцеление от «Обновления» на 5%.",
+      "Увеличивает исцеление от «Обновления» на 10%.",
+      "Увеличивает исцеление от «Обновления» на 15%."
+    ]
+  },
+  "t1_2": {
+    "name": "Специализация на магии Света",
+    "text": "Повышает вероятность критического эффекта заклинаний Света на 1%.",
+    "rankDescriptions": [
+      "Повышает вероятность критического эффекта заклинаний Света на 1%.",
+      "Повышает вероятность критического эффекта заклинаний Света на 2%.",
+      "Повышает вероятность критического эффекта заклинаний Света на 3%.",
+      "Повышает вероятность критического эффекта заклинаний Света на 4%.",
+      "Повышает вероятность критического эффекта заклинаний Света на 5%."
+    ]
+  },
+  "t1_3": {
+    "name": "Защита от заклинаний",
+    "text": "Снижает весь получаемый урон от заклинаний на 2%.",
+    "rankDescriptions": [
+      "Снижает весь получаемый урон от заклинаний на 2%.",
+      "Снижает весь получаемый урон от заклинаний на 4%.",
+      "Снижает весь получаемый урон от заклинаний на 6%.",
+      "Снижает весь получаемый урон от заклинаний на 8%.",
+      "Снижает весь получаемый урон от заклинаний на 10%."
+    ]
+  },
+  "t1_4": {
+    "name": "Божественное неистовство",
+    "text": "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.1 сек.",
+    "rankDescriptions": [
+      "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.1 сек.",
+      "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.2 сек.",
+      "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.3 сек.",
+      "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.4 сек.",
+      "Сокращает время произнесения «Кары», «Священного огня», «Исцеления» и «Великого исцеления» на 0.5 сек."
+    ]
+  },
+  "t1_5": {
+    "name": "Кольцо света",
+    "text": "Вызывает вспышку священного света вокруг заклинателя, наносящую всем противникам от 31 до 36 ед. урона от светлой магии в радиусе 10 м и восстанавливающую всем участникам группы в радиусе 10 м от 68 до 77 ед. здоровья. Эти эффекты не создают угрозы.",
+    "rankDescriptions": [
+      "Вызывает вспышку священного света вокруг заклинателя, наносящую всем противникам от 31 до 36 ед. урона от светлой магии в радиусе 10 м и восстанавливающую всем участникам группы в радиусе 10 м от 68 до 77 ед. здоровья. Эти эффекты не создают угрозы."
+    ],
+    "meta": "185 ед. маны · Мгновенно"
+  },
+  "t1_6": {
+    "name": "Благословенное восстановление",
+    "text": "После получения критического удара в ближнем или дальнем бою либо потери более 30% от максимального запаса здоровья от одной атаки восстанавливает 8% полученного урона за 6 сек. При обновлении эффекта оставшееся исцеление сохраняется.",
+    "rankDescriptions": [
+      "После получения критического удара в ближнем или дальнем бою либо потери более 30% от максимального запаса здоровья от одной атаки восстанавливает 8% полученного урона за 6 сек. При обновлении эффекта оставшееся исцеление сохраняется.",
+      null,
+      null
+    ]
+  },
+  "t1_7": {
+    "name": "Вдохновение",
+    "text": "Непериодическое критическое исцеление повышает броню цели на 8% на 15 сек.",
+    "rankDescriptions": [
+      "Непериодическое критическое исцеление повышает броню цели на 8% на 15 сек.",
+      null,
+      null
+    ]
+  },
+  "t1_8": {
+    "name": "Предел сил Света",
+    "text": "Увеличивает дальность действия «Кары» и «Священного огня», а также радиус действия «Молитвы исцеления» и «Кольца света» на 10%.",
+    "rankDescriptions": [
+      "Увеличивает дальность действия «Кары» и «Священного огня», а также радиус действия «Молитвы исцеления» и «Кольца света» на 10%.",
+      "Увеличивает дальность действия «Кары» и «Священного огня», а также радиус действия «Молитвы исцеления» и «Кольца света» на 20%."
+    ]
+  },
+  "t1_9": {
+    "name": "Улучшенное исцеление",
+    "text": "Снижает затраты маны на «Малое исцеление», «Исцеление», «Великое исцеление», «Исповедь» и «Молитву восстановления» на 5%.",
+    "rankDescriptions": [
+      "Снижает затраты маны на «Малое исцеление», «Исцеление», «Великое исцеление», «Исповедь» и «Молитву восстановления» на 5%.",
+      null,
+      null
+    ]
+  },
+  "t1_10": {
+    "name": "Опаляющий свет",
+    "text": "Увеличивает наносимый урон от светлой магии на 2%. Каждый периодический урон от «Священного огня» с вероятностью 5% позволяет применить следующее «Кольцо света» без затрат маны.",
+    "rankDescriptions": [
+      "Увеличивает наносимый урон от светлой магии на 2%. Каждый периодический урон от «Священного огня» с вероятностью 5% позволяет применить следующее «Кольцо света» без затрат маны.",
+      null
+    ]
+  },
+  "t1_11": {
+    "name": "Связующее исцеление",
+    "text": "Восстанавливает дружественной цели и заклинателю от 346 до 403 ед. здоровья. Создает мало угрозы.",
+    "rankDescriptions": [
+      "Восстанавливает дружественной цели и заклинателю от 346 до 403 ед. здоровья. Создает мало угрозы."
+    ],
+    "meta": "155 ед. маны · 40 м — дальность · 1.5 сек. — применение"
+  },
+  "t1_12": {
+    "name": "Литания Света",
+    "text": "При применении исцеляющего заклинания возвращает ману в размере 5% от его базовой стоимости, если предыдущее исцеление было другим заклинанием.",
+    "rankDescriptions": [
+      "При применении исцеляющего заклинания возвращает ману в размере 5% от его базовой стоимости, если предыдущее исцеление было другим заклинанием.",
+      null
+    ]
+  },
+  "t1_13": {
+    "name": "Дух воздаяния",
+    "text": "После смерти жрец становится духом воздаяния на 15 сек. Дух не может двигаться или атаковать; его нельзя атаковать или выбрать целью заклинаний и эффектов. В этом облике жрец может применять любые исцеляющие заклинания без затрат маны. По окончании эффекта жрец умирает.",
+    "rankDescriptions": [
+      "После смерти жрец становится духом воздаяния на 15 сек. Дух не может двигаться или атаковать; его нельзя атаковать или выбрать целью заклинаний и эффектов. В этом облике жрец может применять любые исцеляющие заклинания без затрат маны. По окончании эффекта жрец умирает."
+    ]
+  },
+  "t1_14": {
+    "name": "Духовное направление",
+    "text": "Повышает исцеление от заклинаний на величину вплоть до 5% от общего показателя духа, а урон от заклинаний — вплоть до 1% от общего показателя духа.",
+    "rankDescriptions": [
+      "Повышает исцеление от заклинаний на величину вплоть до 5% от общего показателя духа, а урон от заклинаний — вплоть до 1% от общего показателя духа.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t1_15": {
+    "name": "Духовное исцеление",
+    "text": "Увеличивает исцеление от заклинаний на 3%.",
+    "rankDescriptions": [
+      "Увеличивает исцеление от заклинаний на 3%.",
+      null,
+      null
+    ]
+  },
+  "t1_16": {
+    "name": "Молитва восстановления",
+    "text": "Накладывает на цель заклинание, восстанавливающее 247 ед. здоровья при следующем получении урона или непериодического исцеления. После срабатывания «Молитва восстановления» переходит к участнику группы или рейда в радиусе 20 м. Переходит до 5 раз и действует 30 сек. после каждого перехода. Один заклинатель может поддерживать это заклинание только на одной цели одновременно.",
+    "rankDescriptions": [
+      "Накладывает на цель заклинание, восстанавливающее 247 ед. здоровья при следующем получении урона или непериодического исцеления. После срабатывания «Молитва восстановления» переходит к участнику группы или рейда в радиусе 20 м. Переходит до 5 раз и действует 30 сек. после каждого перехода. Один заклинатель может поддерживать это заклинание только на одной цели одновременно."
+    ],
+    "meta": "210 ед. маны · 40 м — дальность · Мгновенно · 10 сек. — восстановление"
+  },
+  "t2_0": {
+    "name": "Средоточие Тьмы",
+    "text": "Повышает вероятность попадания заклинаниями темной магии на 1%.",
+    "rankDescriptions": [
+      "Повышает вероятность попадания заклинаниями темной магии на 1%.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t2_1": {
+    "name": "Затмение",
+    "text": "Наносящие урон заклинания темной магии с вероятностью 2% оглушают цель на 3 сек.",
+    "rankDescriptions": [
+      "Наносящие урон заклинания темной магии с вероятностью 2% оглушают цель на 3 сек.",
+      "Наносящие урон заклинания темной магии с вероятностью 4% оглушают цель на 3 сек.",
+      "Наносящие урон заклинания темной магии с вероятностью 6% оглушают цель на 3 сек.",
+      "Наносящие урон заклинания темной магии с вероятностью 8% оглушают цель на 3 сек.",
+      "Наносящие урон заклинания темной магии с вероятностью 10% оглушают цель на 3 сек."
+    ]
+  },
+  "t2_2": {
+    "name": "Захват духа",
+    "text": "После убийства достойного противника с вероятностью 20% повышает дух на 100% на 15 сек. В это время мана во время произнесения заклинаний восполняется со скоростью 50% от обычной.",
+    "rankDescriptions": [
+      "После убийства достойного противника с вероятностью 20% повышает дух на 100% на 15 сек. В это время мана во время произнесения заклинаний восполняется со скоростью 50% от обычной.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t2_3": {
+    "name": "Сродство с Тьмой",
+    "text": "Снижает угрозу от заклинаний темной магии на 10%.",
+    "rankDescriptions": [
+      "Снижает угрозу от заклинаний темной магии на 10%.",
+      null,
+      null
+    ]
+  },
+  "t2_4": {
+    "name": "Улучшенное слово Тьмы: Боль",
+    "text": "Увеличивает длительность «Слова Тьмы: Боль» на 3 сек.",
+    "rankDescriptions": [
+      "Увеличивает длительность «Слова Тьмы: Боль» на 3 сек.",
+      "Увеличивает длительность «Слова Тьмы: Боль» на 6 сек."
+    ]
+  },
+  "t2_5": {
+    "name": "Предел сил Тьмы",
+    "text": "Увеличивает дальность действия атакующих заклинаний темной магии на 10%.",
+    "rankDescriptions": [
+      "Увеличивает дальность действия атакующих заклинаний темной магии на 10%.",
+      null
+    ]
+  },
+  "t2_6": {
+    "name": "Улучшенный взрыв разума",
+    "text": "Сокращает время восстановления «Взрыва разума» на 0.5 сек.",
+    "rankDescriptions": [
+      "Сокращает время восстановления «Взрыва разума» на 0.5 сек.",
+      "Сокращает время восстановления «Взрыва разума» на 1 сек.",
+      "Сокращает время восстановления «Взрыва разума» на 1.5 сек.",
+      "Сокращает время восстановления «Взрыва разума» на 2 сек.",
+      "Сокращает время восстановления «Взрыва разума» на 2.5 сек."
+    ]
+  },
+  "t2_7": {
+    "name": "Улучшенный ментальный крик",
+    "text": "Сокращает время восстановления «Ментального крика» на 2 сек.",
+    "rankDescriptions": [
+      "Сокращает время восстановления «Ментального крика» на 2 сек.",
+      "Сокращает время восстановления «Ментального крика» на 4 сек."
+    ]
+  },
+  "t2_8": {
+    "name": "Пытка разума",
+    "text": "Поражает разум цели энергией Тьмы, нанося 104 ед. урона от темной магии за 3 сек. и снижая скорость передвижения на 50%.",
+    "rankDescriptions": [
+      "Поражает разум цели энергией Тьмы, нанося 104 ед. урона от темной магии за 3 сек. и снижая скорость передвижения на 50%."
+    ],
+    "meta": "45 ед. маны · 20 м — дальность · Поддерживаемое"
+  },
+  "t2_9": {
+    "name": "Улучшенная пытка разума",
+    "text": "Увеличивает урон от «Пытки разума» на 10% и дальность ее действия на 5 м, но теперь она снижает скорость передвижения цели на 35%.",
+    "rankDescriptions": [
+      "Увеличивает урон от «Пытки разума» на 10% и дальность ее действия на 5 м, но теперь она снижает скорость передвижения цели на 35%.",
+      null
+    ]
+  },
+  "t2_10": {
+    "name": "Улучшенный уход в тень",
+    "text": "Сокращает время восстановления «Ухода в тень» на 3 сек.",
+    "rankDescriptions": [
+      "Сокращает время восстановления «Ухода в тень» на 3 сек.",
+      "Сокращает время восстановления «Ухода в тень» на 6 сек."
+    ]
+  },
+  "t2_11": {
+    "name": "Объятия вампира",
+    "text": "Поражает цель энергией Тьмы: все участники группы получают исцеление в размере 20% от любого наносимого вами урона заклинаниями темной магии в течение 30 сек. Смерть противника под действием «Объятий вампира» также может вызвать срабатывание таланта «Захват духа».",
+    "rankDescriptions": [
+      "Поражает цель энергией Тьмы: все участники группы получают исцеление в размере 20% от любого наносимого вами урона заклинаниями темной магии в течение 30 сек. Смерть противника под действием «Объятий вампира» также может вызвать срабатывание таланта «Захват духа»."
+    ],
+    "meta": "40 ед. маны · 30 м — дальность · Мгновенно · 1 мин. — восстановление"
+  },
+  "t2_12": {
+    "name": "Плетение Тьмы",
+    "text": "Наносящие урон заклинания темной магии с вероятностью 33% увеличивают наносимый вами урон от темной магии на 2% на 15 сек. Эффект суммируется до 5 раз.",
+    "rankDescriptions": [
+      "Наносящие урон заклинания темной магии с вероятностью 33% увеличивают наносимый вами урон от темной магии на 2% на 15 сек. Эффект суммируется до 5 раз.",
+      null,
+      null
+    ]
+  },
+  "t2_13": {
+    "name": "Безмолвие",
+    "text": "Накладывает на цель немоту, не позволяя произносить заклинания в течение 5 сек., и прерывает произнесение заклинаний на 3 сек.",
+    "rankDescriptions": [
+      "Накладывает на цель немоту, не позволяя произносить заклинания в течение 5 сек., и прерывает произнесение заклинаний на 3 сек."
+    ],
+    "meta": "225 ед. маны · 20 м — дальность · Мгновенно · 45 сек. — восстановление"
+  },
+  "t2_14": {
+    "name": "Всепожирающая зараза",
+    "text": "Снижает затраты маны на «Всепожирающую чуму» на 25%.\n\nПри смерти цели под действием «Всепожирающей чумы» болезнь переходит к ближайшему противнику в радиусе 5 м на оставшееся время.",
+    "rankDescriptions": [
+      "Снижает затраты маны на «Всепожирающую чуму» на 25%.\n\nПри смерти цели под действием «Всепожирающей чумы» болезнь переходит к ближайшему противнику в радиусе 5 м на оставшееся время.",
+      null
+    ]
+  },
+  "t2_15": {
+    "name": "Преждевременная гибель",
+    "text": "По целям с уровнем здоровья 20% или ниже повышает вероятность критического эффекта «Слова Тьмы: Смерть» на 15%.",
+    "rankDescriptions": [
+      "По целям с уровнем здоровья 20% или ниже повышает вероятность критического эффекта «Слова Тьмы: Смерть» на 15%.",
+      null
+    ]
+  },
+  "t2_16": {
+    "name": "Мрак",
+    "text": "Увеличивает наносимый урон от темной магии на 2%.",
+    "rankDescriptions": [
+      "Увеличивает наносимый урон от темной магии на 2%.",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "t2_17": {
+    "name": "Облик Тьмы",
+    "text": "Принимает облик Тьмы, увеличивая урон от темной магии на 10%, снижая затраты маны на все заклинания темной магии на 50%, увеличивая дополнительный урон от их критических эффектов на 100% и снижая получаемый физический урон на 15%. В этом облике нельзя применять исцеляющие заклинания.",
+    "rankDescriptions": [
+      "Принимает облик Тьмы, увеличивая урон от темной магии на 10%, снижая затраты маны на все заклинания темной магии на 50%, увеличивая дополнительный урон от их критических эффектов на 100% и снижая получаемый физический урон на 15%. В этом облике нельзя применять исцеляющие заклинания."
+    ],
+    "meta": "345 ед. маны · Мгновенно · 1.5 сек. — восстановление"
+  }
+});
+</script>
+<script>I18n.start();</script>
 </body>
 </html>
