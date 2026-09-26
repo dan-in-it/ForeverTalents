@@ -2,19 +2,19 @@
 
 WoW Forever talent calculators, hosted on **[GitHub Pages](https://dan-in-it.github.io/ForeverTalents/)**.
 
-All nine classes are available: **470 talents across 27 trees**.
+All nine classes are available: **466 talents across 27 trees**, reviewed against Wowhead's Forever data and Blizzard's September 24 beta notes on September 26, 2026. See the [talent data review](docs/talent-review-2026-09-26.md) for sources and the Warrior position discrepancy.
 
 | Class | Talents | Specializations |
 | --- | ---: | --- |
-| Druid | 52 | Balance, Feral Combat, Restoration |
+| Druid | 51 | Balance, Feral Combat, Restoration |
 | Hunter | 50 | Beast Mastery, Marksmanship, Survival |
 | Mage | 54 | Arcane, Fire, Frost |
-| Paladin | 52 | Holy, Protection, Retribution |
+| Paladin | 50 | Holy, Protection, Retribution |
 | Priest | 53 | Discipline, Holy, Shadow Magic |
 | Rogue | 53 | Assassination, Combat, Subtlety |
 | Shaman | 50 | Elemental Combat, Enhancement, Restoration |
 | Warlock | 52 | Affliction, Demonology, Destruction |
-| Warrior | 54 | Arms, Fury, Protection |
+| Warrior | 53 | Arms, Fury, Protection |
 
 ## Racial abilities
 
@@ -32,13 +32,13 @@ Open `http://localhost:4174/`, or open `index.html` directly. Each calculator is
 
 ## Calculator controls
 
-Click to add a rank, right-click or Alt-click to refund, and Shift-click to fill available ranks. Touch users can inspect a talent and use Add rank or Remove rank. Keyboard users can Tab to a talent and use Enter, Space, or Minus.
+Click to add a rank, right-click or Alt-click to refund, and Shift-click to fill available ranks. Touch users tap a talent to add a rank and use Undo to reverse a change. Keyboard users can Tab to a talent and use Enter, Space, or Minus.
 
 All calculators enforce the level 10–60 point budget, five-point tier gates, and talent prerequisites. Undo, tree resets, full resets, local saving, and class-specific build codes are supported.
 
-Tooltips display available rank effects and the next rank when known. Missing rank effects show the available rank explicitly; retained Druid estimates are labeled. Fixed costs and effect amounts are not automatically scaled.
+Tooltips display sourced effects for every talent rank, including the next rank. Spell costs, ranges, cast times, and cooldowns come from the Forever spell tooltips. Base-mana costs retain their percentage instead of a character-specific estimate. Damage and healing values are source tooltip values, not a simulation of character stats or higher trained spell ranks.
 
-Existing Warrior, Paladin, and Druid build-code layouts remain supported, including original WFD1 Feral builds. Shaman WFS1 codes migrate into WFS2 with Improved Healing Wave unallocated. Builds that conflict with newly added prerequisites report the problem and preserve the original save for recovery through Build code.
+Warrior WF1, Paladin WFP1, and Druid WFD2 codes import into WF2, WFP2, and WFD3 without shifting surviving talent ranks. Original WFD1 Feral builds remain supported. Codes with points in removed talents report the removed talent instead of silently discarding or reallocating points. Shaman WFS1 codes migrate into WFS2 with Improved Healing Wave unallocated. Builds that conflict with updated tiers or prerequisites report the problem and preserve the original save for recovery through Build code. Renamed or replaced talents retain their original build-code slots.
 
 ## Verification
 
@@ -46,7 +46,7 @@ Existing Warrior, Paladin, and Druid build-code layouts remain supported, includ
 node --test tests/*.test.cjs
 ```
 
-Checks cover all 470 talent definitions, known rank effects, prerequisite allocation and refunds, point budgets, build-code validation, legacy imports, embedded assets, and directory links. Verify desktop, mobile, and offline behavior when changing calculator UI.
+Checks cover all 466 talent definitions and 1,318 rank effects, prerequisite allocation and refunds, point budgets, build-code validation, legacy imports and removed talents, embedded assets, and directory links. Verify desktop, mobile, and offline behavior when changing calculator UI.
 
 ## Publishing
 

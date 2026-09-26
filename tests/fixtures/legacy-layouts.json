@@ -1,0 +1,965 @@
+{
+  "Warrior": {
+    "prefix": "WF1",
+    "talents": [
+      {
+        "id": "a1",
+        "name": "Improved Heroic Strike",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "a2",
+        "name": "Deflection",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "a3",
+        "name": "Improved Rend",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "a4",
+        "name": "Improved Charge",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "a5",
+        "name": "Improved Tactical Mastery",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "a6",
+        "name": "Improved Overpower",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "a7",
+        "name": "Anger Management",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "a8",
+        "name": "Deep Wounds",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "a9",
+        "name": "Spearing Strike",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "a10",
+        "name": "Two-Handed Weapon Specialization",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "a11",
+        "name": "Impale",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "a12",
+        "name": "Bloodthrill",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "a13",
+        "name": "Sweeping Strikes",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "a14",
+        "name": "Weaponmaster",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "a15",
+        "name": "Improved Slam",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "a16",
+        "name": "Improved Hamstring",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "a17",
+        "name": "Mortal Strike",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "f1",
+        "name": "Booming Voice",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f2",
+        "name": "Cruelty",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f3",
+        "name": "Iron Will",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f4",
+        "name": "Unbridled Wrath",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f5",
+        "name": "Improved Cleave",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f6",
+        "name": "Piercing Howl",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f7",
+        "name": "Blood Craze",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f8",
+        "name": "Boundless Rage",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f9",
+        "name": "Dual Wield Specialization",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f10",
+        "name": "Raging Blows",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f11",
+        "name": "Enrage",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f12",
+        "name": "Improved Execute",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f13",
+        "name": "Precision",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f14",
+        "name": "Death Wish",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f15",
+        "name": "Improved Intercept",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f16",
+        "name": "Improved Berserker Rage",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f17",
+        "name": "Flurry",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f18",
+        "name": "Bloodthirst",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "p1",
+        "name": "Shield Specialization",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "p2",
+        "name": "Anticipation",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "p3",
+        "name": "Improved Bloodrage",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "p4",
+        "name": "Toughness",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "p5",
+        "name": "Improved Thunder Clap",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p6",
+        "name": "Last Stand",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "p7",
+        "name": "Master of Defense",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "p8",
+        "name": "Improved Revenge",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p9",
+        "name": "Defiance",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p10",
+        "name": "Improved Sunder Armor",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p11",
+        "name": "Improved Disarm",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p12",
+        "name": "Vanguard",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "p13",
+        "name": "Improved Shield Wall",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "p14",
+        "name": "Concussion Blow",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "p15",
+        "name": "Improved Shield Bash",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "p16",
+        "name": "Vitality",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "p17",
+        "name": "Focused Rage",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "p18",
+        "name": "Bastion",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "p19",
+        "name": "Shield Slam",
+        "tree": 2,
+        "max": 1
+      }
+    ]
+  },
+  "Paladin": {
+    "prefix": "WFP1",
+    "talents": [
+      {
+        "id": "h1",
+        "name": "Improved Holy Strike",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h2",
+        "name": "Divine Strength",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "h3",
+        "name": "Divine Intellect",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "h4",
+        "name": "Healing Light",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "h5",
+        "name": "Spiritual Focus",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h6",
+        "name": "Improved Seals",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "h7",
+        "name": "Unyielding Faith",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h8",
+        "name": "Voice of Truth",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "h9",
+        "name": "Reverence",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "h10",
+        "name": "Purifying Power",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h11",
+        "name": "Infusion of Light",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h12",
+        "name": "Illumination",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "h13",
+        "name": "Divine Favor",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "h14",
+        "name": "Divine Precision",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "h15",
+        "name": "Holy Shock",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "h16",
+        "name": "Consecrated Ground",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "h17",
+        "name": "Holy Power",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "h18",
+        "name": "Light's Vigil",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "p1",
+        "name": "Toughness",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "p2",
+        "name": "Redoubt",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "p3",
+        "name": "Precision",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "p4",
+        "name": "Guardian's Favor",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "p5",
+        "name": "Anticipation",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "p6",
+        "name": "Improved Seal of Fury",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "p7",
+        "name": "Improved Righteous Fury",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "p8",
+        "name": "Shield Specialization",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "p9",
+        "name": "Sacred Duty",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "p10",
+        "name": "Swift Judgement",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "p11",
+        "name": "One-Handed Weapon Specialization",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "p12",
+        "name": "Improved Hammer of Justice",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "p13",
+        "name": "Templar's Bulwark",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "p14",
+        "name": "Reckoning",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "p15",
+        "name": "Iron Creed",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "p16",
+        "name": "Holy Shield",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "r1",
+        "name": "Deflection",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r2",
+        "name": "Benediction",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r3",
+        "name": "Improved Judgement",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r4",
+        "name": "Holy Conduit",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r5",
+        "name": "Conviction",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r6",
+        "name": "Vindication",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r7",
+        "name": "Sanctified Judgement",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r8",
+        "name": "Seal of Command",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r9",
+        "name": "Pursuit of Justice",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r10",
+        "name": "Eye for an Eye",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r11",
+        "name": "Sacred Arbiter",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r12",
+        "name": "Crusade",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r13",
+        "name": "Two-Handed Weapon Specialization",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r14",
+        "name": "Vengeance",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r15",
+        "name": "Repentance",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r16",
+        "name": "Champion of the Light",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r17",
+        "name": "Instrument of Law",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r18",
+        "name": "Twist of Light",
+        "tree": 2,
+        "max": 1
+      }
+    ]
+  },
+  "Druid": {
+    "prefix": "WFD2",
+    "talents": [
+      {
+        "id": "b1",
+        "name": "Improved Wrath",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b2",
+        "name": "Genesis",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b3",
+        "name": "Moonglow",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "b4",
+        "name": "Improved Moonfire",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "b5",
+        "name": "Nature's Majesty",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "b6",
+        "name": "Nature's Reach",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "b7",
+        "name": "Improved Entangling Roots",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "b8",
+        "name": "Nature's Splendor",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "b9",
+        "name": "Balance of Nature",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b10",
+        "name": "Insect Swarm",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "b11",
+        "name": "Vengeance",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b12",
+        "name": "Improved Starfire",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b13",
+        "name": "Overgrowth",
+        "tree": 0,
+        "max": 2
+      },
+      {
+        "id": "b14",
+        "name": "Nature's Grace",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "b15",
+        "name": "Eclipse",
+        "tree": 0,
+        "max": 3
+      },
+      {
+        "id": "b16",
+        "name": "Moonfury",
+        "tree": 0,
+        "max": 5
+      },
+      {
+        "id": "b17",
+        "name": "Moonkin Form",
+        "tree": 0,
+        "max": 1
+      },
+      {
+        "id": "f1",
+        "name": "Ferocity",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f2",
+        "name": "Heart of the Wild",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f3",
+        "name": "Feral Swiftness",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f4",
+        "name": "Feral Instinct",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f5",
+        "name": "Brutal Impact",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f6",
+        "name": "Thick Hide",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f7",
+        "name": "Savage Fury",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f8",
+        "name": "Feral Charge",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f9",
+        "name": "Sharpened Claws",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f10",
+        "name": "Shredding Attacks",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f11",
+        "name": "Mangle",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f12",
+        "name": "Predatory Strikes",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f13",
+        "name": "Primal Fury",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f14",
+        "name": "Predatory Instincts",
+        "tree": 1,
+        "max": 2
+      },
+      {
+        "id": "f15",
+        "name": "Leader of the Pack",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "f16",
+        "name": "King of the Jungle",
+        "tree": 1,
+        "max": 3
+      },
+      {
+        "id": "f17",
+        "name": "Natural Reaction",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f18",
+        "name": "Rend and Tear",
+        "tree": 1,
+        "max": 5
+      },
+      {
+        "id": "f19",
+        "name": "Berserk",
+        "tree": 1,
+        "max": 1
+      },
+      {
+        "id": "r1",
+        "name": "Nature's Focus",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r2",
+        "name": "Furor",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r3",
+        "name": "Naturalist",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r4",
+        "name": "Subtlety",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r5",
+        "name": "Natural Shapeshifter",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r6",
+        "name": "Reflection",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r7",
+        "name": "Gift of Nature",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r8",
+        "name": "Gift of the Earthmother",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r9",
+        "name": "Tranquil Spirit",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r10",
+        "name": "Improved Rejuvenation",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r11",
+        "name": "Swiftmend",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r12",
+        "name": "Nature's Swiftness",
+        "tree": 2,
+        "max": 1
+      },
+      {
+        "id": "r13",
+        "name": "Living Spirit",
+        "tree": 2,
+        "max": 3
+      },
+      {
+        "id": "r14",
+        "name": "Improved Tranquility",
+        "tree": 2,
+        "max": 2
+      },
+      {
+        "id": "r15",
+        "name": "Improved Regrowth",
+        "tree": 2,
+        "max": 5
+      },
+      {
+        "id": "r16",
+        "name": "Wild Growth",
+        "tree": 2,
+        "max": 1
+      }
+    ]
+  }
+}

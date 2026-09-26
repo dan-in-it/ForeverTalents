@@ -19,26 +19,32 @@ test('Shaman adds Improved Healing Wave with all five effects',()=>{
   assert.equal(talents.filter(t=>t.prerequisite).length,7);
 });
 test('WFS1 imports preserve original talent positions and leave the added talent empty',()=>{
-  const old='WFS1-60-5000000000000000-030000000000000000-500000000000000';
+  const old='WFS1-60-5000000000000000-030000000000000000-533400005000000';
   const state=engine.decode(old);
   assert.equal(state.ranks.e1,5);
   assert.equal(state.ranks.h2,3);
   assert.equal(state.ranks.r1,5);
   assert.equal(state.ranks.t2_0,0);
-  assert.equal(engine.total(state),13);
+  assert.equal(state.ranks.r9,5);
+  assert.equal(engine.total(state),28);
   const upgraded=engine.encode(state);
-  assert.equal(upgraded,'WFS2-60-5000000000000000-030000000000000000-5000000000000000');
+  assert.equal(upgraded,'WFS2-60-5000000000000000-030000000000000000-5334000050000000');
   assert.equal(engine.encode(engine.decode(upgraded)),upgraded);
   const result=engine.change(state,'t2_0',5);
   assert.equal(result.error,undefined);
   assert.equal(engine.decode(engine.encode(result.state)).ranks.t2_0,5);
 });
-test('incomplete rank data is not scaled into unsupported effects',()=>{
+test('old Shaman builds invalidated by the Tidal Mastery move report the tier requirement',()=>{
+  assert.throws(()=>engine.decode('WFS1-60-5000000000000000-030000000000000000-500000000000000'),/Tidal Mastery requires 15 points/);
+});
+test('Improved Stormstrike now has independently sourced effects at both ranks',()=>{
   const storm=talents.find(t=>t.name==='Improved Stormstrike');
   const rank1=engine.effectAtRank(storm,1),rank2=engine.effectAtRank(storm,2);
   assert.ok(rank1.exact);
-  assert.equal(rank2.exact,false);
-  assert.equal(rank2.rank,1);
-  assert.equal(rank2.text,rank1.text);
+  assert.equal(rank2.exact,true);
+  assert.equal(rank2.rank,2);
+  assert.match(rank1.text,/50% chance/);
+  assert.match(rank2.text,/100% chance/);
+  assert.match(rank2.text,/50% mana regeneration/);
   assert.equal(rank2.estimated,false);
 });

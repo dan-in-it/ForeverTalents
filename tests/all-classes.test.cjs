@@ -33,7 +33,7 @@ function reach(engine,target) {
 test('directory links to all nine complete calculators',()=>{
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
   assert.equal(Object.keys(source).length,9);
-  assert.equal(Object.values(source).flatMap(c=>c.trees.flatMap(t=>t.talents)).length,470);
+  assert.equal(Object.values(source).flatMap(c=>c.trees.flatMap(t=>t.talents)).length,466);
   assert.equal((html.match(/class="class-calculator" href="talents\//g)||[]).length,9);
   for(const cls of Object.keys(source)) assert.ok(html.includes(`href="talents/${cls.toLowerCase()}.html"`));
   assert.ok(!/Coming soon|reference-note|Source &amp; credits/.test(html));
@@ -41,7 +41,7 @@ test('directory links to all nine complete calculators',()=>{
 
 for(const [cls,data] of Object.entries(source)) {
   const {html,context,talents,engine}=load(cls);
-  test(`${cls}: positions, ranks, known effects, costs and prerequisites match supplied data`,()=>{
+  test(`${cls}: positions, ranks, effects, icons, costs and prerequisites match reviewed Wowhead data`,()=>{
     assert.deepEqual(Array.from(engine.trees,t=>t.length),data.trees.map(t=>t.talents.length));
     assert.equal(new Set(talents.map(t=>t.id)).size,talents.length);
     assert.equal(new Set(talents.map(t=>`${t.tree}:${t.row}:${t.col}`)).size,talents.length);
@@ -50,10 +50,17 @@ for(const [cls,data] of Object.entries(source)) {
       assert.ok(actual,expected.name);
       assert.deepEqual([actual.tree,actual.row,actual.col,actual.max],[i,expected.row-1,expected.col-1,expected.max]);
       assert.equal(actual.active===true,expected.passive===false);
+      assert.equal(actual.icon,expected.icon);
+      assert.equal(actual.wowheadId,expected.wowheadId);
+      assert.deepEqual(plain(actual.spellIds),expected.spellIds);
+      assert.equal(actual.rankDescriptions.length,actual.max);
+      assert.ok(actual.rankDescriptions.every(text=>typeof text==='string'&&text.length>0));
+      assert.ok(!actual.estimatedRanks?.length);
+      assert.ok(actual.rankDescriptions.every(text=>!/<[^>]*>|&(?:nbsp|amp|lt|gt);/.test(text)));
       assert.equal(engine.byId[actual.prerequisite]?.name,expected.req);
       const known=Array.isArray(expected.desc)?expected.desc.map((text,i)=>[i+1,text]):Object.entries(expected.desc);
       for(const [rank,text] of known) assert.deepEqual(plain(engine.effectAtRank(actual,Number(rank))),{text,rank:Number(rank),exact:true,estimated:false},`${expected.name} rank ${rank}`);
-      if(expected.cost) assert.ok(actual.meta.includes(expected.cost.replace(/ \| /g,' · ')));
+      if(expected.cost) assert.equal(actual.meta,expected.cost);
       if(expected.reqText) assert.ok(actual.meta.includes(expected.reqText));
       for(let rank=0;rank<=actual.max;rank++) {
         const effect=engine.effectAtRank(actual,rank);

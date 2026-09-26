@@ -18,9 +18,9 @@ function add(state,id,amount=1) {
   return result.state;
 }
 
-test('Druid rank effects retain known values and mark retained estimates',() => {
-  assert.equal(talents.length,52);
-  assert.deepEqual(Array.from(engine.trees,tree=>tree.length),[17,19,16]);
+test('Druid rank effects use verified values for every rank',() => {
+  assert.equal(talents.length,51);
+  assert.deepEqual(Array.from(engine.trees,tree=>tree.length),[16,19,16]);
   for (const talent of talents) {
     assert.equal(talent.rankDescriptions.length,talent.max);
     for (let rank=0;rank<=talent.max;rank++) assert.ok(engine.descriptionAtRank(talent,rank));
@@ -31,7 +31,9 @@ test('Druid rank effects retain known values and mark retained estimates',() => 
   assert.match(engine.descriptionAtRank(engine.byId.r6,2),/33%/);
   assert.match(engine.byId.f11.meta,/^20 Rage/);
   assert.match(engine.byId.f8.text,/Feral Charge \(Cat\)/);
-  assert.ok(engine.effectAtRank(engine.byId.b15,2).estimated);
+  assert.equal(engine.effectAtRank(engine.byId.b15,2).estimated,false);
+  assert.equal(engine.byId.f11.name,'Primal Bite');
+  assert.equal(engine.byId.f13.name,'Blood Frenzy');
 });
 
 test('original WFD1 Feral builds upgrade without moving ranks into the new trees',() => {
@@ -44,7 +46,7 @@ test('original WFD1 Feral builds upgrade without moving ranks into the new trees
   assert.equal(state.ranks.f6,0);
   assert.equal(state.ranks.f16,2);
   const code=engine.encode(state);
-  assert.equal(code,'WFD2-38-00000000000000000-2523002022132212000-0000000000000000');
+  assert.equal(code,'WFD3-38-0000000000000000-2523002022132212000-0000000000000000');
   assert.equal(engine.encode(engine.decode(code)),code);
 });
 
@@ -98,7 +100,7 @@ test('all trees share the 51-point budget and short fills obey the selected leve
 test('build decoding rejects wrong classes, layouts, ranks, point budgets, and prerequisites',() => {
   const code=engine.encode(video());
   assert.equal(engine.encode(engine.decode(`  ${code}\n`)),code);
-  for(const bad of ['WF1-38-000-000-000',code.replace('WFD2','WFS1'),code+'0',code.replace('2523','9523'),code.replace('-38-','-10-'),
+  for(const bad of ['WF1-38-000-000-000',code.replace('WFD3','WFS1'),code+'0',code.replace('2523','9523'),code.replace('-38-','-10-'),
     'WFD1-60-0000000000000000001','WFD1-60-00000000000000000000','WFD2-60-<script>',null])
     assert.throws(()=>engine.decode(bad),String(bad));
 });
