@@ -2,11 +2,11 @@
 
 WoW Forever talent calculators, hosted on **[GitHub Pages](https://dan-in-it.github.io/ForeverTalents/)**.
 
-All nine classes are available: **466 talents across 27 trees**, reviewed against Wowhead's Forever data and Blizzard's September 24 beta notes on September 26, 2026. See the [talent data review](docs/talent-review-2026-09-26.md) for sources and the Warrior position discrepancy.
+All nine classes are available: **466 talents across 27 trees**, reviewed against Wowhead's Forever data and Blizzard's October 1 beta notes on October 1, 2026. See the [current talent data review](docs/talent-review-2026-10-01.md) for class changes, source discrepancies, and saved-build compatibility.
 
 | Class | Talents | Specializations |
 | --- | ---: | --- |
-| Druid | 51 | Balance, Feral Combat, Restoration |
+| Druid | 52 | Balance, Feral Combat, Restoration |
 | Hunter | 50 | Beast Mastery, Marksmanship, Survival |
 | Mage | 54 | Arcane, Fire, Frost |
 | Paladin | 50 | Holy, Protection, Retribution |
@@ -14,7 +14,7 @@ All nine classes are available: **466 talents across 27 trees**, reviewed agains
 | Rogue | 53 | Assassination, Combat, Subtlety |
 | Shaman | 50 | Elemental Combat, Enhancement, Restoration |
 | Warlock | 52 | Affliction, Demonology, Destruction |
-| Warrior | 53 | Arms, Fury, Protection |
+| Warrior | 52 | Arms, Fury, Protection |
 
 ## Racial abilities
 
@@ -38,7 +38,7 @@ All calculators enforce the level 10–60 point budget, five-point tier gates, a
 
 Tooltips display sourced effects for every talent rank, including the next rank. Spell costs, ranges, cast times, and cooldowns come from the Forever spell tooltips. Base-mana costs retain their percentage instead of a character-specific estimate. Damage and healing values are source tooltip values, not a simulation of character stats or higher trained spell ranks.
 
-Warrior WF1, Paladin WFP1, and Druid WFD2 codes import into WF2, WFP2, and WFD3 without shifting surviving talent ranks. Original WFD1 Feral builds remain supported. Codes with points in removed talents report the removed talent instead of silently discarding or reallocating points. Shaman WFS1 codes migrate into WFS2 with Improved Healing Wave unallocated. Builds that conflict with updated tiers or prerequisites report the problem and preserve the original save for recovery through Build code. Renamed or replaced talents retain their original build-code slots.
+Warrior WF1/WF2 codes import into WF3, Druid WFD1/WFD2/WFD3 codes import into WFD4, and Paladin WFP1 codes import into WFP2. Surviving talents retain their identities, including Iron Will moving from Fury to Protection. Newly added talents start unallocated. Codes with points in removed talents (including King of the Jungle, Improved Cleave, Boundless Rage, Precision, and Toughness) report the removed talent instead of silently reallocating points. Shaman WFS1 codes migrate into WFS2 with Improved Healing Wave unallocated. Builds that conflict with updated tiers or prerequisites report the problem and preserve the original save for recovery through Build code. Simple renames such as Heating Up and Soul Harvest retain their build-code slots.
 
 ## Verification
 
@@ -46,7 +46,7 @@ Warrior WF1, Paladin WFP1, and Druid WFD2 codes import into WF2, WFP2, and WFD3 
 node --test tests/*.test.cjs
 ```
 
-Checks cover all 466 talent definitions and 1,318 rank effects, prerequisite allocation and refunds, point budgets, build-code validation, legacy imports and removed talents, embedded assets, and directory links. Verify desktop, mobile, and offline behavior when changing calculator UI.
+Checks cover all 466 talent definitions and 1,314 rank effects, prerequisite allocation and refunds, point budgets, build-code validation, legacy imports and removed talents, embedded assets, and directory links. Verify desktop, mobile, and offline behavior when changing calculator UI.
 
 ## Publishing
 

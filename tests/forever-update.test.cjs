@@ -4,6 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const legacy=require('./fixtures/legacy-layouts.json');
+const septemberLayouts=require('./fixtures/september-26-layouts.json');
 
 function load(cls) {
   const html=fs.readFileSync(path.join(__dirname,`../talents/${cls.toLowerCase()}.html`),'utf8');
@@ -13,9 +14,10 @@ function load(cls) {
   const talents=vm.runInContext('TALENTS',context);
   return {talents,engine:vm.runInContext('createTalentEngine(TALENTS)',context),find:name=>talents.find(t=>t.name===name)};
 }
-function reach(engine,target) {
+function reach(engine,target,allowed) {
   let state=engine.empty();
   for(const t of [...engine.trees[target.tree]].sort((a,b)=>a.row-b.row)) {
+    if(allowed && !allowed.has(t.id)) continue;
     if(!engine.addReason(state,target.id)) break;
     if((t.row<target.row||t.id===target.prerequisite)&&!engine.addReason(state,t.id)) {
       const result=engine.change(state,t.id,t.max);
@@ -31,17 +33,18 @@ function oldCode(layout,state) {
   return `${layout.prefix}-${state.level}-${[0,1,2].map(tree=>layout.talents.filter(t=>t.tree===tree).map(t=>state.ranks[t.id]||0).join('')).join('-')}`;
 }
 
-for(const [cls,layout] of Object.entries(legacy)) {
+for(const [cls,layout] of [...Object.entries(legacy),...Object.entries(septemberLayouts)]) {
   const {talents,engine}=load(cls);
-  test(`${cls}: old full-tree codes preserve every surviving talent slot`,()=>{
-    for(const target of talents) {
-      const state=reach(engine,target);
+  test(`${cls} ${layout.prefix}: old full-tree codes preserve every surviving talent slot`,()=>{
+    const allowed=new Set(layout.talents.map(t=>t.id));
+    for(const target of talents.filter(t=>allowed.has(t.id))) {
+      const state=reach(engine,target,allowed);
       const imported=engine.decode(oldCode(layout,state));
       assert.equal(engine.encode(imported),engine.encode(state),target.name);
       assert.notEqual(engine.encode(imported).split('-')[0],layout.prefix);
     }
   });
-  test(`${cls}: allocated removed slots reject with the talent name; empty slots migrate`,()=>{
+  test(`${cls} ${layout.prefix}: allocated removed slots reject with the talent name; empty slots migrate`,()=>{
     for(const removed of layout.talents.filter(t=>!engine.byId[t.id])) {
       const state=engine.empty();
       assert.equal(engine.total(engine.decode(oldCode(layout,state))),0);
@@ -51,9 +54,9 @@ for(const [cls,layout] of Object.entries(legacy)) {
   });
 }
 
-test('September 24 Warrior tuning and documented Protection tier swap are applied',()=>{
+test('Warrior retains September tuning with the current Protection positions',()=>{
   const {find,engine}=load('Warrior');
-  assert.deepEqual([find('Focused Rage').row,find('Focused Rage').col],[4,3]);
+  assert.deepEqual([find('Focused Rage').row,find('Focused Rage').col],[4,2]);
   assert.deepEqual([find('Bastion').row,find('Bastion').col],[5,2]);
   assert.equal(find('Vitality'),undefined);
   assert.match(engine.descriptionAtRank(find('Bloodthrill'),5),/Main Hand.*20% chance/);
@@ -110,5 +113,87 @@ test('Druid renames update dependent tooltips and Hunter/Mage buffs use current 
   assert.ok(druid.talents.every(t=>!t.rankDescriptions.some(text=>/Mangle|Primal Fury/.test(text))));
   assert.match(hunter.find('Strider Kick').text,/30% for 3 sec/);
   assert.match(mage.find('Wake of Fire').text,/within 30 sec/);
-  assert.match(mage.find('Hot Streak').text,/for 20 sec/);
+  assert.match(mage.find('Heating Up').text,/within 20 sec/);
+});
+
+test('October 1 Druid talents enforce the complete Shifting Power chain and sourced mana cost',()=>{
+  const {find,engine}=load('Druid');
+  const shredding=find('Shredding Attacks'),power=find('Shifting Power'),improved=find('Improved Shifting Power');
+  assert.equal(find('King of the Jungle'),undefined);
+  assert.deepEqual([shredding.row,power.row,improved.row],[2,3,4]);
+  assert.equal(power.prerequisite,shredding.id);
+  assert.equal(improved.prerequisite,power.id);
+  assert.equal(power.active,true);
+  assert.match(power.meta,/55% of base mana.*16 sec cooldown.*Requires Cat Form/);
+  assert.match(power.text,/55% of base mana into 40 Energy/);
+  assert.deepEqual(Array.from(improved.rankDescriptions),[
+    'Reduces the cooldown of your Shifting Power spell by 4 sec.',
+    'Reduces the cooldown of your Shifting Power spell by 8 sec.'
+  ]);
+  assert.deepEqual([find('Predatory Instincts').row,find('Predatory Instincts').col],[4,3]);
+  assert.match(find('Primal Bite').text,/high amount of threat/);
+  assert.throws(()=>engine.decode('WFD1-38-2523002022132212000'),/King of the Jungle was removed/);
+});
+
+test('October 1 Warrior tree changes and official tuning supersede stale tooltip effects',()=>{
+  const {find,engine}=load('Warrior');
+  for(const name of ['Improved Cleave','Boundless Rage','Precision','Toughness']) assert.equal(find(name),undefined);
+  assert.deepEqual([find('Iron Will').id,find('Iron Will').tree,find('Iron Will').row],['f3',2,0]);
+  assert.equal(find('Lingering Rage').row,1);
+  assert.match(engine.descriptionAtRank(find('Lingering Rage'),5),/10 sec/);
+  assert.equal(find('Furious Precision').row,2);
+  assert.deepEqual(Array.from(find('Furious Precision').rankDescriptions,t=>t.match(/\d+%/)[0]),['4%','7%','10%']);
+  assert.equal(find('Flurry').prerequisite,find('Death Wish').id);
+  assert.equal(find('Gore Drinker').prerequisite,find('Enrage').id);
+  assert.equal(find('Bloodthirst').prerequisite,undefined);
+  assert.equal(find('Last Stand').prerequisite,undefined);
+  assert.match(find('Bloodthirst').text,/45% of your Attack Power/);
+  assert.equal(find('Raging Blows').text,'Reduces the Rage cost of your Cleave and Whirlwind abilities by 3.');
+  assert.equal(engine.descriptionAtRank(find('Dual Wield Specialization'),5),'Increases the damage done by your off-hand weapon by 25%.');
+  assert.match(engine.descriptionAtRank(find('Booming Voice'),5),/50%.*Rage cost by 25%/);
+  assert.doesNotMatch(find('Unbridled Wrath').text,/two-handed/);
+  assert.doesNotMatch(find('Blood Craze').text,/Bloodthirst/);
+  assert.match(find('Spearing Strike').meta,/Requires Battle Stance/);
+  for(const [name,row] of [['Improved Berserker Rage',4],['Improved Bloodrage',0],['Anticipation',1],['Improved Revenge',1],['Improved Disarm',2],['Improved Shield Bash',3]])
+    assert.equal(find(name).row,row,name);
+});
+
+test('Warrior imports move Iron Will by identity and leave all new Fury talents empty',()=>{
+  const {find,engine}=load('Warrior'),layout=septemberLayouts.Warrior;
+  const old=engine.empty();
+  old.ranks[find('Iron Will').id]=5;
+  const imported=engine.decode(oldCode(layout,old));
+  assert.equal(engine.treeTotal(imported,1),0);
+  assert.equal(engine.treeTotal(imported,2),5);
+  for(const name of ['Lingering Rage','Furious Precision','Gore Drinker']) assert.equal(imported.ranks[find(name).id],0);
+  // An old Fury build may lose the points that used to unlock later tiers when Iron Will moves.
+  old.ranks[find('Booming Voice').id]=5;
+  old.ranks[find('Piercing Howl').id]=1;
+  assert.throws(()=>engine.decode(oldCode(layout,old)),/Piercing Howl requires 10 points/);
+});
+
+test('October 1 Hunter, Mage and Paladin effects match every revised rank',()=>{
+  const hunter=load('Hunter'),mage=load('Mage'),paladin=load('Paladin');
+  assert.match(hunter.find('Sniper Shot').meta,/8 - 45 yd range/);
+  assert.match(hunter.find('Sniper Shot').text,/next 3 Shots by 10 yards for 10 sec/);
+  assert.equal(hunter.find('Improved Stings').icon,'ability_hunter_quickshot');
+  assert.equal(hunter.find("Predator's Edge").icon,'ability_dualwield');
+  assert.deepEqual(Array.from(hunter.find('Deflection').rankDescriptions,t=>t.match(/\d+%/)[0]),['1%','2%','3%','4%','5%']);
+  assert.equal(mage.find('Hot Streak'),undefined);
+  assert.match(mage.find('Combustion').text,/3 non-periodic critical strikes/);
+  assert.deepEqual(Array.from(paladin.find('Redoubt').rankDescriptions,t=>t.match(/block by (\d+)%/)[1]),['4','8','12','16','20']);
+  assert.match(paladin.find('Holy Shield').text,/block by 30%/);
+  assert.deepEqual(Array.from(paladin.find('Champion of the Light').rankDescriptions,t=>t.match(/\d+%/)[0]),['20%','40%','60%']);
+  assert.doesNotMatch(paladin.find('Champion of the Light').text,/healing/i);
+  assert.match(paladin.find('Holy Shock').meta,/Enemy: 20 yd range; Friendly: 40 yd range/);
+});
+
+test('October 1 Priest, Rogue and Warlock trigger conditions are current',()=>{
+  const priest=load('Priest'),rogue=load('Rogue'),warlock=load('Warlock');
+  assert.match(priest.find('Inner Focus').text,/non-periodic spell/);
+  assert.ok(priest.find('Spirit Tap').rankDescriptions.every(t=>t.includes('Vampiric Embrace')));
+  assert.ok(rogue.find('Setup').rankDescriptions.every(t=>t.includes('one of their attacks')));
+  assert.equal(warlock.find('Soul Harvesting'),undefined);
+  assert.match(warlock.find('Soul Harvest').text,/non-trivial target/);
+  assert.match(warlock.engine.descriptionAtRank(warlock.find('Soul Harvest'),2),/100% for 10 sec.*100% of normal Mana regeneration/);
 });

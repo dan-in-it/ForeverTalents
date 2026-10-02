@@ -167,13 +167,13 @@
             "passive": false,
             "icon": "inv_spear_01",
             "desc": [
-              "A brutal attack that deals 40% weapon damage. Deals an additional 80% weapon damage against Giants, Dragonkin, and mounted targets. Mounted targets are dismounted."
+              "A brutal attack that deals 40% weapon damage, plus an additional 80% weapon damage against Giants, Dragonkin, and mounted targets."
             ],
             "wowheadId": 105949,
             "spellIds": [
               1310222
             ],
-            "cost": "15 Rage · Melee Range · Instant · 20 sec cooldown"
+            "cost": "15 Rage · Melee Range · Instant · 20 sec cooldown · Requires Battle Stance"
           },
           {
             "name": "Two-Handed Weapon Specialization",
@@ -281,7 +281,7 @@
             "passive": true,
             "icon": "ability_warrior_decisivestrike",
             "desc": [
-              "Reduces the global cooldown and cast time of your Slam ability by 0.25 sec. In addition, Slam no longer interrupts or delays your melee swing and Slam's cooldown is reduced by 1.5 sec.",
+              "Reduces the global cooldown and cast time of your Slam ability by 0.25 sec. In addition, Slam no longer interrupts or delays your melee swing and Slam's cooldown is reduced by 3.0 sec.",
               "Reduces the global cooldown and cast time of your Slam ability by 0.50 sec. In addition, Slam no longer interrupts or delays your melee swing and Slam's cooldown is reduced by 3.0 sec."
             ],
             "wowheadId": 110858,
@@ -323,8 +323,8 @@
             "spellIds": [
               12294
             ],
-            "req": "Sweeping Strikes",
-            "cost": "30 Rage · Melee Range · Instant · 6 sec cooldown · Requires Melee Weapon"
+            "cost": "30 Rage · Melee Range · Instant · 6 sec cooldown · Requires Melee Weapon",
+            "req": "Sweeping Strikes"
           }
         ]
       },
@@ -340,11 +340,11 @@
             "passive": true,
             "icon": "spell_nature_purge",
             "desc": [
-              "Increases the radius of your Battle Shout and Demoralizing Shout abilities by 10%.",
-              "Increases the radius of your Battle Shout and Demoralizing Shout abilities by 20%.",
-              "Increases the radius of your Battle Shout and Demoralizing Shout abilities by 30%.",
-              "Increases the radius of your Battle Shout and Demoralizing Shout abilities by 40%.",
-              "Increases the radius of your Battle Shout and Demoralizing Shout abilities by 50%."
+              "Increases the area of effect of your Shouts by 10% and reduces their Rage cost by 5%.",
+              "Increases the area of effect of your Shouts by 20% and reduces their Rage cost by 10%.",
+              "Increases the area of effect of your Shouts by 30% and reduces their Rage cost by 15%.",
+              "Increases the area of effect of your Shouts by 40% and reduces their Rage cost by 20%.",
+              "Increases the area of effect of your Shouts by 50% and reduces their Rage cost by 25%."
             ],
             "wowheadId": 105938,
             "spellIds": [
@@ -379,26 +379,26 @@
             ]
           },
           {
-            "name": "Iron Will",
+            "name": "Lingering Rage",
             "max": 5,
             "row": 2,
             "col": 2,
             "passive": true,
-            "icon": "spell_magic_magearmor",
+            "icon": "ability_warrior_secondwind",
             "desc": [
-              "Reduces the duration of Stun and Fear effects inflicted on you by 3%.",
-              "Reduces the duration of Stun and Fear effects inflicted on you by 6%.",
-              "Reduces the duration of Stun and Fear effects inflicted on you by 9%.",
-              "Reduces the duration of Stun and Fear effects inflicted on you by 12%.",
-              "Reduces the duration of Stun and Fear effects inflicted on you by 15%."
+              "Increases the time before your Rage begins to decay after leaving combat by 2 sec.",
+              "Increases the time before your Rage begins to decay after leaving combat by 4 sec.",
+              "Increases the time before your Rage begins to decay after leaving combat by 6 sec.",
+              "Increases the time before your Rage begins to decay after leaving combat by 8 sec.",
+              "Increases the time before your Rage begins to decay after leaving combat by 10 sec."
             ],
             "wowheadId": 110857,
             "spellIds": [
-              12962,
-              12962,
-              12962,
-              12962,
-              12962
+              1323964,
+              1323964,
+              1323964,
+              1323964,
+              1323964
             ]
           },
           {
@@ -409,11 +409,11 @@
             "passive": true,
             "icon": "spell_nature_stoneclawtotem",
             "desc": [
-              "Gives you a 12% chance to generate 1 additional Rage when you deal melee damage with a weapon. This effect is increased to 2 Rage for two-handed weapons.",
-              "Gives you a 24% chance to generate 1 additional Rage when you deal melee damage with a weapon. This effect is increased to 2 Rage for two-handed weapons.",
-              "Gives you a 36% chance to generate 1 additional Rage when you deal melee damage with a weapon. This effect is increased to 2 Rage for two-handed weapons.",
-              "Gives you a 48% chance to generate 1 additional Rage when you deal melee damage with a weapon. This effect is increased to 2 Rage for two-handed weapons.",
-              "Gives you a 60% chance to generate 1 additional Rage when you deal melee damage with a weapon. This effect is increased to 2 Rage for two-handed weapons."
+              "Gives you a 12% chance to generate 1 additional Rage when you deal melee damage with a weapon.",
+              "Gives you a 24% chance to generate 1 additional Rage when you deal melee damage with a weapon.",
+              "Gives you a 36% chance to generate 1 additional Rage when you deal melee damage with a weapon.",
+              "Gives you a 48% chance to generate 1 additional Rage when you deal melee damage with a weapon.",
+              "Gives you a 60% chance to generate 1 additional Rage when you deal melee damage with a weapon."
             ],
             "wowheadId": 105937,
             "spellIds": [
@@ -425,22 +425,22 @@
             ]
           },
           {
-            "name": "Improved Cleave",
+            "name": "Furious Precision",
             "max": 3,
             "row": 3,
             "col": 1,
             "passive": true,
-            "icon": "ability_warrior_cleave",
+            "icon": "ability_warrior_incite",
             "desc": [
-              "Reduces the Rage cost of your Cleave ability by 1.",
-              "Reduces the Rage cost of your Cleave ability by 2.",
-              "Reduces the Rage cost of your Cleave ability by 3."
+              "Increases your chance to hit with off-hand attacks by 4%.",
+              "Increases your chance to hit with off-hand attacks by 7%.",
+              "Increases your chance to hit with off-hand attacks by 10%."
             ],
-            "wowheadId": 105936,
+            "wowheadId": 105953,
             "spellIds": [
-              12329,
-              12329,
-              12329
+              1323963,
+              1323963,
+              1323963
             ]
           },
           {
@@ -467,34 +467,15 @@
             "passive": true,
             "icon": "spell_shadow_summonimp",
             "desc": [
-              "Regenerates 1% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack.",
-              "Regenerates 2% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack.",
-              "Regenerates 3% of your total Health over 6 sec after being the victim of a critical strike, dealing damage with Bloodthirst, or suffering more than 20% of your maximum Health from a single attack."
+              "Regenerates 1% of your total Health over 6 sec after being the victim of a critical strike or suffering more than 20% of your maximum Health from a single attack.",
+              "Regenerates 2% of your total Health over 6 sec after being the victim of a critical strike or suffering more than 20% of your maximum Health from a single attack.",
+              "Regenerates 3% of your total Health over 6 sec after being the victim of a critical strike or suffering more than 20% of your maximum Health from a single attack."
             ],
             "wowheadId": 105934,
             "spellIds": [
               16487,
               16487,
               16487
-            ]
-          },
-          {
-            "name": "Boundless Rage",
-            "max": 3,
-            "row": 3,
-            "col": 4,
-            "passive": true,
-            "icon": "ability_warrior_intensifyrage",
-            "desc": [
-              "Increases your maximum Rage by 10.",
-              "Increases your maximum Rage by 20.",
-              "Increases your maximum Rage by 30."
-            ],
-            "wowheadId": 105953,
-            "spellIds": [
-              1310236,
-              1310236,
-              1310236
             ]
           },
           {
@@ -505,11 +486,11 @@
             "passive": true,
             "icon": "ability_dualwield",
             "desc": [
-              "Increases your off-hand weapon damage by 5%, off-hand Rage generation by 20%, and chance to hit with off-hand attacks by 2%.",
-              "Increases your off-hand weapon damage by 10%, off-hand Rage generation by 40%, and chance to hit with off-hand attacks by 4%.",
-              "Increases your off-hand weapon damage by 15%, off-hand Rage generation by 60%, and chance to hit with off-hand attacks by 6%.",
-              "Increases your off-hand weapon damage by 20%, off-hand Rage generation by 80%, and chance to hit with off-hand attacks by 8%.",
-              "Increases your off-hand weapon damage by 25%, off-hand Rage generation by 100%, and chance to hit with off-hand attacks by 10%."
+              "Increases the damage done by your off-hand weapon by 5%.",
+              "Increases the damage done by your off-hand weapon by 10%.",
+              "Increases the damage done by your off-hand weapon by 15%.",
+              "Increases the damage done by your off-hand weapon by 20%.",
+              "Increases the damage done by your off-hand weapon by 25%."
             ],
             "wowheadId": 105933,
             "spellIds": [
@@ -528,7 +509,7 @@
             "passive": true,
             "icon": "ability_whirlwind",
             "desc": [
-              "Causes your Whirlwind to also strike with your off-hand weapon, and reduces the Rage cost of your Cleave ability by 2."
+              "Reduces the Rage cost of your Cleave and Whirlwind abilities by 3."
             ],
             "wowheadId": 105977,
             "spellIds": [
@@ -576,22 +557,20 @@
             ]
           },
           {
-            "name": "Precision",
-            "max": 3,
+            "name": "Improved Berserker Rage",
+            "max": 2,
             "row": 5,
             "col": 1,
             "passive": true,
-            "icon": "ability_marksmanship",
+            "icon": "spell_nature_ancestralguardian",
             "desc": [
-              "Improves your chance to hit by 1%.",
-              "Improves your chance to hit by 2%.",
-              "Improves your chance to hit by 3%."
+              "Your Berserker Rage ability will instantly generate 5 Rage and has a 50% chance to remove all movement impairing effects when activated.",
+              "Your Berserker Rage ability will instantly generate 10 Rage and has a 100% chance to remove all movement impairing effects when activated."
             ],
-            "wowheadId": 105929,
+            "wowheadId": 105978,
             "spellIds": [
-              1225295,
-              1225295,
-              1225295
+              20500,
+              20500
             ]
           },
           {
@@ -628,27 +607,10 @@
             ]
           },
           {
-            "name": "Improved Berserker Rage",
-            "max": 2,
-            "row": 6,
-            "col": 1,
-            "passive": true,
-            "icon": "spell_nature_ancestralguardian",
-            "desc": [
-              "Your Berserker Rage ability will instantly generate 5 Rage and has a 50% chance to remove all movement impairing effects when activated.",
-              "Your Berserker Rage ability will instantly generate 10 Rage and has a 100% chance to remove all movement impairing effects when activated."
-            ],
-            "wowheadId": 105978,
-            "spellIds": [
-              20500,
-              20500
-            ]
-          },
-          {
             "name": "Flurry",
             "max": 5,
             "row": 6,
-            "col": 3,
+            "col": 2,
             "passive": true,
             "icon": "ability_ghoulfrenzy",
             "desc": [
@@ -666,6 +628,24 @@
               12319,
               12319
             ],
+            "req": "Death Wish"
+          },
+          {
+            "name": "Gore Drinker",
+            "max": 2,
+            "row": 6,
+            "col": 3,
+            "passive": true,
+            "icon": "racial_troll_berserk",
+            "desc": [
+              "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next 3 melee attacks to restore 0.5% of your maximum Health.",
+              "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next 3 melee attacks to restore 1.0% of your maximum Health."
+            ],
+            "wowheadId": 113569,
+            "spellIds": [
+              1323967,
+              1323967
+            ],
             "req": "Enrage"
           },
           {
@@ -676,13 +656,12 @@
             "passive": false,
             "icon": "spell_nature_bloodlust",
             "desc": [
-              "Instantly attack the target causing damage equal to 35% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec."
+              "Instantly attack the target causing damage equal to 45% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec."
             ],
             "wowheadId": 105930,
             "spellIds": [
               23881
             ],
-            "req": "Death Wish",
             "cost": "30 Rage · Melee Range · Instant · 6 sec cooldown"
           }
         ]
@@ -691,6 +670,23 @@
         "name": "Protection",
         "wowheadId": 163,
         "talents": [
+          {
+            "name": "Improved Bloodrage",
+            "max": 2,
+            "row": 1,
+            "col": 1,
+            "passive": true,
+            "icon": "ability_racial_bloodrage",
+            "desc": [
+              "Increases all the Rage generated by your Bloodrage ability by 25%.",
+              "Increases all the Rage generated by your Bloodrage ability by 50%."
+            ],
+            "wowheadId": 105974,
+            "spellIds": [
+              12301,
+              12301
+            ]
+          },
           {
             "name": "Shield Specialization",
             "max": 5,
@@ -715,10 +711,33 @@
             ]
           },
           {
-            "name": "Anticipation",
+            "name": "Iron Will",
             "max": 5,
             "row": 1,
             "col": 3,
+            "passive": true,
+            "icon": "spell_magic_magearmor",
+            "desc": [
+              "Reduces the duration of Stun and Fear effects inflicted on you by 3%.",
+              "Reduces the duration of Stun and Fear effects inflicted on you by 6%.",
+              "Reduces the duration of Stun and Fear effects inflicted on you by 9%.",
+              "Reduces the duration of Stun and Fear effects inflicted on you by 12%.",
+              "Reduces the duration of Stun and Fear effects inflicted on you by 15%."
+            ],
+            "wowheadId": 113570,
+            "spellIds": [
+              12962,
+              12962,
+              12962,
+              12962,
+              12962
+            ]
+          },
+          {
+            "name": "Anticipation",
+            "max": 5,
+            "row": 2,
+            "col": 1,
             "passive": true,
             "icon": "spell_nature_mirrorimage",
             "desc": [
@@ -738,43 +757,22 @@
             ]
           },
           {
-            "name": "Improved Bloodrage",
-            "max": 2,
-            "row": 2,
-            "col": 1,
-            "passive": true,
-            "icon": "ability_racial_bloodrage",
-            "desc": [
-              "Increases all the Rage generated by your Bloodrage ability by 25%.",
-              "Increases all the Rage generated by your Bloodrage ability by 50%."
-            ],
-            "wowheadId": 105974,
-            "spellIds": [
-              12301,
-              12301
-            ]
-          },
-          {
-            "name": "Toughness",
-            "max": 5,
+            "name": "Improved Revenge",
+            "max": 3,
             "row": 2,
             "col": 3,
             "passive": true,
-            "icon": "spell_holy_devotion",
+            "icon": "ability_warrior_revenge",
             "desc": [
-              "Increases your Armor value from items by 2%.",
-              "Increases your Armor value from items by 4%.",
-              "Increases your Armor value from items by 6%.",
-              "Increases your Armor value from items by 8%.",
-              "Increases your Armor value from items by 10%."
+              "Increases damage dealt by your Revenge ability by 20%.",
+              "Increases damage dealt by your Revenge ability by 40%.",
+              "Increases damage dealt by your Revenge ability by 60%."
             ],
-            "wowheadId": 105973,
+            "wowheadId": 105969,
             "spellIds": [
-              12299,
-              12299,
-              12299,
-              12299,
-              12299
+              12797,
+              12797,
+              12797
             ]
           },
           {
@@ -810,7 +808,6 @@
             "spellIds": [
               12975
             ],
-            "req": "Improved Bloodrage",
             "cost": "Instant · 3 min cooldown"
           },
           {
@@ -832,22 +829,22 @@
             "req": "Shield Specialization"
           },
           {
-            "name": "Improved Revenge",
+            "name": "Improved Disarm",
             "max": 3,
             "row": 3,
             "col": 3,
             "passive": true,
-            "icon": "ability_warrior_revenge",
+            "icon": "ability_warrior_disarm",
             "desc": [
-              "Increases damage dealt by your Revenge ability by 20%.",
-              "Increases damage dealt by your Revenge ability by 40%.",
-              "Increases damage dealt by your Revenge ability by 60%."
+              "Reduces the cooldown of your Disarm ability by 7 secs.",
+              "Reduces the cooldown of your Disarm ability by 13 secs.",
+              "Reduces the cooldown of your Disarm ability by 20 secs."
             ],
-            "wowheadId": 105969,
+            "wowheadId": 105967,
             "spellIds": [
-              12797,
-              12797,
-              12797
+              12313,
+              12313,
+              12313
             ]
           },
           {
@@ -867,8 +864,7 @@
               12792,
               12792,
               12792
-            ],
-            "cost": "Requires Defensive Stance"
+            ]
           },
           {
             "name": "Improved Sunder Armor",
@@ -890,29 +886,10 @@
             ]
           },
           {
-            "name": "Improved Disarm",
-            "max": 3,
-            "row": 4,
-            "col": 2,
-            "passive": true,
-            "icon": "ability_warrior_disarm",
-            "desc": [
-              "Reduces the cooldown of your Disarm ability by 7 secs.",
-              "Reduces the cooldown of your Disarm ability by 13 secs.",
-              "Reduces the cooldown of your Disarm ability by 20 secs."
-            ],
-            "wowheadId": 105967,
-            "spellIds": [
-              12313,
-              12313,
-              12313
-            ]
-          },
-          {
             "name": "Vanguard",
             "max": 1,
             "row": 4,
-            "col": 3,
+            "col": 2,
             "passive": true,
             "icon": "ability_warrior_shieldcharge",
             "desc": [
@@ -921,6 +898,23 @@
             "wowheadId": 105966,
             "spellIds": [
               1310317
+            ]
+          },
+          {
+            "name": "Improved Shield Bash",
+            "max": 2,
+            "row": 4,
+            "col": 3,
+            "passive": true,
+            "icon": "ability_warrior_shieldbash",
+            "desc": [
+              "Gives your Shield Bash ability a 50% chance to Silence the target for 3 sec.",
+              "Gives your Shield Bash ability a 100% chance to Silence the target for 3 sec."
+            ],
+            "wowheadId": 105963,
+            "spellIds": [
+              12311,
+              12311
             ]
           },
           {
@@ -957,27 +951,10 @@
             "cost": "10 Rage · Melee Range · Instant · 45 sec cooldown · Requires Melee Weapon"
           },
           {
-            "name": "Improved Shield Bash",
-            "max": 2,
-            "row": 5,
-            "col": 3,
-            "passive": true,
-            "icon": "ability_warrior_shieldbash",
-            "desc": [
-              "Gives your Shield Bash ability a 50% chance to Silence the target for 3 sec.",
-              "Gives your Shield Bash ability a 100% chance to Silence the target for 3 sec."
-            ],
-            "wowheadId": 105963,
-            "spellIds": [
-              12311,
-              12311
-            ]
-          },
-          {
             "name": "Focused Rage",
             "max": 3,
             "row": 5,
-            "col": 4,
+            "col": 3,
             "passive": true,
             "icon": "ability_warrior_focusedrage",
             "desc": [
@@ -1029,8 +1006,8 @@
             "spellIds": [
               23922
             ],
-            "req": "Concussion Blow",
-            "cost": "20 Rage · Melee Range · Instant · 6 sec cooldown\nRequires Shields"
+            "cost": "20 Rage · Melee Range · Instant · 6 sec cooldown\nRequires Shields",
+            "req": "Concussion Blow"
           }
         ]
       }
@@ -1168,7 +1145,7 @@
             "passive": false,
             "icon": "inv_misc_horn_03",
             "desc": [
-              "Grants you immunity to Silence and Interrupt effects. Lasts 6 sec."
+              "Grants you immunity to Silence and Interrupt effects for 6 sec."
             ],
             "wowheadId": 105330,
             "spellIds": [
@@ -1353,14 +1330,14 @@
             "passive": false,
             "icon": "ability_paladin_judgementofthepure",
             "desc": [
-              "Applies Light's Vigil to the target for 30 sec. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer 175 to 189 Holy damage and refund 75% of Light's Vigil's Mana cost, or allied targets to heal their party for 326 to 344. The Paladin may only have one Light's Vigil active per party."
+              "Applies Light's Vigil to the target for 30 sec. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer 175 to 189 Holy damage and refund 75% of Light's Vigil's Mana cost, or allied targets to heal their party for 326 to 344. You may only have one Light's Vigil active per party."
             ],
             "wowheadId": 105320,
             "spellIds": [
               1310911
             ],
-            "req": "Holy Shock",
-            "cost": "730 Mana · Enemy: 20 yd range; Friendly: 40 yd range · 1.5 sec cast · 6 sec cooldown"
+            "cost": "730 Mana · Enemy: 20 yd range; Friendly: 40 yd range · 1.5 sec cast · 6 sec cooldown",
+            "req": "Holy Shock"
           }
         ]
       },
@@ -1399,11 +1376,11 @@
             "passive": true,
             "icon": "ability_defend",
             "desc": [
-              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 6%. Lasts 10 sec or 5 blocks.",
+              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 4%. Lasts 10 sec or 5 blocks.",
+              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 8%. Lasts 10 sec or 5 blocks.",
               "Damaging melee attacks against you have a 10% chance to increase your chance to block by 12%. Lasts 10 sec or 5 blocks.",
-              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 18%. Lasts 10 sec or 5 blocks.",
-              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 24%. Lasts 10 sec or 5 blocks.",
-              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 30%. Lasts 10 sec or 5 blocks."
+              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 16%. Lasts 10 sec or 5 blocks.",
+              "Damaging melee attacks against you have a 10% chance to increase your chance to block by 20%. Lasts 10 sec or 5 blocks."
             ],
             "wowheadId": 105626,
             "spellIds": [
@@ -1558,8 +1535,8 @@
             "spellIds": [
               1310994
             ],
-            "req": "Improved Seal of Fury",
-            "cost": "Instant · 1 min cooldown"
+            "cost": "Instant · 1 min cooldown",
+            "req": "Improved Seal of Fury"
           },
           {
             "name": "One-Handed Weapon Specialization",
@@ -1646,11 +1623,11 @@
             "passive": true,
             "icon": "spell_holy_improvedresistanceauras",
             "desc": [
-              "Increases the threat generated by your Holy Strike ability 5%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 2% for 6 sec.",
-              "Increases the threat generated by your Holy Strike ability 10%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 4% for 6 sec.",
-              "Increases the threat generated by your Holy Strike ability 15%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 6% for 6 sec.",
-              "Increases the threat generated by your Holy Strike ability 20%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 8% for 6 sec.",
-              "Increases the threat generated by your Holy Strike ability 25%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 10% for 6 sec."
+              "Increases the threat generated by your Holy Strike ability by 5%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 2% for 6 sec.",
+              "Increases the threat generated by your Holy Strike ability by 10%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 4% for 6 sec.",
+              "Increases the threat generated by your Holy Strike ability by 15%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 6% for 6 sec.",
+              "Increases the threat generated by your Holy Strike ability by 20%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 8% for 6 sec.",
+              "Increases the threat generated by your Holy Strike ability by 25%. While Righteous Fury is active, Holy Strike also reduces your damage taken by 10% for 6 sec."
             ],
             "wowheadId": 110879,
             "spellIds": [
@@ -1669,14 +1646,14 @@
             "passive": false,
             "icon": "spell_holy_blessingofprotection",
             "desc": [
-              "Increases chance to block by 20% for 10 sec, and deals 110 Holy damage for each attack blocked while active. Damage caused by Holy Shield causes 20% additional threat. Each block expends a charge. 4 charges."
+              "Increases chance to block by 30% for 10 sec, and deals 110 Holy damage for each attack blocked while active. Damage caused by Holy Shield causes 20% additional threat. Each block expends a charge. 4 charges."
             ],
             "wowheadId": 105628,
             "spellIds": [
               20925
             ],
-            "req": "Templar's Bulwark",
-            "cost": "150 Mana · Instant · 10 sec cooldown\nRequires Shields"
+            "cost": "150 Mana · Instant · 10 sec cooldown\nRequires Shields",
+            "req": "Templar's Bulwark"
           }
         ]
       },
@@ -1953,9 +1930,9 @@
             "passive": true,
             "icon": "ability_paladin_enlightenedjudgements",
             "desc": [
-              "Increases your spell damage and healing by up to 33% of your Intellect.",
-              "Increases your spell damage and healing by up to 66% of your Intellect.",
-              "Increases your spell damage and healing by up to 100% of your Intellect."
+              "Increases your spell damage by up to 20% of your Intellect.",
+              "Increases your spell damage by up to 40% of your Intellect.",
+              "Increases your spell damage by up to 60% of your Intellect."
             ],
             "wowheadId": 110882,
             "spellIds": [
@@ -1989,7 +1966,7 @@
             "passive": true,
             "icon": "spell_holy_blessedresillience",
             "desc": [
-              "Reduces the Mana cost of your Seal spells by 20%, and when you replace your Seal of Command, Seal of Righteousness, Seal of Fury, or Seal of Justice with a different Seal, gain an Echo of that Seal. Your next melee attack applies the replaced Seal's effects, consuming the Echo."
+              "Reduces the Mana cost of your Seal spells by 20%, and when you replace your Seal of Command, Seal of Righteousness, Seal of Fury, or Seal of Justice with a different Seal, you gain an Echo of that Seal. Your next melee attack applies the replaced Seal's effects, consuming the Echo."
             ],
             "wowheadId": 105692,
             "spellIds": [
@@ -2302,7 +2279,7 @@
             "passive": false,
             "icon": "spell_nature_forceofnature",
             "desc": [
-              "Transforms the Druid into Moonkin Form. While in this form, the armor contribution from items is increased by 360%, Omen of Clarity gains 100% increased chance to trigger, and all party members within 45 yards have their critical strike chance increased by 3%, exclusive with Leader of the Pack. The Moonkin cannot cast healing spells while shapeshifted.\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+              "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells.\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
             ],
             "wowheadId": 104937,
             "spellIds": [
@@ -2435,6 +2412,25 @@
             ]
           },
           {
+            "name": "Shredding Attacks",
+            "max": 3,
+            "row": 3,
+            "col": 1,
+            "passive": true,
+            "icon": "spell_shadow_vampiricaura",
+            "desc": [
+              "Reduces the Energy cost of your Shred ability by 6 and reduces the Rage cost of your Lacerate ability by 1.",
+              "Reduces the Energy cost of your Shred ability by 12 and reduces the Rage cost of your Lacerate ability by 2.",
+              "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by 3."
+            ],
+            "wowheadId": 104945,
+            "spellIds": [
+              16966,
+              16966,
+              16966
+            ]
+          },
+          {
             "name": "Savage Fury",
             "max": 2,
             "row": 3,
@@ -2459,7 +2455,7 @@
             "passive": false,
             "icon": "ability_hunter_pet_bear",
             "desc": [
-              "Requires Bear Form, Dire Bear Form\nCharge an enemy, immobilizing them and interrupting any spell they are casting for 4 sec.\nFeral Charge (Cat)\n8 - 25 yd range\nInstant 30 sec cooldown\nRequires Druid\nRequires level 1\nRequires Cat Form\nLeap behind an enemy."
+              "Requires Bear Form, Dire Bear Form\nCharge an enemy, immobilizing them and interrupting any spell they are casting for 4 sec.\nFeral Charge (Cat)\n8 - 25 yd rangeInstant\n30 sec cooldown\nRequires Druid\nRequires level 1\nRequires Cat Form\nLeap behind an enemy."
             ],
             "wowheadId": 104944,
             "spellIds": [
@@ -2485,23 +2481,21 @@
             ]
           },
           {
-            "name": "Shredding Attacks",
-            "max": 3,
+            "name": "Shifting Power",
+            "max": 1,
             "row": 4,
             "col": 1,
-            "passive": true,
-            "icon": "spell_shadow_vampiricaura",
+            "passive": false,
+            "icon": "spell_druid_displacement",
             "desc": [
-              "Reduces the Energy cost of your Shred ability by 6 and reduces the Rage cost of your Lacerate ability by 1.",
-              "Reduces the Energy cost of your Shred ability by 12 and reduces the Rage cost of your Lacerate ability by 2.",
-              "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by 3."
+              "Instantly convert 55% of base mana into 40 Energy. Shifting Power's cost is reduced by effects that reduce the cost of Shapeshifting."
             ],
-            "wowheadId": 104945,
+            "wowheadId": 104951,
             "spellIds": [
-              16966,
-              16966,
-              16966
-            ]
+              1322605
+            ],
+            "cost": "55% of base mana · Instant · 16 sec cooldown · Requires Cat Form",
+            "req": "Shredding Attacks"
           },
           {
             "name": "Primal Bite",
@@ -2511,14 +2505,14 @@
             "passive": false,
             "icon": "ability_racial_cannibalize",
             "desc": [
-              "Bite the target for 100% normal damage plus 26."
+              "Bite the target, dealing 100% normal damage plus 26 and generating a high amount of threat."
             ],
             "wowheadId": 104949,
             "spellIds": [
               407995
             ],
-            "req": "Savage Fury",
-            "cost": "20 Rage · Melee Range · Instant · 6 sec cooldown · Requires Bear Form, Dire Bear Form"
+            "cost": "20 Rage · Melee Range · Instant · 6 sec cooldown · Requires Bear Form, Dire Bear Form",
+            "req": "Savage Fury"
           },
           {
             "name": "Predatory Strikes",
@@ -2537,8 +2531,7 @@
               16972,
               16972,
               16972
-            ],
-            "cost": "Requires Cat Form, Bear Form, Dire Bear Form"
+            ]
           },
           {
             "name": "Blood Frenzy",
@@ -2559,21 +2552,22 @@
             "req": "Sharpened Claws"
           },
           {
-            "name": "Predatory Instincts",
+            "name": "Improved Shifting Power",
             "max": 2,
             "row": 5,
             "col": 1,
             "passive": true,
-            "icon": "ability_druid_predatoryinstincts",
+            "icon": "ability_hunter_aspectmastery",
             "desc": [
-              "Increases the critical strike damage bonus of your melee abilities by 10%.",
-              "Increases the critical strike damage bonus of your melee abilities by 20%."
+              "Reduces the cooldown of your Shifting Power spell by 4 sec.",
+              "Reduces the cooldown of your Shifting Power spell by 8 sec."
             ],
-            "wowheadId": 104950,
+            "wowheadId": 113563,
             "spellIds": [
-              1223242,
-              1223242
-            ]
+              1322670,
+              1322670
+            ],
+            "req": "Shifting Power"
           },
           {
             "name": "Leader of the Pack",
@@ -2591,22 +2585,20 @@
             ]
           },
           {
-            "name": "King of the Jungle",
-            "max": 3,
+            "name": "Predatory Instincts",
+            "max": 2,
             "row": 5,
             "col": 4,
             "passive": true,
-            "icon": "ability_druid_kingofthejungle",
+            "icon": "ability_druid_predatoryinstincts",
             "desc": [
-              "Tiger's Fury now instantly grants you 20 Energy.",
-              "Tiger's Fury now instantly grants you 40 Energy.",
-              "Tiger's Fury now instantly grants you 60 Energy."
+              "Increases the critical strike damage bonus of your melee abilities by 10%.",
+              "Increases the critical strike damage bonus of your melee abilities by 20%."
             ],
-            "wowheadId": 104951,
+            "wowheadId": 104950,
             "spellIds": [
-              417046,
-              417046,
-              417046
+              1223242,
+              1223242
             ]
           },
           {
@@ -2630,8 +2622,7 @@
               417051,
               417051,
               417051
-            ],
-            "cost": "Requires Bear Form, Dire Bear Form"
+            ]
           },
           {
             "name": "Rend and Tear",
@@ -2671,8 +2662,8 @@
             "spellIds": [
               417141
             ],
-            "req": "Leader of the Pack",
-            "cost": "Instant · 3 min cooldown\nRequires Cat Form, Bear Form, Dire Bear Form"
+            "cost": "Instant · 3 min cooldown\nRequires Cat Form, Bear Form, Dire Bear Form",
+            "req": "Leader of the Pack"
           }
         ]
       },
@@ -2916,8 +2907,8 @@
             "spellIds": [
               17116
             ],
-            "req": "Naturalist",
-            "cost": "Instant · 3 min cooldown"
+            "cost": "Instant · 3 min cooldown",
+            "req": "Naturalist"
           },
           {
             "name": "Living Spirit",
@@ -2993,8 +2984,8 @@
             "spellIds": [
               408120
             ],
-            "req": "Living Spirit",
-            "cost": "550 Mana · 40 yd range · Instant · 6 sec cooldown"
+            "cost": "550 Mana · 40 yd range · Instant · 6 sec cooldown",
+            "req": "Living Spirit"
           }
         ]
       }
@@ -3247,8 +3238,8 @@
             "spellIds": [
               19577
             ],
-            "req": "Bestial Swiftness",
-            "cost": "8% of base mana · 100 yd range · Instant · 1 min cooldown"
+            "cost": "8% of base mana · 100 yd range · Instant · 1 min cooldown",
+            "req": "Bestial Swiftness"
           },
           {
             "name": "Bestial Discipline",
@@ -3305,8 +3296,8 @@
             "spellIds": [
               19574
             ],
-            "req": "Intimidation",
-            "cost": "12% of base mana · 100 yd range · Instant · 2 min cooldown"
+            "cost": "12% of base mana · 100 yd range · Instant · 2 min cooldown",
+            "req": "Intimidation"
           }
         ]
       },
@@ -3385,11 +3376,11 @@
             "row": 2,
             "col": 1,
             "passive": true,
-            "icon": "hunter_pvp_spidersting",
+            "icon": "ability_hunter_quickshot",
             "desc": [
-              "Increased the damage of your Serpent Sting ability by 6%, reduces the cooldown of your Viper Sting ability by 2 sec, and increases the duration of your Scorpid Sting ability by 15 sec.",
-              "Increased the damage of your Serpent Sting ability by 13%, reduces the cooldown of your Viper Sting ability by 4 sec, and increases the duration of your Scorpid Sting ability by 30 sec.",
-              "Increased the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by 6 sec, and increases the duration of your Scorpid Sting ability by 45 sec."
+              "Increases the damage of your Serpent Sting ability by 6%, reduces the cooldown of your Viper Sting ability by 2 sec, and increases the duration of your Scorpid Sting ability by 15 sec.",
+              "Increases the damage of your Serpent Sting ability by 13%, reduces the cooldown of your Viper Sting ability by 4 sec, and increases the duration of your Scorpid Sting ability by 30 sec.",
+              "Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by 6 sec, and increases the duration of your Scorpid Sting ability by 45 sec."
             ],
             "wowheadId": 110870,
             "spellIds": [
@@ -3507,7 +3498,7 @@
             "passive": false,
             "icon": "ability_trueshot",
             "desc": [
-              "Increases the Ranged Attack Power of party members within 45 yards by 30. Lasts 30 min."
+              "Increases the Ranged Attack Power of party members within 45 yds by 30."
             ],
             "wowheadId": 105004,
             "spellIds": [
@@ -3623,14 +3614,14 @@
             "passive": false,
             "icon": "hunter_pvp_snipershot",
             "desc": [
-              "A steady snipe that increases ranged damage by 160."
+              "A long-range shot that deals ranged damage plus 160 and increases the range of your next 3 Shots by 10 yards for 10 sec."
             ],
             "wowheadId": 104997,
             "spellIds": [
               1310687
             ],
-            "req": "Trueshot Aura",
-            "cost": "365 Mana · 8 - 35 yd range · 4 sec cast · 15 sec cooldown · Requires Ranged Weapon"
+            "cost": "365 Mana · 8 - 45 yd range · 4 sec cast · 15 sec cooldown · Requires Ranged Weapon",
+            "req": "Trueshot Aura"
           }
         ]
       },
@@ -3669,11 +3660,11 @@
             "passive": true,
             "icon": "ability_parry",
             "desc": [
+              "Increases your Parry chance by 1%.",
               "Increases your Parry chance by 2%.",
+              "Increases your Parry chance by 3%.",
               "Increases your Parry chance by 4%.",
-              "Increases your Parry chance by 6%.",
-              "Increases your Parry chance by 8%.",
-              "Increases your Parry chance by 10%."
+              "Increases your Parry chance by 5%."
             ],
             "wowheadId": 104995,
             "spellIds": [
@@ -3841,13 +3832,13 @@
             "row": 4,
             "col": 2,
             "passive": true,
-            "icon": "ability_hunter_hatchettoss",
+            "icon": "ability_dualwield",
             "desc": [
-              "Increases your melee critical strike damage by 6% and your offhand weapon damage by 10%.",
-              "Increases your melee critical strike damage by 12% and your offhand weapon damage by 20%.",
-              "Increases your melee critical strike damage by 18% and your offhand weapon damage by 30%.",
-              "Increases your melee critical strike damage by 24% and your offhand weapon damage by 40%.",
-              "Increases your melee critical strike damage by 30% and your offhand weapon damage by 50%."
+              "Increases your melee critical strike damage by 6% and your Off Hand weapon damage by 10%.",
+              "Increases your melee critical strike damage by 12% and your Off Hand weapon damage by 20%.",
+              "Increases your melee critical strike damage by 18% and your Off Hand weapon damage by 30%.",
+              "Increases your melee critical strike damage by 24% and your Off Hand weapon damage by 40%.",
+              "Increases your melee critical strike damage by 30% and your Off Hand weapon damage by 50%."
             ],
             "wowheadId": 110861,
             "spellIds": [
@@ -3872,8 +3863,8 @@
             "spellIds": [
               19306
             ],
-            "req": "Deterrence",
-            "cost": "30 Mana · Melee Range · Instant · 5 sec cooldown · Requires Melee Weapon"
+            "cost": "30 Mana · Melee Range · Instant · 5 sec cooldown · Requires Melee Weapon",
+            "req": "Deterrence"
           },
           {
             "name": "Resourcefulness",
@@ -3973,7 +3964,7 @@
             "passive": true,
             "icon": "ability_gouge",
             "desc": [
-              "Your Mongoose Bite also causes the target to Bleed for damage over 21 sec equal to 40% of the damage done by Mongoose Bite."
+              "Your Mongoose Bite also causes the target to Bleed for damage equal to 40% of the damage done by Mongoose Bite over 21 sec"
             ],
             "wowheadId": 104984,
             "spellIds": [
@@ -4321,8 +4312,8 @@
             "spellIds": [
               12042
             ],
-            "req": "Presence of Mind",
-            "cost": "Instant · 3 min cooldown"
+            "cost": "Instant · 3 min cooldown",
+            "req": "Presence of Mind"
           }
         ]
       },
@@ -4539,14 +4530,14 @@
             ]
           },
           {
-            "name": "Hot Streak",
+            "name": "Heating Up",
             "max": 1,
             "row": 4,
             "col": 3,
             "passive": true,
-            "icon": "ability_mage_hotstreak",
+            "icon": "spell_fire_firebolt",
             "desc": [
-              "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times."
+              "Non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch reduce the cast time of your next Pyroblast cast within 20 sec by 25%, stacking up to 3 times."
             ],
             "wowheadId": 105786,
             "spellIds": [
@@ -4639,14 +4630,14 @@
             "passive": false,
             "icon": "spell_fire_sealoffire",
             "desc": [
-              "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells."
+              "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 3 non-periodic critical strikes with Fire spells."
             ],
             "wowheadId": 105781,
             "spellIds": [
               11129
             ],
-            "req": "Critical Mass",
-            "cost": "Instant · 3 min cooldown"
+            "cost": "Instant · 3 min cooldown",
+            "req": "Critical Mass"
           }
         ]
       },
@@ -5010,8 +5001,8 @@
             "spellIds": [
               11426
             ],
-            "req": "Cold Snap",
-            "cost": "305 Mana · Instant · 30 sec cooldown"
+            "cost": "305 Mana · Instant · 30 sec cooldown",
+            "req": "Cold Snap"
           }
         ]
       }
@@ -5187,7 +5178,7 @@
             "passive": false,
             "icon": "spell_frost_windwalkon",
             "desc": [
-              "When activated, reduces the Mana cost of your next spell by 100% and increases its critical effect chance by 25% if it is capable of a critical effect."
+              "When activated, reduces the Mana cost of your next spell by 100% and increases its critical effect chance by 25% if it is a non-periodic spell and capable of a critical effect."
             ],
             "wowheadId": 105844,
             "spellIds": [
@@ -5362,8 +5353,8 @@
             "spellIds": [
               10060
             ],
-            "req": "Penance",
-            "cost": "20% of base mana · 30 yd range · Instant · 3 min cooldown"
+            "cost": "20% of base mana · 30 yd range · Instant · 3 min cooldown",
+            "req": "Penance"
           }
         ]
       },
@@ -5690,8 +5681,8 @@
             "spellIds": [
               401859
             ],
-            "req": "Spirit of Redemption",
-            "cost": "210 Mana · 40 yd range · Instant · 10 sec cooldown"
+            "cost": "210 Mana · 40 yd range · Instant · 10 sec cooldown",
+            "req": "Spirit of Redemption"
           }
         ]
       },
@@ -5753,11 +5744,11 @@
             "passive": true,
             "icon": "spell_shadow_requiem",
             "desc": [
-              "Gives you a 20% chance to gain a 100% bonus to your Spirit for 15 sec after killing a non-trivial target. For the duration, your Mana will regenerate at a 50% of normal rate while casting.",
-              "Gives you a 40% chance to gain a 100% bonus to your Spirit for 15 sec after killing a non-trivial target. For the duration, your Mana will regenerate at a 50% of normal rate while casting.",
-              "Gives you a 60% chance to gain a 100% bonus to your Spirit for 15 sec after killing a non-trivial target. For the duration, your Mana will regenerate at a 50% of normal rate while casting.",
-              "Gives you a 80% chance to gain a 100% bonus to your Spirit for 15 sec after killing a non-trivial target. For the duration, your Mana will regenerate at a 50% of normal rate while casting.",
-              "Gives you a 100% chance to gain a 100% bonus to your Spirit for 15 sec after killing a non-trivial target. For the duration, your Mana will regenerate at a 50% of normal rate while casting."
+              "Gives you a 20% chance to increase your Spirit by 100% for 15 sec after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, 50% of your Mana regeneration will continue while casting.",
+              "Gives you a 40% chance to increase your Spirit by 100% for 15 sec after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, 50% of your Mana regeneration will continue while casting.",
+              "Gives you a 60% chance to increase your Spirit by 100% for 15 sec after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, 50% of your Mana regeneration will continue while casting.",
+              "Gives you a 80% chance to increase your Spirit by 100% for 15 sec after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, 50% of your Mana regeneration will continue while casting.",
+              "Gives you a 100% chance to increase your Spirit by 100% for 15 sec after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, 50% of your Mana regeneration will continue while casting."
             ],
             "wowheadId": 105833,
             "spellIds": [
@@ -5921,7 +5912,7 @@
             "passive": false,
             "icon": "spell_shadow_unsummonbuilding",
             "desc": [
-              "Afflicts your target with Shadow energy that causes all party members to be healed for 20% of any Shadow spell damage you deal for 30 sec. Vampiric Embrace also grants a chance for your Spirit Tap talent to trigger when enemies afflicted by it die."
+              "Afflicts your target with Shadow energy that causes all party members to be healed for 20% of any Shadow spell damage you deal for 30 sec."
             ],
             "wowheadId": 105820,
             "spellIds": [
@@ -5972,8 +5963,8 @@
             "passive": true,
             "icon": "spell_shadow_devouringplague",
             "desc": [
-              "Reduces the mana cost of your Devouring Plague by 25%.\nTargets that die while Devouring Plague is active spreads it, jumping to a nearby enemy within 5 yards for the remaining duration.",
-              "Reduces the mana cost of your Devouring Plague by 50%.\nTargets that die while Devouring Plague is active spreads it, jumping to a nearby enemy within 10 yards for the remaining duration."
+              "Reduces the mana cost of your Devouring Plague by 25%.\nTargets that die while Devouring Plague is active spreads it, jumping to a nearby enemy within 5 yds for the remaining duration.",
+              "Reduces the mana cost of your Devouring Plague by 50%.\nTargets that die while Devouring Plague is active spreads it, jumping to a nearby enemy within 10 yds for the remaining duration."
             ],
             "wowheadId": 105819,
             "spellIds": [
@@ -6035,8 +6026,8 @@
             "spellIds": [
               15473
             ],
-            "req": "Vampiric Embrace",
-            "cost": "40% of base mana · Instant · 1.5 sec cooldown"
+            "cost": "40% of base mana · Instant · 1.5 sec cooldown",
+            "req": "Vampiric Embrace"
           }
         ]
       }
@@ -6361,14 +6352,14 @@
             "passive": false,
             "icon": "inv_sword_31",
             "desc": [
-              "Finishing move that increases the damage of your Poisons by 30% and your chance to apply Poisons by 10%. Lasts longer per combo point:\n1 point : 9 seconds\n2 points: 12 seconds\n3 points: 15 seconds\n4 points: 18 seconds\n5 points: 21 seconds"
+              "Finishing move that increases the damage of your Poisons by 30% and your chance to apply Poisons by 10%. Lasts longer per combo point:\n1 point : 9 sec\n2 points: 12 sec\n3 points: 15 sec\n4 points: 18 sec\n5 points: 21 sec"
             ],
             "wowheadId": 105712,
             "spellIds": [
               1310703
             ],
-            "req": "Mutilate",
-            "cost": "25 Energy / 1 to 5 Combo Points · 100 yd range · Instant · Requires Melee Weapon"
+            "cost": "25 Energy / 1 to 5 Combo Points · 100 yd range · Instant · Requires Melee Weapon",
+            "req": "Mutilate"
           }
         ]
       },
@@ -6523,8 +6514,8 @@
             "spellIds": [
               14251
             ],
-            "req": "Deflection",
-            "cost": "10 Energy · Melee Range · Instant · 6 sec cooldown"
+            "cost": "10 Energy · Melee Range · Instant · 6 sec cooldown",
+            "req": "Deflection"
           },
           {
             "name": "Improved Sprint",
@@ -6764,9 +6755,9 @@
             "passive": true,
             "icon": "spell_nature_mirrorimage",
             "desc": [
-              "Gives you a 33% chance to add a Combo Point to your target after Dodging an attack or fully resisting a spell.",
-              "Gives you a 67% chance to add a Combo Point to your target after Dodging an attack or fully resisting a spell.",
-              "Gives you a 100% chance to add a Combo Point to your target after Dodging an attack or fully resisting a spell."
+              "Gives you a 33% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
+              "Gives you a 67% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
+              "Gives you a 100% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells."
             ],
             "wowheadId": 105751,
             "spellIds": [
@@ -6979,8 +6970,8 @@
             "spellIds": [
               16511
             ],
-            "req": "Serrated Blades",
-            "cost": "35 Energy · Melee Range · Instant · Requires Melee Weapon"
+            "cost": "35 Energy · Melee Range · Instant · Requires Melee Weapon",
+            "req": "Serrated Blades"
           },
           {
             "name": "Quietus",
@@ -7356,8 +7347,8 @@
             "spellIds": [
               408490
             ],
-            "req": "Lightning Overload",
-            "cost": "165 Mana · 30 yd range · 2.5 sec cast · 10 sec cooldown"
+            "cost": "165 Mana · 30 yd range · 2.5 sec cast · 10 sec cooldown",
+            "req": "Lightning Overload"
           }
         ]
       },
@@ -7703,8 +7694,8 @@
             "spellIds": [
               425336
             ],
-            "req": "Mental Quickness",
-            "cost": "Instant · 3 min cooldown"
+            "cost": "Instant · 3 min cooldown",
+            "req": "Mental Quickness"
           }
         ]
       },
@@ -8024,8 +8015,8 @@
             "spellIds": [
               408521
             ],
-            "req": "Healing Way",
-            "cost": "245 Mana · 40 yd range · Instant · 6 sec cooldown"
+            "cost": "245 Mana · 40 yd range · Instant · 6 sec cooldown",
+            "req": "Healing Way"
           }
         ]
       }
@@ -8124,15 +8115,15 @@
             ]
           },
           {
-            "name": "Soul Harvesting",
+            "name": "Soul Harvest",
             "max": 2,
             "row": 2,
             "col": 2,
             "passive": true,
             "icon": "inv_elemental_primal_shadow",
             "desc": [
-              "You gain Soul Harvest for 10 sec if a victim is killed while afflicted with your Drain Soul. Soul Harvest allows your Mana to regenerate at 50% of normal speed while you are casting spells, and grants a 50% increase to your Mana regeneration.",
-              "You gain Soul Harvest for 10 sec if a victim is killed while afflicted with your Drain Soul. Soul Harvest allows your Mana to regenerate at 100% of normal speed while you are casting spells, and grants a 100% increase to your Mana regeneration."
+              "Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by 50% for 10 sec and allows 50% of normal Mana regeneration to continue while casting.",
+              "Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by 100% for 10 sec and allows 100% of normal Mana regeneration to continue while casting."
             ],
             "wowheadId": 105922,
             "spellIds": [
@@ -8284,8 +8275,8 @@
             "spellIds": [
               18223
             ],
-            "req": "Amplify Curse",
-            "cost": "8% of base mana · 30 yd range · Instant"
+            "cost": "8% of base mana · 30 yd range · Instant",
+            "req": "Amplify Curse"
           },
           {
             "name": "Siphon Life",
@@ -8353,14 +8344,14 @@
             "passive": false,
             "icon": "ability_deathknight_hemorrhagicfever",
             "desc": [
-              "Tears the target apart from within, dealing 36 Shadow damage every 1 sec and increasing the damage they take from your other Shadow damage over time effects by 10%. Lasts 6 sec."
+              "Tears the target apart from within, inflicting 36 Shadow damage every 1 sec and increasing the damage they take from your other Shadow damage over time effects by 10% for 6 sec."
             ],
             "wowheadId": 105909,
             "spellIds": [
               1316697
             ],
-            "req": "Siphon Life",
-            "cost": "200 Mana · 30 yd range · Channeled (6 sec cast)"
+            "cost": "200 Mana · 30 yd range · Channeled (6 sec cast)",
+            "req": "Siphon Life"
           }
         ]
       },
@@ -8605,8 +8596,8 @@
             "spellIds": [
               18708
             ],
-            "req": "Master Summoner",
-            "cost": "Instant · 5 min cooldown"
+            "cost": "Instant · 5 min cooldown",
+            "req": "Master Summoner"
           },
           {
             "name": "Demonic Brand",
@@ -8660,8 +8651,8 @@
             "spellIds": [
               19028
             ],
-            "req": "Demonic Sacrifice",
-            "cost": "20% of base mana · 100 yd range · Instant"
+            "cost": "20% of base mana · 100 yd range · Instant",
+            "req": "Demonic Sacrifice"
           },
           {
             "name": "Demonic Knowledge",
@@ -9039,8 +9030,8 @@
             "spellIds": [
               412758
             ],
-            "req": "Bane of Havoc",
-            "cost": "205 Mana · 30 yd range · 2.5 sec cast"
+            "cost": "205 Mana · 30 yd range · 2.5 sec cast",
+            "req": "Bane of Havoc"
           }
         ]
       }

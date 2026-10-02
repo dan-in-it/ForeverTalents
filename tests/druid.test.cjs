@@ -10,7 +10,8 @@ const context = vm.createContext({structuredClone});
 vm.runInContext(script.slice(0,script.indexOf("'use strict';")),context);
 const talents = vm.runInContext('TALENTS',context);
 const engine = vm.runInContext('createTalentEngine(TALENTS)',context);
-const videoCode = 'WFD1-38-2523002022132212000';
+// Legacy allocation with the two removed King of the Jungle ranks reassigned to Ferocity.
+const videoCode = 'WFD1-38-4523002022132210000';
 const video = () => engine.decode(videoCode);
 function add(state,id,amount=1) {
   const result = engine.change(state,id,amount);
@@ -19,8 +20,8 @@ function add(state,id,amount=1) {
 }
 
 test('Druid rank effects use verified values for every rank',() => {
-  assert.equal(talents.length,51);
-  assert.deepEqual(Array.from(engine.trees,tree=>tree.length),[16,19,16]);
+  assert.equal(talents.length,52);
+  assert.deepEqual(Array.from(engine.trees,tree=>tree.length),[16,20,16]);
   for (const talent of talents) {
     assert.equal(talent.rankDescriptions.length,talent.max);
     for (let rank=0;rank<=talent.max;rank++) assert.ok(engine.descriptionAtRank(talent,rank));
@@ -44,9 +45,11 @@ test('original WFD1 Feral builds upgrade without moving ranks into the new trees
   assert.equal(engine.validate(state),'');
   assert.equal(engine.byId.f6.name,'Thick Hide');
   assert.equal(state.ranks.f6,0);
-  assert.equal(state.ranks.f16,2);
+  assert.equal(state.ranks.f16,undefined);
+  assert.equal(state.ranks.f20,0);
+  assert.equal(state.ranks.f21,0);
   const code=engine.encode(state);
-  assert.equal(code,'WFD3-38-0000000000000000-2523002022132212000-0000000000000000');
+  assert.equal(code,'WFD4-38-0000000000000000-45230020221322100000-0000000000000000');
   assert.equal(engine.encode(engine.decode(code)),code);
 });
 
@@ -61,13 +64,13 @@ test('tier points are independent across trees and refunds cannot invalidate dee
   assert.equal(state.ranks.b1,5);
 });
 
-test('all nine prerequisite links block invalid allocation, refunds, and imports',() => {
+test('all eleven prerequisite links block invalid allocation, refunds, and imports',() => {
   const linked=talents.filter(t=>t.prerequisite);
-  assert.equal(linked.length,9);
+  assert.equal(linked.length,11);
   for(const target of linked) {
     let state=engine.empty();
     const parent=target.prerequisite;
-    for(const t of engine.trees[target.tree].filter(t=>t.row<target.row)) {
+    for(const t of engine.trees[target.tree].filter(t=>t.row<target.row).sort((a,b)=>a.row-b.row)) {
       if(engine.total(state)>=target.row*5+5&&state.ranks[parent]) break;
       if(!engine.addReason(state,t.id)) state=add(state,t.id,t.max);
     }
@@ -100,12 +103,12 @@ test('all trees share the 51-point budget and short fills obey the selected leve
 test('build decoding rejects wrong classes, layouts, ranks, point budgets, and prerequisites',() => {
   const code=engine.encode(video());
   assert.equal(engine.encode(engine.decode(`  ${code}\n`)),code);
-  for(const bad of ['WF1-38-000-000-000',code.replace('WFD3','WFS1'),code+'0',code.replace('2523','9523'),code.replace('-38-','-10-'),
+  for(const bad of ['WF1-38-000-000-000',code.replace('WFD4','WFS1'),code+'0',code.replace('4523','9523'),code.replace('-38-','-10-'),
     'WFD1-60-0000000000000000001','WFD1-60-00000000000000000000','WFD2-60-<script>',null])
     assert.throws(()=>engine.decode(bad),String(bad));
 });
 
-test('the original video build can still reach Berserk at level 40',() => {
+test('the legacy build with removed talent ranks reassigned can reach Berserk at level 40',() => {
   let state={...video(),level:40};
   assert.match(engine.change(state,'f19',1).error,/earlier tiers/);
   state=add(state,'f1');
